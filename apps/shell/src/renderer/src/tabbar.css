@@ -49,6 +49,24 @@ body.overlay-title-bar .tab-bar-drag-spacer {
   margin-right: 2px;
 }
 
+.tab-share-btn {
+  -webkit-app-region: no-drag;
+  align-self: center;
+  height: 28px;
+  margin: 0 6px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 7px;
+  background: #6f55c7;
+  color: #fff;
+  font: 600 12px system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.tab-share-btn:hover {
+  background: #7c65cf;
+}
+
 /* scrollable middle section; empty space stays part of the window drag region.
  * Horizontal padding keeps the edge tabs' feet inside the scroll clip. */
 .tab-strip {

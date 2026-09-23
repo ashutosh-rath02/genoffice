@@ -22,6 +22,12 @@ import type {
   FileSearchRerank,
 } from '../../shared/home-api'
 import type { IntegrationsApi } from '../../shared/integrations-api'
+import type {
+  ThreadnoteApi,
+  ThreadnoteFile,
+  ThreadnotePairing,
+  ThreadnoteProject,
+} from '../../shared/threadnote-api'
 import { markText } from '../../shared/text-marks'
 import { useDismissablePopover } from '@genoffice/ui'
 import { fileCountKey, visiblePageCount } from './counts'
@@ -35,6 +41,7 @@ declare global {
   interface Window {
     aiOffice: HomeApi
     aiOfficeIntegrations?: IntegrationsApi
+    threadnoteOffice: ThreadnoteApi
   }
 }
 
@@ -1391,6 +1398,113 @@ function DropToOpenOverlay(): ReactElement | null {
 
 // ── Main component ──────────────────────────────────────
 
+function ThreadnoteView() {
+  const { t } = useI18n()
+  const [baseUrl, setBaseUrl] = useState('http://localhost:5173')
+  const [connected, setConnected] = useState(false)
+  const [pairing, setPairing] = useState<ThreadnotePairing | null>(null)
+  const [projects, setProjects] = useState<ThreadnoteProject[]>([])
+  const [files, setFiles] = useState<ThreadnoteFile[]>([])
+  const [projectId, setProjectId] = useState('')
+  const [busy, setBusy] = useState(true)
+  const [error, setError] = useState('')
+
+  const loadProjects = useCallback(async (preferredProjectId = '') => {
+    const next = await window.threadnoteOffice.projects()
+    setProjects(next)
+    const selected = preferredProjectId && next.some((project) => project.id === preferredProjectId)
+      ? preferredProjectId
+      : (next[0]?.id ?? '')
+    setProjectId(selected)
+    setFiles(selected ? await window.threadnoteOffice.files(selected) : [])
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    void window.threadnoteOffice.status().then(async (status) => {
+      if (cancelled) return
+      setBaseUrl(status.baseUrl)
+      setConnected(status.connected)
+      if (status.connected) await loadProjects()
+    }).catch((cause: unknown) => {
+      if (!cancelled) setError(cause instanceof Error ? cause.message : 'Threadnote request failed.')
+    }).finally(() => {
+      if (!cancelled) setBusy(false)
+    })
+    return () => { cancelled = true }
+  }, [loadProjects])
+
+  useEffect(() => {
+    if (!pairing) return
+    const timer = window.setInterval(() => {
+      void window.threadnoteOffice.pollPairing(pairing).then(async (status) => {
+        if (status !== 'approved') return
+        window.clearInterval(timer)
+        setPairing(null)
+        setConnected(true)
+        await loadProjects()
+      }).catch((cause: unknown) => {
+        window.clearInterval(timer)
+        setPairing(null)
+        setError(cause instanceof Error ? cause.message : 'Threadnote request failed.')
+      })
+    }, Math.max(2, pairing.interval) * 1000)
+    return () => window.clearInterval(timer)
+  }, [loadProjects, pairing])
+
+  const connect = async () => {
+    setBusy(true)
+    setError('')
+    try {
+      setPairing(await window.threadnoteOffice.startPairing(baseUrl))
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : t('cloudError'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const selectProject = async (next: string) => {
+    setProjectId(next)
+    setBusy(true)
+    try { setFiles(await window.threadnoteOffice.files(next)) }
+    catch (cause) { setError(cause instanceof Error ? cause.message : t('cloudError')) }
+    finally { setBusy(false) }
+  }
+
+
+  if (!connected) return (
+    <main className="content"><section className="cloud-projects" aria-label="Threadnote">
+      <header className="cloud-hero"><div className="cloud-hero-top"><h1 className="cloud-title">Threadnote Office</h1></div>
+        <p className="cloud-subtitle">Open project files from Threadnote in the desktop editors.</p>
+      </header>
+      <div className="threadnote-connect">
+        <label>Threadnote URL<input value={baseUrl} onChange={(event) => setBaseUrl(event.target.value)} disabled={busy || Boolean(pairing)} /></label>
+        {pairing ? <p>Approve <strong>{pairing.userCode}</strong> in your browser.</p> : <button className="btn btn-primary" disabled={busy} onClick={() => void connect()}>{t('login')}</button>}
+        {error && <p className="threadnote-error">{error}</p>}
+      </div>
+    </section></main>
+  )
+
+  return (
+    <main className="content"><section className="cloud-projects" aria-label="Threadnote">
+      <header className="cloud-hero"><div className="cloud-hero-top"><h1 className="cloud-title">Threadnote Office</h1>
+        <button className="btn btn-secondary" onClick={() => void window.threadnoteOffice.disconnect().then(() => setConnected(false))}>{t('logout')}</button></div>
+        <p className="cloud-subtitle">Files are filtered by your selected Discord server and project permissions.</p>
+        <div className="cloud-controls"><select className="threadnote-project" value={projectId} onChange={(event) => void selectProject(event.target.value)}>
+          {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
+        </select><button className="cloud-refresh-btn" aria-label={t('cloudRefresh')} onClick={() => void loadProjects(projectId)}>{t('cloudRefresh')}</button></div>
+      </header>
+      {busy ? <div className="load-more"><span className="load-more-spinner" /></div> : files.length === 0 ? <p className="empty proj-empty">No Office files in this project.</p> :
+        <div className="cloud-scroll"><div className="cloud-table"><div className="cloud-columns"><span className="col-name">{t('colName')}</span><span>{t('colModified')}</span></div>
+          <ul className="cloud-list">{files.map((file) => <li key={file.id}><button className="cloud-row" onClick={() => void window.threadnoteOffice.openFile(file.id)}>
+            <FileBadge ext={file.kind} size={24} /><span className="cloud-row-main"><span className="cloud-row-title">{file.name}</span></span><span className="cloud-row-time">v{file.version}</span>
+          </button></li>)}</ul></div></div>}
+      {error && <p className="threadnote-error">{error}</p>}
+    </section></main>
+  )
+}
+
 export function Home() {
   const i18n = useI18n()
   const { t, lang } = i18n
@@ -1404,6 +1518,7 @@ export function Home() {
   const [view, setView] = useState<'recent' | 'starred'>('recent')
   // Genspark web projects take over the content area (like a selected folder)
   const [cloudMode, setCloudMode] = useState(false)
+  const [threadnoteMode, setThreadnoteMode] = useState(false)
   const [filter, setFilter] = useState('all')
   // ── File search (names + indexed content); active while the box has text ──
   const [searchQuery, setSearchQuery] = useState('')
@@ -1816,6 +1931,7 @@ export function Home() {
     setView(next)
     setSelectedFolder(null)
     setCloudMode(false)
+    setThreadnoteMode(false)
     setSelected(new Set())
     setRowMenu(null)
   }
@@ -1829,6 +1945,7 @@ export function Home() {
   const selectFolder = (dir: string) => {
     setSelectedFolder(dir)
     setCloudMode(false)
+    setThreadnoteMode(false)
     setSelected(new Set())
     setRowMenu(null)
     setFolderMenu(null)
@@ -3223,7 +3340,7 @@ export function Home() {
         </div>
         <nav className="sidebar-nav">
           <button
-            className={`nav-item${view === 'recent' && !selectedFolder && !cloudMode ? ' active' : ''}`}
+            className={`nav-item${view === 'recent' && !selectedFolder && !cloudMode && !threadnoteMode ? ' active' : ''}`}
             onClick={() => changeView('recent')}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -3239,7 +3356,7 @@ export function Home() {
             <span className="nav-count">{navCounts.recent}</span>
           </button>
           <button
-            className={`nav-item${view === 'starred' && !selectedFolder && !cloudMode ? ' active' : ''}`}
+            className={`nav-item${view === 'starred' && !selectedFolder && !cloudMode && !threadnoteMode ? ' active' : ''}`}
             onClick={() => changeView('starred')}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -3258,6 +3375,7 @@ export function Home() {
               className={`nav-item${cloudMode && !selectedFolder ? ' active' : ''}`}
               onClick={() => {
                 setCloudMode(true)
+                setThreadnoteMode(false)
                 setSelectedFolder(null)
                 setSelected(new Set())
                 setRowMenu(null)
@@ -3290,6 +3408,16 @@ export function Home() {
               </svg>
             </button>
           )}
+          <button className={`nav-item${threadnoteMode ? ' active' : ''}`} onClick={() => {
+            setThreadnoteMode(true)
+            setCloudMode(false)
+            setSelectedFolder(null)
+            setSelected(new Set())
+            setRowMenu(null)
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3.5h10v9H3zM5.5 1.8v3.4M10.5 1.8v3.4M5.5 8h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
+            <span className="nav-label">Threadnote</span>
+          </button>
         </nav>
         <div className="sidebar-divider" />
         {renderFolderPanel()}
@@ -3299,7 +3427,9 @@ export function Home() {
           openRequest={settingsRequest}
         />
       </aside>
-      {selectedFolder && rootOf(selectedFolder, roots)?.readable ? (
+      {threadnoteMode ? (
+        <ThreadnoteView />
+      ) : selectedFolder && rootOf(selectedFolder, roots)?.readable ? (
         renderFolderContent()
       ) : cloudMode ? (
         <CloudProjectsView />

@@ -70,6 +70,7 @@ import { startControlServer, type ControlServer } from './control-server'
 import { controlHandler } from './control-handlers'
 import { installCliLinkBestEffort } from './cli-link'
 import { registerIntegrationsIpc } from './integrations-ipc'
+import { openThreadnoteUrl, registerThreadnoteIpc, startThreadnoteBridge } from './threadnote'
 import {
   ANALYTICS_ENABLED_KEY,
   analyticsEnabledFrom,
@@ -5102,7 +5103,15 @@ async function installMainProcessProxy(): Promise<void> {
 // ---- lifecycle (the shell is the only owner) ----
 
 let pendingLaunchPath = supportedFileIn(process.argv) ?? unsupportedFileIn(process.argv)
+const threadnoteUrlIn = (argv: string[]) => argv.find((value) => value.startsWith('threadnote://'))
+let pendingThreadnoteUrl = threadnoteUrlIn(process.argv)
 let controlServer: ControlServer | null = null
+
+if (process.defaultApp && process.argv[1]) {
+  app.setAsDefaultProtocolClient('threadnote', process.execPath, [resolve(process.argv[1])])
+} else {
+  app.setAsDefaultProtocolClient('threadnote')
+}
 
 // show() does not un-minimize, and on macOS ⌘W destroys the shell window while the
 // app keeps running — either way a file opened from Finder would land out of sight.
@@ -5111,6 +5120,14 @@ function revealShellWindow(): void {
   if (shellWindow?.isMinimized()) shellWindow.restore()
   shellWindow?.show()
   shellWindow?.focus()
+}
+
+function openThreadnoteLink(url: string): void {
+  revealShellWindow()
+  void openThreadnoteUrl(url, routeDocumentPath).catch((cause: unknown) => {
+    const message = cause instanceof Error ? cause.message : 'Could not open this Threadnote document.'
+    void dialog.showMessageBox({ type: 'error', title: 'Threadnote could not open the document', message, buttons: ['Close'] })
+  })
 }
 
 // On macOS a file opened from Finder is not in argv; it arrives via the open-file event (before ready).
@@ -5127,7 +5144,18 @@ app.on('open-file', (event, filePath) => {
   if (!openDocumentPath(filePath)) tabManager?.openHomeTab()
 })
 
+app.on('open-url', (event, url) => {
+  event.preventDefault()
+  if (!app.isReady()) pendingThreadnoteUrl = url
+  else openThreadnoteLink(url)
+})
+
 app.on('second-instance', (_event, argv, _cwd, additionalData) => {
+  const threadnoteUrl = threadnoteUrlIn(argv)
+  if (threadnoteUrl) {
+    openThreadnoteLink(threadnoteUrl)
+    return
+  }
   const file =
     supportedFileIn(argv) ??
     unsupportedFileIn(argv) ??
@@ -5142,6 +5170,10 @@ registerAiIpc()
 registerProjectIpc()
 registerDocsIpc()
 registerHomeIpc()
+registerThreadnoteIpc(
+  routeDocumentPath,
+  () => tabManager?.list().find((tab) => tab.active)?.filePath,
+)
 registerIntegrationsIpc({
   settingsPath: APP_SETTINGS_PATH,
   window: () => shellWindow,
@@ -5220,7 +5252,7 @@ app.whenReady().then(async () => {
   }
   const lockData = () => (pendingLaunchPath ? { launchPath: pendingLaunchPath } : {})
   let hasLock = app.requestSingleInstanceLock(lockData())
-  if (!hasLock && !app.isPackaged) {
+  if (!hasLock && !app.isPackaged && !pendingThreadnoteUrl) {
     // Dev watch restart: electron-vite SIGTERMs the previous instance and spawns this
     // one immediately. Chromium turns that SIGTERM into a graceful quit (Node's
     // process.on('SIGTERM') never fires in the main process), and the quit can wedge
@@ -5396,13 +5428,16 @@ app.whenReady().then(async () => {
     console.error('[mcp] failed to start on boot:', error)
   })
   createShellWindow()
+  startThreadnoteBridge(routeDocumentPath)
   // deferred to ready: labels need currentLang(), which reads app.getLocale()
   installBackToHomeItems()
   installDockMenu()
   setUpdateCheckInvoker(() => void checkForUpdatesNow())
   initAutoUpdater(() => shellWindow, currentUpdateChannel())
 
-  if (!pendingLaunchPath || !openDocumentPath(pendingLaunchPath)) tabManager?.openHomeTab()
+  if (pendingThreadnoteUrl) openThreadnoteLink(pendingThreadnoteUrl)
+  else if (!pendingLaunchPath || !openDocumentPath(pendingLaunchPath)) tabManager?.openHomeTab()
+  pendingThreadnoteUrl = undefined
   pendingLaunchPath = null
 
   startControlServer(

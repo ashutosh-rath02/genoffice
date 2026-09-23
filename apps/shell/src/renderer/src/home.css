@@ -2171,3 +2171,21 @@ body.vib .home {
   text-align: right;
   padding-top: 2px;
 }
+.threadnote-connect {
+  display: grid;
+  gap: 16px;
+  max-width: 520px;
+  padding: 24px;
+}
+.threadnote-connect label { display: grid; gap: 8px; color: var(--text-secondary); }
+.threadnote-connect input,
+.threadnote-project {
+  min-height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: var(--text);
+  background: var(--surface);
+}
+.threadnote-project { min-width: 220px; }
+.threadnote-error { margin: 16px 24px; color: var(--danger); }
