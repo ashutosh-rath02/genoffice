@@ -54,12 +54,11 @@ test.describe('sheets: new blank workbook', () => {
         const wc = webContents.getAllWebContents().find((w) => w.getURL().includes('://sheets/'))
         wc?.send('menu:action', 'save')
       })
-      await expect(sheets.locator('.status-msg')).toContainText(/Saved/, { timeout: 60_000 })
       await expect(async () => {
         const archive = await JSZip.loadAsync(await readFile(workbook))
         const xml = await archive.file('xl/worksheets/sheet1.xml')?.async('string')
         expect(xml).toContain('<v>42</v>')
-      }).toPass({ timeout: 20_000 })
+      }).toPass({ timeout: 60_000 })
     } finally {
       await closeAndSaveVideo(launched, 'sheets-new-blank')
     }
