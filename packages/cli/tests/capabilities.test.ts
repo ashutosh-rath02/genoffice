@@ -1,14 +1,13 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import * as aiSearch from '@genoffice/ai-search'
 import { run, tempDir } from './helpers'
 
 // hasGskAuth reads process.env, not the command context: isolate the login state per test
 const saved: Record<string, string | undefined> = {}
 beforeEach(() => {
-  for (const k of ['GENOFFICE_AUTH_DIR', 'AI_SEARCH_DISABLE_GSK']) saved[k] = process.env[k]
-  process.env.GENOFFICE_AUTH_DIR = join(tempDir(), 'no-auth')
+  for (const k of ['THREADNOTE_OFFICE_AUTH_DIR', 'AI_SEARCH_DISABLE_GSK']) saved[k] = process.env[k]
+  process.env.THREADNOTE_OFFICE_AUTH_DIR = join(tempDir(), 'no-auth')
   process.env.AI_SEARCH_DISABLE_GSK = '1'
 })
 afterEach(() => {
@@ -26,19 +25,19 @@ function settingsFile(dir: string, settings: Record<string, unknown>): string {
   return path
 }
 
-describe('genoffice capabilities', () => {
+describe('threadnoteoffice capabilities', () => {
   it('reports nothing configured when signed out with default settings', async () => {
     const dir = tempDir()
     const r = await run(['capabilities', '--json'], {
       env: {
         ...process.env,
-        GENOFFICE_AI_SETTINGS: join(dir, 'missing.json'),
-        GENOFFICE_APP_BIN: '',
+        THREADNOTE_OFFICE_AI_SETTINGS: join(dir, 'missing.json'),
+        THREADNOTE_OFFICE_APP_BIN: '',
       },
     })
     expect(r.code).toBe(0)
     const d = r.json().detail
-    expect(d.search.available).toBe(false)
+    expect(d.search).toEqual({ available: true, via: 'parallel' })
     expect(d.image_search.available).toBe(false)
     expect(d.image_generation.available).toBe(false)
     expect(d.media_analysis.available).toBe(false)
@@ -60,8 +59,8 @@ describe('genoffice capabilities', () => {
     const r = await run(['capabilities', '--json'], {
       env: {
         ...process.env,
-        GENOFFICE_AI_SETTINGS: settings,
-        GENOFFICE_APP_BIN: join(dir, 'bin', 'app'),
+        THREADNOTE_OFFICE_AI_SETTINGS: settings,
+        THREADNOTE_OFFICE_APP_BIN: join(dir, 'bin', 'app'),
       },
     })
     expect(r.code).toBe(0)
@@ -83,37 +82,19 @@ describe('genoffice capabilities', () => {
       },
     })
     const r = await run(['capabilities', '--json'], {
-      env: { ...process.env, GENOFFICE_AI_SETTINGS: settings },
+      env: { ...process.env, THREADNOTE_OFFICE_AI_SETTINGS: settings },
     })
     const d = r.json().detail
     expect(d.search).toEqual({ available: true, via: provider })
     expect(d.image_search.available).toBe(false)
   })
 
-  it.each(['tavily', 'parallel'])(
-    '%s does not advertise Genspark image search when signed in',
-    async (provider) => {
-      vi.spyOn(aiSearch, 'hasGskAuth').mockReturnValue(true)
-      const settings = settingsFile(tempDir(), {
-        search: { provider, providers: { [provider]: { apiKey: 'test-key' } } },
-      })
-      const r = await run(['capabilities', '--json'], {
-        env: { ...process.env, GENOFFICE_AI_SETTINGS: settings },
-      })
-      const d = r.json().detail
-      expect(d.search).toEqual({ available: true, via: provider })
-      expect(d.image_search).toEqual({ available: false, via: null })
-      expect(d.image_generation).toEqual({ available: true, via: 'genspark' })
-      expect(d.media_analysis).toEqual({ available: true, via: 'genspark' })
-    },
-  )
-
   it('reports selected keyless Parallel as web search without requiring a login', async () => {
     const settings = settingsFile(tempDir(), {
       search: { provider: 'parallel', providers: { parallel: { apiKey: '' } } },
     })
     const r = await run(['capabilities', '--json'], {
-      env: { ...process.env, GENOFFICE_AI_SETTINGS: settings },
+      env: { ...process.env, THREADNOTE_OFFICE_AI_SETTINGS: settings },
     })
     expect(r.json().detail.search).toEqual({ available: true, via: 'parallel' })
     expect(r.json().detail.image_search).toEqual({ available: false, via: null })

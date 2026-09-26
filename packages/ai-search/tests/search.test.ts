@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach, beforeAll } from 'vitest'
 import { webSearch, imageSearch } from '../src/index'
 import { searchOptionsFromSettings, testSearchProvider } from '../src/search-tools'
-import { defaultAiSettings } from '@genoffice/ai-provider'
+import { defaultAiSettings } from '@threadnote/ai-provider'
 
 // These cases only test the Serper/DuckDuckGo paths; a local gsk login would take priority, so disable it explicitly
 beforeAll(() => {
@@ -243,9 +243,15 @@ describe('webSearch (SearchOptions)', () => {
 describe('search-tools', () => {
   it('maps the settings block onto SearchOptions', () => {
     const base = defaultAiSettings()
-    expect(searchOptionsFromSettings(base)).toEqual({ useGsk: true })
+    expect(searchOptionsFromSettings(base)).toEqual({
+      useGsk: false,
+      parallelKey: '',
+      prefer: 'parallel',
+    })
     expect(searchOptionsFromSettings({ ...base, gskToolsEnabled: false })).toEqual({
       useGsk: false,
+      parallelKey: '',
+      prefer: 'parallel',
     })
     const serper = {
       ...base,
@@ -275,7 +281,11 @@ describe('search-tools', () => {
         providers: { serper: { apiKey: '' }, tavily: { apiKey: '' }, parallel: { apiKey: '' } },
       },
     }
-    expect(searchOptionsFromSettings(empty)).toEqual({ useGsk: true })
+    expect(searchOptionsFromSettings(empty)).toEqual({
+      useGsk: false,
+      parallelKey: '',
+      prefer: 'parallel',
+    })
   })
 
   it('reports a rejected key as a failure instead of the silent free fallback', async () => {

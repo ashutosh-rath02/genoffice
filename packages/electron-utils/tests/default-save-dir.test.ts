@@ -13,7 +13,7 @@ import {
 let root: string
 
 beforeEach(() => {
-  root = mkdtempSync(join(tmpdir(), 'genoffice-save-dir-'))
+  root = mkdtempSync(join(tmpdir(), 'threadnoteoffice-save-dir-'))
 })
 
 afterEach(() => {
@@ -53,22 +53,26 @@ describe('resolveDefaultSaveDir', () => {
   })
 
   it('creates and returns the fallback when nothing is configured', () => {
-    const fallback = join(root, 'Documents', 'GenOffice')
+    const fallback = join(root, 'Documents', 'Threadnote Office')
     expect(resolveDefaultSaveDir(null, fallback)).toBe(fallback)
     expect(existsSync(fallback)).toBe(true)
   })
 
-  it('degrades to the fallback when the configured folder is not writable', () => {
-    const readOnly = join(root, 'read-only')
-    mkdirSync(readOnly)
-    chmodSync(readOnly, 0o500)
-    const fallback = join(root, 'fallback')
-    try {
-      expect(resolveDefaultSaveDir(readOnly, fallback)).toBe(fallback)
-    } finally {
-      chmodSync(readOnly, 0o700)
-    }
-  })
+  // chmod does not reliably deny the current user's writes on Windows.
+  it.skipIf(process.platform === 'win32')(
+    'degrades to the fallback when the configured folder is not writable',
+    () => {
+      const readOnly = join(root, 'read-only')
+      mkdirSync(readOnly)
+      chmodSync(readOnly, 0o500)
+      const fallback = join(root, 'fallback')
+      try {
+        expect(resolveDefaultSaveDir(readOnly, fallback)).toBe(fallback)
+      } finally {
+        chmodSync(readOnly, 0o700)
+      }
+    },
+  )
 
   it('throws a descriptive error when the fallback itself is unusable', () => {
     const blocker = join(root, 'blocker')
@@ -90,14 +94,14 @@ describe('configuredDefaultSaveDir', () => {
     expect(configuredDefaultSaveDir(app)).toBe(custom)
   })
 
-  it('falls back to <Documents>/GenOffice without a setting', () => {
+  it('falls back to <Documents>/Threadnote Office without a setting', () => {
     const userData = join(root, 'userData')
     const documents = join(root, 'Documents')
     mkdirSync(userData, { recursive: true })
     const app = {
       getPath: (name: 'userData' | 'documents') => (name === 'userData' ? userData : documents),
     }
-    expect(configuredDefaultSaveDir(app)).toBe(join(documents, 'GenOffice'))
-    expect(existsSync(join(documents, 'GenOffice'))).toBe(true)
+    expect(configuredDefaultSaveDir(app)).toBe(join(documents, 'Threadnote Office'))
+    expect(existsSync(join(documents, 'Threadnote Office'))).toBe(true)
   })
 })

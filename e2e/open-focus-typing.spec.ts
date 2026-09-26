@@ -60,7 +60,7 @@ async function expectViewFocused(app: ElectronApplication, urlPart: string): Pro
 }
 
 test('docs: typing works immediately after opening a file from Home', async () => {
-  const scratch = await mkdtemp(join(tmpdir(), 'genoffice-openfocus-e2e-'))
+  const scratch = await mkdtemp(join(tmpdir(), 'threadnoteoffice-openfocus-e2e-'))
   const docx = join(scratch, 'open-focus.docx')
   await copyFile(DOCX, docx)
 
@@ -82,7 +82,7 @@ test('docs: typing works immediately after opening a file from Home', async () =
 })
 
 test('sheets: typing into the active cell works immediately after opening from Home', async () => {
-  const scratch = await mkdtemp(join(tmpdir(), 'genoffice-openfocus-e2e-'))
+  const scratch = await mkdtemp(join(tmpdir(), 'threadnoteoffice-openfocus-e2e-'))
   const xlsx = join(scratch, 'open-focus.xlsx')
   await copyFile(XLSX, xlsx)
 
@@ -91,7 +91,7 @@ test('sheets: typing into the active cell works immediately after opening from H
     videoDir: 'open-focus-sheets',
     // the real production open path adopts the pre-mounted spare sheets view
     // (helpers disable it by default) — the focus bug only shows through it
-    env: { GENOFFICE_DEBUG_HOOKS: '1', GENOFFICE_NO_SPARE_VIEW: '' },
+    env: { THREADNOTE_OFFICE_DEBUG_HOOKS: '1', THREADNOTE_OFFICE_NO_SPARE_VIEW: '' },
   })
   try {
     // let the spare view mount (scheduled 1.5s after the shell finishes loading)
@@ -100,8 +100,8 @@ test('sheets: typing into the active cell works immediately after opening from H
     const sheets = await waitForPageWithUrl(launched.app, '://sheets/')
     await sheets.waitForFunction(
       () =>
-        (window as unknown as { __genofficeDebug?: { univerAPI?: unknown } }).__genofficeDebug
-          ?.univerAPI,
+        (window as unknown as { __threadnoteofficeDebug?: { univerAPI?: unknown } })
+          .__threadnoteofficeDebug?.univerAPI,
       null,
       { timeout: 60_000 },
     )
@@ -115,7 +115,7 @@ test('sheets: typing into the active cell works immediately after opening from H
         sheets.evaluate(() => {
           const api = (
             window as unknown as {
-              __genofficeDebug: {
+              __threadnoteofficeDebug: {
                 univerAPI: {
                   getActiveWorkbook(): {
                     getActiveSheet(): { getRange(a: string): { getValue(): unknown } }
@@ -123,7 +123,7 @@ test('sheets: typing into the active cell works immediately after opening from H
                 }
               }
             }
-          ).__genofficeDebug.univerAPI
+          ).__threadnoteofficeDebug.univerAPI
           return api.getActiveWorkbook()?.getActiveSheet()?.getRange('A1')?.getValue() ?? null
         }),
       )

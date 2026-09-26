@@ -104,7 +104,7 @@ function bareName(spec) {
   if (spec.startsWith('.') || spec.startsWith('/')) return null
   const parts = spec.split('/')
   const name = spec.startsWith('@') ? parts.slice(0, 2).join('/') : parts[0]
-  if (BUILTIN.has(name) || name.startsWith('@genoffice/')) return null
+  if (BUILTIN.has(name) || name.startsWith('@threadnote/')) return null
   // the specifier regex also fires on prose inside string concatenations
   return NPM_NAME.test(name) ? name : null
 }
@@ -247,7 +247,7 @@ const seed = importedNames()
 const { resolved, missing } = closure(seed)
 resolved.sort(([a], [b]) => a.localeCompare(b))
 
-let out = `GenOffice — Third-Party Software Notices
+let out = `ThreadnoteOffice — Third-Party Software Notices
 
 This application includes third-party software components under the licenses
 reproduced below.
@@ -323,17 +323,17 @@ const FONTS = [
     '© Adobe / Google. This bundle ships a subset of the original fonts (reduced glyph coverage for size);\nno other modifications were made.',
   ],
   [
-    'GenOffice Sans KR (Noto Sans CJK KR derivative)',
+    'ThreadnoteOffice Sans KR (Noto Sans CJK KR derivative)',
     'SIL OFL 1.1',
     'Copyright 2014-2021 Adobe (http://www.adobe.com/), Google LLC, Reserved Font Name "Source".\nSubset with modified advance widths and horizontally transformed Noto CJK outlines to match measured\nKorean Office-family metrics; renamed per OFL 1.1. No Microsoft font outlines are included.',
   ],
   [
-    'GenOffice Serif KR (Noto Serif CJK KR derivative)',
+    'ThreadnoteOffice Serif KR (Noto Serif CJK KR derivative)',
     'SIL OFL 1.1',
     'Copyright 2017-2024 Adobe (http://www.adobe.com/), Reserved Font Name "Source".\nSubset with modified advance widths and horizontally transformed Noto CJK outlines to match measured\nKorean Office-family metrics; renamed per OFL 1.1. No Microsoft font outlines are included.',
   ],
   [
-    'GenOffice Che Latin KR (Noto Sans CJK KR derivative)',
+    'ThreadnoteOffice Che Latin KR (Noto Sans CJK KR derivative)',
     'SIL OFL 1.1',
     'Copyright 2014-2021 Adobe (http://www.adobe.com/), Google LLC, Reserved Font Name "Source".\nASCII subset with fixed 0.5em advances and horizontally transformed Noto CJK outlines; Microsoft\nDotumChe is used only as a metric reference. Renamed per OFL 1.1. No Microsoft outlines are included.',
   ],
@@ -343,17 +343,17 @@ const FONTS = [
     '© The Noto Project Authors. This bundle ships a subset of the original fonts;\nglyphs and metrics are unmodified.',
   ],
   [
-    'GenOffice Gothic KR (NanumGothic derivative)',
+    'ThreadnoteOffice Gothic KR (NanumGothic derivative)',
     'SIL OFL 1.1',
     `${GOTHIC_KR_COPYRIGHT}\nSubset with unmodified metrics; renamed per OFL 1.1.`,
   ],
   [
-    'GenOffice Poppins (Poppins derivative)',
+    'ThreadnoteOffice Poppins (Poppins derivative)',
     'SIL OFL 1.1',
     'Copyright 2020 The Poppins Project Authors (https://github.com/itfoundry/Poppins).\nLatin subset with unmodified metrics and advances; renamed.',
   ],
   [
-    'GenOffice Tamil (Noto Sans Tamil derivative)',
+    'ThreadnoteOffice Tamil (Noto Sans Tamil derivative)',
     'SIL OFL 1.1',
     '© The Noto Project Authors, original Reserved Font Name "Noto". Modified advance widths;\nrenamed per OFL 1.1.',
   ],

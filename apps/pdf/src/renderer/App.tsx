@@ -6,7 +6,7 @@ import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import workerUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url'
-import { AiPanel, GensparkMark } from './ai/AiPanel'
+import { AiPanel, ThreadnoteMark } from './ai/AiPanel'
 import { AiAskPopover, type AskAnchorRect } from './AiAskPopover'
 import { loadSavedAnnots } from './annotation-catalog'
 import {
@@ -106,13 +106,13 @@ import {
   spliceCharColors,
 } from './color-runs'
 import type { CharStyle } from './color-runs'
-import { platformShortcuts } from '@genoffice/i18n'
+import { platformShortcuts } from '@threadnote/i18n'
 import {
   Dropdown,
   RibbonCollapseButton,
   useDismissablePopover,
   useRibbonCollapse,
-} from '@genoffice/ui'
+} from '@threadnote/ui'
 import { useI18n } from './i18n/locale'
 import { useAutosave } from './useAutosave'
 import type {
@@ -289,7 +289,7 @@ type RibbonTab = (typeof RIBBON_TABS)[number]['id'] | 'fillForm'
 
 export default function App() {
   const { lang, t } = useI18n()
-  const collapse = useRibbonCollapse('genoffice-pdf-ribbon-collapsed')
+  const collapse = useRibbonCollapse('threadnoteoffice-pdf-ribbon-collapsed')
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null)
   const [filePath, setFilePath] = useState('')
   const [status, setStatus] = useState<'loading' | 'error' | 'empty' | 'password' | 'ready'>(
@@ -344,10 +344,10 @@ export default function App() {
   }
   // Persisted so a closed AI panel stays closed on next launch (docs/slides parity)
   const [aiCollapsed, setAiCollapsed] = useState(
-    () => localStorage.getItem('genoffice-pdf-show-ai') === '0',
+    () => localStorage.getItem('threadnoteoffice-pdf-show-ai') === '0',
   )
   useEffect(() => {
-    localStorage.setItem('genoffice-pdf-show-ai', aiCollapsed ? '0' : '1')
+    localStorage.setItem('threadnoteoffice-pdf-show-ai', aiCollapsed ? '0' : '1')
   }, [aiCollapsed])
   /** One-shot prompt pushed by the ribbon AI buttons; the panel auto-runs it (docs preset pattern) */
   const [aiPreset, setAiPreset] = useState<{ text: string; nonce: number } | null>(null)
@@ -1511,9 +1511,11 @@ export default function App() {
     el.scrollTop = rowTop(rowOfVis(target - 1)) - PAGE_GAP / 2
   }
 
-  // genoffice CLI (`open --page`, `selection`): the shell evaluates this hook
+  // threadnoteoffice CLI (`open --page`, `selection`): the shell evaluates this hook
   useEffect(() => {
-    ;(window as unknown as Record<string, unknown>).__genofficeControl = (req: ControlRequest) =>
+    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (
+      req: ControlRequest,
+    ) =>
       handlePdfControl(req, {
         loaded: doc !== null,
         pageCount,
@@ -6194,7 +6196,7 @@ export default function App() {
         <div className="ribbon-body" data-ribbon-body="">
           {ribbonTab === 'home' && (
             <>
-              {/* ---- Genspark AI (first slot: entry + one-click AI actions, docs parity) ---- */}
+              {/* ---- Threadnote AI (first slot: entry + one-click AI actions, docs parity) ---- */}
               <div className="ribbon-group">
                 <div className="ribbon-group-items">
                   <button
@@ -6203,9 +6205,9 @@ export default function App() {
                     onClick={() => setAiCollapsed((v) => !v)}
                   >
                     <span className="rb-big-icon">
-                      <GensparkMark size={26} />
+                      <ThreadnoteMark size={26} />
                     </span>
-                    <span>Genspark AI</span>
+                    <span>Threadnote AI</span>
                   </button>
                   <button
                     className="rb-big ai-entry"
@@ -6345,7 +6347,7 @@ export default function App() {
                   >
                     <span className="rb-big-icon">
                       <span className="ai-feature-icon" aria-hidden="true">
-                        <GensparkMark size={20} />
+                        <ThreadnoteMark size={20} />
                       </span>
                     </span>
                     <span>{t('aiProcessNotesBtn')}</span>
@@ -6526,7 +6528,7 @@ export default function App() {
                   >
                     <span className="rb-big-icon">
                       <span className="ai-feature-icon" aria-hidden="true">
-                        <GensparkMark size={20} />
+                        <ThreadnoteMark size={20} />
                       </span>
                     </span>
                     <span>{t('aiFillFormBtn')}</span>
@@ -6859,7 +6861,7 @@ export default function App() {
               aria-label={t('aiOpenAssistant')}
               onClick={() => setAiCollapsed(false)}
             >
-              <GensparkMark size={22} />
+              <ThreadnoteMark size={22} />
             </button>
           )}
           <AiPanel

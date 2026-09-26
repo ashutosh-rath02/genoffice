@@ -5,10 +5,10 @@ import {
   AI_PROVIDERS,
   AI_SEARCH_PROVIDERS,
   getProviderAdapter,
-} from '@genoffice/ai-provider/browser'
-import type { AiSettings, CodexModelCatalog } from '@genoffice/ai-provider/browser'
-import { installDropOpenBridge } from '@genoffice/electron-utils/drop-open'
-import { normalizeAiPanelPrefs } from '@genoffice/ui/ai-panel-prefs'
+} from '@threadnote/ai-provider/browser'
+import type { AiSettings, CodexModelCatalog } from '@threadnote/ai-provider/browser'
+import { installDropOpenBridge } from '@threadnote/electron-utils/drop-open'
+import { normalizeAiPanelPrefs } from '@threadnote/ui/ai-panel-prefs'
 import type {
   AccountLoginEvent,
   AccountStatus,
@@ -34,6 +34,14 @@ import type {
 } from '../shared/integrations-api'
 import type { TabsApi, TabSummary } from '../shared/tabs-api'
 import { TABS_CHANNELS } from '../shared/tabs-api'
+import type {
+  ThreadnoteApi,
+  ThreadnoteFile,
+  ThreadnotePairing,
+  ThreadnoteProject,
+  ThreadnoteStatus,
+} from '../shared/threadnote-api'
+import { THREADNOTE_CHANNELS } from '../shared/threadnote-api'
 
 const UI_LANGUAGES: readonly UiLanguage[] = [
   'zh',
@@ -435,8 +443,8 @@ const homeApi: HomeApi = {
   getAiProviders() {
     return AI_PROVIDERS.map((meta) => {
       let defaultBaseUrl = ''
-      // genspark routes by model and custom has no default — both stay ''
-      if (meta.id !== 'genspark' && !meta.needsBaseUrl && !meta.needsCliPath) {
+      // CLI and custom providers have no default HTTP base URL.
+      if (!meta.needsBaseUrl && !meta.needsCliPath) {
         defaultBaseUrl = getProviderAdapter(meta.id).resolveEndpoint({
           apiKey: '',
           model: meta.defaultModel,
@@ -500,6 +508,22 @@ function asCloudProjectsSnapshot(result: unknown): CloudProjectsSnapshot | null 
 }
 
 contextBridge.exposeInMainWorld('aiOffice', homeApi)
+
+const threadnoteApi: ThreadnoteApi = {
+  status: () => ipcRenderer.invoke(THREADNOTE_CHANNELS.status) as Promise<ThreadnoteStatus>,
+  startPairing: (baseUrl) =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.startPairing, baseUrl) as Promise<ThreadnotePairing>,
+  pollPairing: (pairing) =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.pollPairing, pairing) as Promise<'pending' | 'approved'>,
+  disconnect: () => ipcRenderer.invoke(THREADNOTE_CHANNELS.disconnect),
+  projects: () => ipcRenderer.invoke(THREADNOTE_CHANNELS.projects) as Promise<ThreadnoteProject[]>,
+  files: (projectId) =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.files, projectId) as Promise<ThreadnoteFile[]>,
+  openFile: (fileId) => ipcRenderer.invoke(THREADNOTE_CHANNELS.openFile, fileId),
+  shareCurrentFile: () =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.shareCurrentFile) as Promise<ThreadnoteFile | null>,
+}
+contextBridge.exposeInMainWorld('threadnoteOffice', threadnoteApi)
 
 const integrationsApi: IntegrationsApi = {
   async status() {

@@ -2,12 +2,16 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 
 export default defineConfig({
-  // @genoffice/i18n and @genoffice/electron-utils ship as TS source — must be bundled
+  // @threadnote/i18n and @threadnote/electron-utils ship as TS source — must be bundled
   main: {
-    plugins: [externalizeDepsPlugin({ exclude: ['@genoffice/i18n', '@genoffice/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   preload: {
-    plugins: [externalizeDepsPlugin({ exclude: ['@genoffice/i18n', '@genoffice/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   renderer: {
     plugins: [react()],

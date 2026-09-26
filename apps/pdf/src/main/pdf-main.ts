@@ -26,9 +26,9 @@ import {
   installRendererProtocol,
   registerRendererScheme,
   rendererUrl,
-} from '@genoffice/electron-utils'
-import { createI18n, getUiLang } from '@genoffice/i18n'
-import { generateImageTool } from '@genoffice/ai-search'
+} from '@threadnote/electron-utils'
+import { createI18n, getUiLang } from '@threadnote/i18n'
+import { generateImageTool } from '@threadnote/ai-search'
 import { PDF_CHANNELS } from '../shared/ipc'
 import type {
   ExportImagesRequest,
@@ -495,7 +495,7 @@ interface RuntimePaths {
   preloadPath: string
   rendererUrl?: string
   rendererFile?: string
-  /** Shell router used to open generated PDFs in a new GenOffice tab. */
+  /** Shell router used to open generated PDFs in a new ThreadnoteOffice tab. */
   openGeneratedPath?: (path: string) => boolean
   /** Host-owned cross-app document creator (the shell routes DOCX into Docs). */
   createDocument?: (request: CreateDocumentRequest) => Promise<CreateDocumentResult>
@@ -552,7 +552,7 @@ async function createStandaloneDocument(
   if (request.type === 'docx') {
     return {
       ok: false,
-      error: 'Creating DOCX files requires the GenOffice shell or Docs app.',
+      error: 'Creating DOCX files requires the ThreadnoteOffice shell or Docs app.',
     }
   }
   const title = sanitizeGeneratedDocumentTitle(request.title)
@@ -1573,7 +1573,7 @@ export function createPdfView(openPath?: string | null): WebContentsView {
   return view
 }
 
-/** Standalone window mode: `npm run dev -w @genoffice/pdf`, pdf path passed via argv */
+/** Standalone window mode: `npm run dev -w @threadnote/pdf`, pdf path passed via argv */
 export function startPdfStandalone(): void {
   registerRendererScheme()
   installNavigationGuard(app)

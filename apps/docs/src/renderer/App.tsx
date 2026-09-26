@@ -16,7 +16,7 @@ import type { Editor } from '@tiptap/core'
 import { handleDocsControl, type ControlRequest } from './control'
 import { DOMParser as PmDOMParser, type Mark as PmMark, Slice as PmSlice } from '@tiptap/pm/model'
 import { NodeSelection, type Transaction } from '@tiptap/pm/state'
-import { Dropdown, ImageViewer, createZoomWheelClassifier, useAutoSavePref } from '@genoffice/ui'
+import { Dropdown, ImageViewer, createZoomWheelClassifier, useAutoSavePref } from '@threadnote/ui'
 import { wordRangeAtCaret } from './editor/comments'
 import { markdownPasteHtml } from './editor/markdown-paste'
 import { pasteTextSlice, singleCellPasteText } from './editor/paste-text'
@@ -72,7 +72,7 @@ import {
   type ThemeFonts,
   type PictureWatermarkSpec,
   type WatermarkSpec,
-} from '@genoffice/docx-engine'
+} from '@threadnote/docx-engine'
 import type { AiDocContent, AiSettings, OpenDocxResult } from '../shared/ipc'
 import { AI_PROVIDERS } from '../shared/ipc'
 import { ZoteroDocumentController } from './zotero/controller'
@@ -1612,7 +1612,7 @@ export function App() {
 
   // window title follows the document, so the OS window list and Switch Window show file names
   useEffect(() => {
-    document.title = doc ? doc.fileName : 'GenOffice Docs'
+    document.title = doc ? doc.fileName : 'ThreadnoteOffice Docs'
   }, [doc])
 
   useEffect(() => window.desktop.onTeardown?.(() => setTornDown(true)), [])
@@ -1884,7 +1884,7 @@ export function App() {
         bootHandledRef.current = true
         // A failed open (corrupt file etc.) falls back to a blank document —
         // otherwise the tab shows "Opening…" forever with only a status-bar
-        // line explaining why (github.com/genspark-ai/genoffice issue #102).
+        // line explaining why (github.com/genspark-ai/threadnoteoffice issue #102).
         // 'password': the prompt is up; its cancel path lands on blank instead.
         const outcome = pending ? await loadFile(pending) : 'canceled'
         if (outcome === 'canceled') await newFile()
@@ -2248,7 +2248,7 @@ export function App() {
       window.desktop.onZoteroRequest(async (request) => {
         try {
           const activeEditor = editorRef.current
-          if (!activeEditor) throw new Error('No active GenOffice document')
+          if (!activeEditor) throw new Error('No active ThreadnoteOffice document')
           const controller =
             zoteroControllerRef.current ??
             new ZoteroDocumentController(activeEditor, {
@@ -5268,10 +5268,11 @@ export function App() {
     if (src) setViewImage(src)
   }, [])
 
-  // genoffice CLI (`open --block`, `selection`): the shell evaluates this hook
+  // threadnoteoffice CLI (`open --block`, `selection`): the shell evaluates this hook
   useEffect(() => {
-    ;(window as unknown as Record<string, unknown>).__genofficeControl = (req: ControlRequest) =>
-      handleDocsControl(req, editor, doc !== null)
+    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (
+      req: ControlRequest,
+    ) => handleDocsControl(req, editor, doc !== null)
   })
 
   // e2e/automation hook: lets tests drive open/edit/save without native dialogs

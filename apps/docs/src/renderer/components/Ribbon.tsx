@@ -32,7 +32,7 @@ import type {
   TextboxParaDisplay,
   ThemeColors,
   ThemeFonts,
-} from '@genoffice/docx-engine'
+} from '@threadnote/docx-engine'
 import {
   ColorPicker,
   Dropdown,
@@ -40,7 +40,7 @@ import {
   isSymbolFontFamily,
   useDismissablePopover,
   useRibbonCollapse,
-} from '@genoffice/ui'
+} from '@threadnote/ui'
 import { HIGHLIGHT_CSS } from '../editor/extensions'
 import { applyCase, type CaseMode } from '../editor/case-transform'
 import { setParagraphDirection, setSelectionAlign } from '../editor/direction'
@@ -82,7 +82,7 @@ import {
 import { WRAP_OPTIONS } from './ContextMenu'
 import { CropDialog, CutoutDialog } from './PictureDialogs'
 import {
-  GensparkMark,
+  ThreadnoteMark,
   IconAlignCenter,
   IconAlignJustify,
   IconAlignLeft,
@@ -2849,7 +2849,7 @@ function RibbonInner({
           </div>
         ) : tab === 'home' ? (
           <>
-            {/* ---- Genspark AI (first slot: entry + one-click AI actions) ---- */}
+            {/* ---- Threadnote AI (first slot: entry + one-click AI actions) ---- */}
             <div className="ribbon-group">
               <div className="ribbon-group-items">
                 <button
@@ -2858,9 +2858,9 @@ function RibbonInner({
                   onClick={onToggleAi}
                 >
                   <span className="rb-big-icon">
-                    <GensparkMark size={26} />
+                    <ThreadnoteMark size={26} />
                   </span>
-                  <span>Genspark AI</span>
+                  <span>Threadnote AI</span>
                 </button>
                 <button
                   className="rb-big ai-entry"
@@ -2960,7 +2960,7 @@ function RibbonInner({
                   <span>{t('aiTidyBtn')}</span>
                 </button>
               </div>
-              <div className="ribbon-group-label">Genspark AI</div>
+              <div className="ribbon-group-label">Threadnote AI</div>
             </div>
 
             <div className="ribbon-sep" />

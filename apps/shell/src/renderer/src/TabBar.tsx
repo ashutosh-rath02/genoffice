@@ -126,7 +126,7 @@ const KIND_ICON: Record<TabSummary['kind'], ReactElement> = {
   html: <HtmlIcon />,
 }
 
-export function TabBar() {
+export function TabBar({ threadnoteAvailable }: { threadnoteAvailable: boolean }) {
   const { t } = useI18n()
   const [tabs, setTabs] = useState<TabSummary[]>([])
   const stripRef = useRef<HTMLDivElement>(null)
@@ -224,6 +224,7 @@ export function TabBar() {
 
   // keep the active tab in view — new tabs open at the far end of the strip
   const activeId = tabs.find((tab) => tab.active)?.id
+  const activeDocument = tabs.find((tab) => tab.active && tab.kind !== 'home')
   useEffect(() => {
     // pointer-down activation runs while the user is pressing that tab — it is
     // already visible, and scrolling the strip mid-press would invalidate the
@@ -413,6 +414,18 @@ export function TabBar() {
           </svg>
         </button>
       </div>
+      {threadnoteAvailable && activeDocument && (
+        <button
+          className="tab-share-btn"
+          title="Share this document through Threadnote"
+          aria-label="Share this document through Threadnote"
+          onClick={() => {
+            void window.threadnoteOffice.shareCurrentFile().catch(() => {})
+          }}
+        >
+          Share
+        </button>
+      )}
       <button
         className="tab-overflow-btn"
         title={t('tabList')}

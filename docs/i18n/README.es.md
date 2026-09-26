@@ -1,22 +1,24 @@
+> This translation is being updated for Threadnote Office. See the [current English README](../../README.md) for setup and availability.
+
 <p align="center">
-  <a href="https://genoffice.ai/">
+  <a href="https://threadnote.ashutosh123rath.workers.dev/">
     <picture>
       <source srcset="../assets/readme/hero-dark.webp" media="(prefers-color-scheme: dark)">
-      <img src="../assets/readme/hero.webp" alt="GenOffice: la suite ofimática de IA de código abierto con Docs, Sheets, Slides, PDF, Markdown y HTML, con un panel de IA integrado" width="100%">
+      <img src="../assets/readme/hero.webp" alt="ThreadnoteOffice: la suite ofimática de IA de código abierto con Docs, Sheets, Slides, PDF, Markdown y HTML, con un panel de IA integrado" width="100%">
     </picture>
   </a>
 </p>
 
-<h1 align="center">GenOffice</h1>
+<h1 align="center">ThreadnoteOffice</h1>
 
 <p align="center"><b>La primera suite ofimática de IA de código abierto completa del mundo.</b><br>
 Archivos Word, Excel, PowerPoint y PDF, editados por ti y tu IA, guardados de nuevo en los formatos reales.</p>
 
 <p align="center">
-  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/genspark-ai/genoffice" alt="Licencia: Apache-2.0"></a>
-  <a href="https://github.com/genspark-ai/genoffice/releases/latest"><img src="https://img.shields.io/github/v/release/genspark-ai/genoffice" alt="Última versión"></a>
-  <a href="https://github.com/genspark-ai/genoffice/releases"><img src="https://img.shields.io/github/downloads/genspark-ai/genoffice/total" alt="Descargas"></a>
-  <a href="https://github.com/genspark-ai/genoffice/stargazers"><img src="https://img.shields.io/github/stars/genspark-ai/genoffice?style=flat" alt="Estrellas de GitHub"></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ashutosh-rath02/threadnote" alt="Licencia: Apache-2.0"></a>
+  <a href="https://github.com/ashutosh-rath02/threadnote"><img src="https://img.shields.io/github/v/release/ashutosh-rath02/threadnote" alt="Última versión"></a>
+  <a href="https://github.com/ashutosh-rath02/threadnote"><img src="https://img.shields.io/github/downloads/ashutosh-rath02/threadnote/total" alt="Descargas"></a>
+  <a href="https://github.com/ashutosh-rath02/threadnote/stargazers"><img src="https://img.shields.io/github/stars/ashutosh-rath02/threadnote?style=flat" alt="Estrellas de GitHub"></a>
 </p>
 
 <p align="center"><a href="../../README.md">English</a> · <b>Español</b> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.de.md">Deutsch</a> · <a href="README.fr.md">Français</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.ko.md">한국어</a> · <a href="README.ja.md">日本語</a> · <a href="README.ar.md">العربية</a> · <a href="README.ru.md">Русский</a> · <a href="README.it.md">Italiano</a> · <a href="README.nl.md">Nederlands</a> · <a href="README.pl.md">Polski</a> · <a href="README.cs.md">Čeština</a> · <a href="README.id.md">Bahasa Indonesia</a> · <a href="README.ms.md">Bahasa Melayu</a> · <a href="README.th.md">ไทย</a> · <a href="README.hi.md">हिन्दी</a> · <a href="README.he.md">עברית</a></p>
@@ -25,12 +27,12 @@ Archivos Word, Excel, PowerPoint y PDF, editados por ti y tu IA, guardados de nu
   <a href="#download"><b>Descargar</b></a> ·
   <a href="#command-line-and-agent-skill"><b>CLI</b></a> ·
   <a href="#mcp-server"><b>MCP</b></a> ·
-  <a href="https://genoffice.ai/"><b>Sitio web</b></a> ·
-  <a href="https://genoffice.ai/join"><b>Comunidad</b></a> ·
+  <a href="https://threadnote.ashutosh123rath.workers.dev/"><b>Sitio web</b></a> ·
+  <a href="https://threadnote.ashutosh123rath.workers.dev"><b>Comunidad</b></a> ·
   <a href="../../PRIVACY.md"><b>Privacidad</b></a>
 </p>
 
-GenOffice es una alternativa gratuita y de código abierto a Microsoft Office
+ThreadnoteOffice es una alternativa gratuita y de código abierto a Microsoft Office
 para macOS, Windows y Linux. Abre y guarda archivos nativos `.docx`, `.xlsx`
 y `.pptx`, edita PDF, Markdown y HTML, y coloca un agente de IA junto a cada
 documento: no un chat pegado a un lado, sino un editor que lee el archivo,
@@ -52,14 +54,14 @@ hace el cambio y te muestra exactamente qué tocó.
   GLM, Qwen, Doubao, MiniMax, Grok, Mistral, OpenRouter, Requesty, o cualquier endpoint
   compatible con OpenAI, servidores locales incluidos.
 - **Automatizable y listo para agentes.** La app incluye una línea de comandos
-  `genoffice` y un skill para Claude Code, Codex, Cursor, Gemini CLI, GitHub
+  `threadnoteoffice` y un skill para Claude Code, Codex, Cursor, Gemini CLI, GitHub
   Copilot, OpenCode y Windsurf, de modo que un agente de programación puede
   crear, convertir, leer y editar archivos Office reales en tu equipo sin
   abrir una ventana.
 
-**Consíguelo:** [macOS](https://github.com/genspark-ai/genoffice/releases/latest) (Apple Silicon e Intel) ·
-[Windows](https://github.com/genspark-ai/genoffice/releases/latest) (x64 y Arm) ·
-[Linux](https://github.com/genspark-ai/genoffice/releases/latest) (deb, rpm, AppImage) —
+**Consíguelo:** [macOS](https://github.com/ashutosh-rath02/threadnote) (Apple Silicon e Intel) ·
+[Windows](https://github.com/ashutosh-rath02/threadnote) (x64 y Arm) ·
+[Linux](https://github.com/ashutosh-rath02/threadnote) (deb, rpm, AppImage) —
 detalles y requisitos en [Download](#download).
 
 ## Demo
@@ -72,8 +74,8 @@ el prompt que puedes leer en el panel.
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/docs-report.webp" alt="GenOffice Docs mostrando una página de informe anual a dos columnas con una imagen de portada a todo lo ancho, una tabla de KPI con sombreado, encabezado y pie de página, con un zoom del 80% y el panel de IA contraído"></td>
-<td width="50%"><img src="../assets/readme/docs-ai.webp" alt="GenOffice Docs: una descripción general de la empresa con una imagen de banner; la IA ajustó la sección Overview e insertó una nueva sección con viñetas, y el panel ofrece deshacer el cambio con un solo clic"></td>
+<td width="50%"><img src="../assets/readme/docs-report.webp" alt="ThreadnoteOffice Docs mostrando una página de informe anual a dos columnas con una imagen de portada a todo lo ancho, una tabla de KPI con sombreado, encabezado y pie de página, con un zoom del 80% y el panel de IA contraído"></td>
+<td width="50%"><img src="../assets/readme/docs-ai.webp" alt="ThreadnoteOffice Docs: una descripción general de la empresa con una imagen de banner; la IA ajustó la sección Overview e insertó una nueva sección con viñetas, y el panel ofrece deshacer el cambio con un solo clic"></td>
 </tr>
 <tr>
 <td><b>Abre el archivo tal como lo compone Word</b> — secciones a dos columnas, imágenes a sangre completa, tablas con sombreado, encabezados y pies de página, con la paginación calculada según las métricas de línea de Word. Los estilos, comentarios, cambios con seguimiento, ecuaciones y trazos de tinta se conservan intactos en el ida y vuelta.</td>
@@ -85,8 +87,8 @@ el prompt que puedes leer en el panel.
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/sheets-ai.webp" alt="GenOffice Sheets: la IA añadió una hoja Summary con ingresos por región y categoría usando fórmulas SUMIF, además de un gráfico de columnas, e informa de 43 cambios aplicados con un botón para deshacer"></td>
-<td width="50%"><img src="../assets/readme/sheets-qa.webp" alt="GenOffice Sheets: al preguntar qué región lideró los ingresos del segundo trimestre, la IA responde Europa con el desglose por categoría y cita las celdas que usó como enlaces, junto a la hoja Orders"></td>
+<td width="50%"><img src="../assets/readme/sheets-ai.webp" alt="ThreadnoteOffice Sheets: la IA añadió una hoja Summary con ingresos por región y categoría usando fórmulas SUMIF, además de un gráfico de columnas, e informa de 43 cambios aplicados con un botón para deshacer"></td>
+<td width="50%"><img src="../assets/readme/sheets-qa.webp" alt="ThreadnoteOffice Sheets: al preguntar qué región lideró los ingresos del segundo trimestre, la IA responde Europa con el desglose por categoría y cita las celdas que usó como enlaces, junto a la hoja Orders"></td>
 </tr>
 <tr>
 <td><b>Créala</b> — a partir de una sola frase, el agente añade una hoja Summary con auténticas fórmulas <code>SUMIF</code> por región y categoría, inserta un gráfico de columnas y aplica los 43 cambios como un único lote que se puede deshacer.</td>
@@ -96,15 +98,15 @@ el prompt que puedes leer en el panel.
 
 ### 3 · Slides — de un prompt a una presentación `.pptx`
 
-<img src="../assets/readme/slides-generate.webp" alt="Time-lapse de GenOffice Slides generando el deck para inversores de Aurora Home: la IA planifica la narrativa en el panel, las diapositivas aparecen una tras otra en el lienzo, y el deck terminado concluye con la propuesta final" width="100%">
+<img src="../assets/readme/slides-generate.webp" alt="Time-lapse de ThreadnoteOffice Slides generando el deck para inversores de Aurora Home: la IA planifica la narrativa en el panel, las diapositivas aparecen una tras otra en el lienzo, y el deck terminado concluye con la propuesta final" width="100%">
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/slides-cover.webp" alt="GenOffice Slides: la diapositiva de portada de una presentación para inversores de Aurora Home generada por IA en el lienzo, con la instrucción original de una línea y el resumen de la IA de lo que construyó en el panel"></td>
-<td width="50%"><img src="../assets/readme/slides-ai.webp" alt="GenOffice Slides: la diapositiva de cierre diseñada de la misma presentación de 11 diapositivas, con la tira de miniaturas a la izquierda y el panel de IA resumiendo el hilo narrativo"></td>
+<td width="50%"><img src="../assets/readme/slides-cover.webp" alt="ThreadnoteOffice Slides: la diapositiva de portada de una presentación para inversores de Aurora Home generada por IA en el lienzo, con la instrucción original de una línea y el resumen de la IA de lo que construyó en el panel"></td>
+<td width="50%"><img src="../assets/readme/slides-ai.webp" alt="ThreadnoteOffice Slides: la diapositiva de cierre diseñada de la misma presentación de 11 diapositivas, con la tira de miniaturas a la izquierda y el panel de IA resumiendo el hilo narrativo"></td>
 </tr>
 <tr>
-<td><b>Con una sola línea</b> — «Crea una presentación de 10 diapositivas para inversores de Aurora Home…». GenOffice planifica el hilo narrativo, investiga las cifras y redacta cada diapositiva en el lienzo como un auténtico <code>.pptx</code>.</td>
+<td><b>Con una sola línea</b> — «Crea una presentación de 10 diapositivas para inversores de Aurora Home…». ThreadnoteOffice planifica el hilo narrativo, investiga las cifras y redacta cada diapositiva en el lienzo como un auténtico <code>.pptx</code>.</td>
 <td><b>Una presentación terminada</b> — once diapositivas diseñadas con tipografía e imágenes consistentes y una llamada a la acción de cierre; sigue editando con patrones, diseños, guías inteligentes y recorte no destructivo, o pide al panel que reestilice, reescriba y reordene.</td>
 </tr>
 </table>
@@ -113,8 +115,8 @@ el prompt que puedes leer en el panel.
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/pdf-edit.webp" alt="GenOffice PDF: el modo Editar texto resalta el contorno de cada bloque de texto de la página para editarlo directamente, mientras el panel de IA responde una pregunta sobre el informe con citas de página"></td>
-<td width="50%"><img src="../assets/readme/pdf-convert.webp" alt="GenOffice Docs mostrando un documento de Word convertido localmente a partir del PDF de la revisión trimestral de Helios, abierto en una segunda pestaña junto al PDF original"></td>
+<td width="50%"><img src="../assets/readme/pdf-edit.webp" alt="ThreadnoteOffice PDF: el modo Editar texto resalta el contorno de cada bloque de texto de la página para editarlo directamente, mientras el panel de IA responde una pregunta sobre el informe con citas de página"></td>
+<td width="50%"><img src="../assets/readme/pdf-convert.webp" alt="ThreadnoteOffice Docs mostrando un documento de Word convertido localmente a partir del PDF de la revisión trimestral de Helios, abierto en una segunda pestaña junto al PDF original"></td>
 </tr>
 <tr>
 <td><b>Edita dentro de la página</b> — el modo Edit text resalta el contorno de cada bloque de texto para volver a escribirlo directamente; el flujo de contenido se reescribe mediante PDFium con las fuentes originales, sin recurrir a una anotación que tapa el texto. Pregunta a la IA sobre un informe extenso y obtén respuestas con citas de página.</td>
@@ -129,11 +131,11 @@ Indica para qué es la página y para quién es. La IA propone primero un
 de estilo — y luego construye un único archivo `.html` autocontenido
 siguiendo esos tokens.
 
-<img src="../assets/readme/html-restyle-motion.webp" alt="Time-lapse de GenOffice HTML rediseñando la landing page de Lumen: una sola solicitud de Restyle en el panel convierte la página oscura de Midnight Studio en la cálida versión Solar Daybreak, mientras cada sección y todo el contenido permanecen intactos" width="100%">
+<img src="../assets/readme/html-restyle-motion.webp" alt="Time-lapse de ThreadnoteOffice HTML rediseñando la landing page de Lumen: una sola solicitud de Restyle en el panel convierte la página oscura de Midnight Studio en la cálida versión Solar Daybreak, mientras cada sección y todo el contenido permanecen intactos" width="100%">
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/html-ai.webp" alt="GenOffice HTML: una landing page generada para una lámpara de escritorio solar en la dirección de estilo oscuro Midnight Studio, mostrada en la vista previa en vivo con el panel de IA resumiendo la página que acaba de construir"></td>
+<td width="50%"><img src="../assets/readme/html-ai.webp" alt="ThreadnoteOffice HTML: una landing page generada para una lámpara de escritorio solar en la dirección de estilo oscuro Midnight Studio, mostrada en la vista previa en vivo con el panel de IA resumiendo la página que acaba de construir"></td>
 <td width="50%"><img src="../assets/readme/html-restyle.webp" alt="La misma landing page de Lumen reestilizada por la IA en la cálida dirección Solar Daybreak: fondo tipo papel, titulares con tipografía serif y un acento naranja, conservando todas las secciones y todo el texto"></td>
 </tr>
 <tr>
@@ -143,8 +145,8 @@ siguiendo esos tokens.
 </table>
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/html-dashboard.webp" alt="GenOffice HTML: una interfaz de panel personal generada para una diseñadora freelance en un estilo lino cálido, con una barra lateral izquierda, un saludo en tipografía serif y cuatro tarjetas de métricas"></td>
-<td width="50%"><img src="../assets/readme/html-report.webp" alt="GenOffice HTML: un informe de datos generado sobre el mercado de vehículos eléctricos en estilo periódico (broadsheet), con una cabecera serif, una cifra destacada de 17,3 millones y una fila de estadísticas"></td>
+<td width="50%"><img src="../assets/readme/html-dashboard.webp" alt="ThreadnoteOffice HTML: una interfaz de panel personal generada para una diseñadora freelance en un estilo lino cálido, con una barra lateral izquierda, un saludo en tipografía serif y cuatro tarjetas de métricas"></td>
+<td width="50%"><img src="../assets/readme/html-report.webp" alt="ThreadnoteOffice HTML: un informe de datos generado sobre el mercado de vehículos eléctricos en estilo periódico (broadsheet), con una cabecera serif, una cifra destacada de 17,3 millones y una fila de estadísticas"></td>
 </tr>
 <tr>
 <td><b>Maquetas de interfaz</b> — la plantilla inicial «personal dashboard» convierte una persona en un diseño funcional: barra lateral izquierda, saludo, minigráfico de horas facturables, tarjetas de facturas y utilización, todo en HTML real que puedes entregar a un desarrollador.</td>
@@ -156,8 +158,8 @@ siguiendo esos tokens.
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/markdown-ai.webp" alt="GenOffice Markdown: un párrafo seleccionado muestra un popover de Ask AI con una instrucción escrita y chips de sugerencia como Polish, Make more concise, Expand y Fix grammar, además de los botones Send now y Add to queue"></td>
-<td width="50%"><img src="../assets/readme/markdown-render.webp" alt="GenOffice Markdown mostrando un documento de notas de lanzamiento con una tabla, un diagrama de flujo de Mermaid y una lista de tareas, con las sugerencias iniciales del panel de IA a la izquierda"></td>
+<td width="50%"><img src="../assets/readme/markdown-ai.webp" alt="ThreadnoteOffice Markdown: un párrafo seleccionado muestra un popover de Ask AI con una instrucción escrita y chips de sugerencia como Polish, Make more concise, Expand y Fix grammar, además de los botones Send now y Add to queue"></td>
+<td width="50%"><img src="../assets/readme/markdown-render.webp" alt="ThreadnoteOffice Markdown mostrando un documento de notas de lanzamiento con una tabla, un diagrama de flujo de Mermaid y una lista de tareas, con las sugerencias iniciales del panel de IA a la izquierda"></td>
 </tr>
 <tr>
 <td><b>Ask AI sobre una selección</b> — selecciona cualquier pasaje y aparece un chip de <b>Ask AI</b>: escribe una instrucción o elige una sugerencia, envíala al momento, o encola varias ediciones ancladas y ejecútalas de una sola vez. El mismo punto de entrada existe en todas las apps.</td>
@@ -165,42 +167,42 @@ siguiendo esos tokens.
 </tr>
 </table>
 
-### 7 · CLI — tu agente de programación maneja GenOffice, en tu equipo
+### 7 · CLI — tu agente de programación maneja ThreadnoteOffice, en tu equipo
 
-GenOffice incluye una línea de comandos `genoffice` y un skill de agente.
+ThreadnoteOffice incluye una línea de comandos `threadnoteoffice` y un skill de agente.
 Instala el skill y Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot,
 OpenCode o Windsurf podrán crear, convertir, leer y editar archivos Office
 reales con los mismos motores que las apps, sin abrir una ventana.
 
-<img src="../assets/readme/cli-deck-in-app.webp" alt="GenOffice Slides mostrando una presentación de ocho diapositivas sobre el Sistema Solar que un agente de programación construyó mediante la línea de comandos genoffice: la diapositiva de portada en el lienzo, ocho miniaturas a la izquierda y el panel de IA abierto" width="100%">
+<img src="../assets/readme/cli-deck-in-app.webp" alt="ThreadnoteOffice Slides mostrando una presentación de ocho diapositivas sobre el Sistema Solar que un agente de programación construyó mediante la línea de comandos threadnoteoffice: la diapositiva de portada en el lienzo, ocho miniaturas a la izquierda y el panel de IA abierto" width="100%">
 
 <table>
 <tr>
 <td width="50%"><img src="../assets/readme/cli-slides-grid.webp" alt="Las ocho diapositivas renderizadas de la presentación del Sistema Solar, una junto a otra: portada, cronología de la exploración, cuatro cifras clave, gráfico de barras con el diámetro de los planetas, mundos rocosos frente a gigantes, la cifra destacada del 99,8 % del Sol, la cuadrícula de los cuatro gigantes y las conclusiones"></td>
-<td width="50%"><img src="../assets/readme/cli-integrations.webp" alt="Ajustes de GenOffice, página Integraciones: el skill genoffice instalado en Claude Code, con botones Instalar junto a Codex y Cursor"></td>
+<td width="50%"><img src="../assets/readme/cli-integrations.webp" alt="Ajustes de ThreadnoteOffice, página Integraciones: el skill threadnoteoffice instalado en Claude Code, con botones Instalar junto a Codex y Cursor"></td>
 </tr>
 <tr>
-<td><b>Un solo prompt a tu agente</b> — «Crea una presentación de ocho diapositivas sobre el Sistema Solar». El agente lee el skill, escribe una hoja de estilos, un esquema y una especificación de página por diapositiva, genera las dos fotos con <code>genoffice image</code> y deja que <code>genoffice slides check</code> rechace todo lo que desborde o se superponga antes de que <code>genoffice create</code> ensamble el <code>.pptx</code> y <code>slides render</code> devuelva un PNG por diapositiva para revisarlo.</td>
-<td><b>Instálalo una vez, desde Ajustes → Integraciones</b> — GenOffice muestra los agentes de programación que encuentra en este equipo y escribe el skill en cada uno de los que elijas. O descarga el skill como zip, o ejecuta <code>npx skills add genspark-ai/genoffice</code>. Los comandos y el flujo de trabajo completo están en <a href="#command-line-and-agent-skill">Línea de comandos y skill de agente</a>.</td>
+<td><b>Un solo prompt a tu agente</b> — «Crea una presentación de ocho diapositivas sobre el Sistema Solar». El agente lee el skill, escribe una hoja de estilos, un esquema y una especificación de página por diapositiva, genera las dos fotos con <code>threadnoteoffice image</code> y deja que <code>threadnoteoffice slides check</code> rechace todo lo que desborde o se superponga antes de que <code>threadnoteoffice create</code> ensamble el <code>.pptx</code> y <code>slides render</code> devuelva un PNG por diapositiva para revisarlo.</td>
+<td><b>Instálalo una vez, desde Ajustes → Integraciones</b> — ThreadnoteOffice muestra los agentes de programación que encuentra en este equipo y escribe el skill en cada uno de los que elijas. O descarga el skill como zip, o ejecuta <code>install the bundled Threadnote Office skill from Settings</code>. Los comandos y el flujo de trabajo completo están en <a href="#command-line-and-agent-skill">Línea de comandos y skill de agente</a>.</td>
 </tr>
 </table>
 
 ### 8 · MCP — las mismas herramientas a través del Model Context Protocol
 
-Cada comando de `genoffice` es también una herramienta MCP. Claude Code,
+Cada comando de `threadnoteoffice` es también una herramienta MCP. Claude Code,
 Claude Desktop, Cursor y cualquier otro cliente MCP pueden iniciar
-`genoffice mcp` por sí mismos, sin necesidad de instalar ningún skill ni
+`threadnoteoffice mcp` por sí mismos, sin necesidad de instalar ningún skill ni
 abrir una ventana, y obtienen 29 herramientas más las referencias de
 operaciones como recursos. Un segundo servidor HTTP dentro de la app permite
 que un agente construya un documento Word en una pestaña de editor visible
 mientras lo observas.
 
-<img src="../assets/readme/mcp-deck-motion.webp" alt="Lapso de tiempo de Claude Code construyendo una presentación de inversión de ocho diapositivas sobre energías renovables mediante el servidor MCP de genoffice: busca figuras y fotos, comprueba cada imagen candidata con media, deck_start escribe la hoja de estilos y el esquema, deck_page añade una página comprobada cada vez, deck_build ensambla el .pptx y slides_render devuelve una imagen de cada diapositiva; la presentación terminada se abre después en GenOffice Slides" width="100%">
+<img src="../assets/readme/mcp-deck-motion.webp" alt="Lapso de tiempo de Claude Code construyendo una presentación de inversión de ocho diapositivas sobre energías renovables mediante el servidor MCP de threadnoteoffice: busca figuras y fotos, comprueba cada imagen candidata con media, deck_start escribe la hoja de estilos y el esquema, deck_page añade una página comprobada cada vez, deck_build ensambla el .pptx y slides_render devuelve una imagen de cada diapositiva; la presentación terminada se abre después en ThreadnoteOffice Slides" width="100%">
 
 <table>
 <tr>
-<td width="50%"><img src="../assets/readme/mcp-deck-in-app.webp" alt="GenOffice Slides mostrando la presentación de ocho diapositivas Renewable Energy 2026 que Claude Code construyó mediante el servidor MCP de genoffice: la diapositiva de portada con una fotografía de un parque eólico en el lienzo y ocho miniaturas a la izquierda"></td>
-<td width="50%"><img src="../assets/readme/mcp-integrations.webp" alt="Ajustes de GenOffice, página Integraciones, parte de MCP: el comando de una línea claude mcp add para Claude Code, el bloque JSON para Cursor, Claude Desktop y otros clientes MCP, y la opción de servidor HTTP local debajo"></td>
+<td width="50%"><img src="../assets/readme/mcp-deck-in-app.webp" alt="ThreadnoteOffice Slides mostrando la presentación de ocho diapositivas Renewable Energy 2026 que Claude Code construyó mediante el servidor MCP de threadnoteoffice: la diapositiva de portada con una fotografía de un parque eólico en el lienzo y ocho miniaturas a la izquierda"></td>
+<td width="50%"><img src="../assets/readme/mcp-integrations.webp" alt="Ajustes de ThreadnoteOffice, página Integraciones, parte de MCP: el comando de una línea claude mcp add para Claude Code, el bloque JSON para Cursor, Claude Desktop y otros clientes MCP, y la opción de servidor HTTP local debajo"></td>
 </tr>
 <tr>
 <td><b>Un prompt, 38 llamadas a herramientas, sin terminal</b> — «Crea una presentación de inversión de ocho diapositivas sobre energías renovables en 2026, con una foto real en la portada y dondequiera que una foto ayude». El agente obtiene las figuras y las fotos con <code>search</code>, pregunta a <code>media</code> si cada imagen candidata es una fotografía real, llama a <code>deck_start</code> con una hoja de estilos y un esquema, después <code>deck_page</code> una vez por diapositiva; cada página se comprueba contra el esquema y la paleta antes de conservarla, <code>deck_build</code> ensambla el <code>.pptx</code>, <code>slides_audit</code> busca desbordes, <code>slides_render</code> devuelve un PNG por diapositiva como contenido de imagen que el modelo puede mirar, y <code>deck_replace</code> corrige las tres páginas que no le convencieron.</td>
@@ -208,7 +210,7 @@ mientras lo observas.
 </tr>
 </table>
 
-## Por qué GenOffice
+## Por qué ThreadnoteOffice
 
 - **Código abierto**, Apache-2.0, desarrollado abiertamente en GitHub.
 - **Se ejecuta en tu equipo.** Apps nativas para macOS, Windows y Linux; los
@@ -229,7 +231,7 @@ mientras lo observas.
   sistema para escaneos.
 - **También Markdown y HTML**, con el mismo panel de IA y exportación local a
   Word.
-- **Automatizable.** Una línea de comandos `genoffice`, un skill de agente y
+- **Automatizable.** Una línea de comandos `threadnoteoffice`, un skill de agente y
   un servidor MCP ponen todos los motores al servicio de Claude Code, Claude
   Desktop, Codex, Cursor y otros agentes, siempre en el dispositivo.
 - **Gratis**, tanto para personas individuales como para equipos.
@@ -260,9 +262,9 @@ archivos guardados siempre conservan los colores propios del documento.
 ## Línea de comandos y skill de agente
 
 Todo lo que las apps pueden hacer con un archivo, la línea de comandos
-`genoffice` puede hacerlo desde una terminal: inspeccionar, convertir, crear,
+`threadnoteoffice` puede hacerlo desde una terminal: inspeccionar, convertir, crear,
 leer y editar Word, Excel, PowerPoint, PDF, Markdown y HTML con los mismos
-motores, sin interfaz gráfica. Se instala con GenOffice, no necesita ningún
+motores, sin interfaz gráfica. Se instala con ThreadnoteOffice, no necesita ningún
 runtime propio y nunca envía un documento a ninguna parte. Junto con el
 **skill de agente** incluido, convierte a un agente de programación en un
 trabajador documental que produce archivos Office reales en lugar de
@@ -275,32 +277,32 @@ cualquier cliente MCP.
 
 ### Instalar el skill
 
-| Cómo                                      | Qué ocurre                                                                                                                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Ajustes → Integraciones** en la app     | Muestra los agentes encontrados en este equipo; con un clic escribe el skill en cada uno de los que elijas. Aparece un botón **Actualizar** cuando una versión de GenOffice trae un skill más reciente. |
-| **Descargar como zip** en la misma página | El formato que claude.ai, las apps de escritorio de Claude y otros asistentes aceptan como skill subido.                                                                                                |
-| `npx skills add genspark-ai/genoffice`    | Lo instala desde este repositorio en cualquier agente compatible con skills.                                                                                                                            |
+| Cómo                                                        | Qué ocurre                                                                                                                                                                                                     |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Ajustes → Integraciones** en la app                       | Muestra los agentes encontrados en este equipo; con un clic escribe el skill en cada uno de los que elijas. Aparece un botón **Actualizar** cuando una versión de ThreadnoteOffice trae un skill más reciente. |
+| **Descargar como zip** en la misma página                   | El formato que claude.ai, las apps de escritorio de Claude y otros asistentes aceptan como skill subido.                                                                                                       |
+| `install the bundled Threadnote Office skill from Settings` | Lo instala desde este repositorio en cualquier agente compatible con skills.                                                                                                                                   |
 
 Después abre un chat nuevo y pide un documento. El skill enseña al agente
-cuándo recurrir a `genoffice`, cómo leer un archivo antes de editarlo y cómo
+cuándo recurrir a `threadnoteoffice`, cómo leer un archivo antes de editarlo y cómo
 comprobar su propio trabajo.
 
 ### Inicio rápido desde la terminal
 
 ```bash
-genoffice --version
-genoffice info report.docx --json                  # headings and blocks; or sheets, slides, pages
-genoffice convert report.md --to pdf               # md/html/docx/xlsx/pptx → pdf, pdf → docx/xlsx/pptx, …
-genoffice create --type docx --from notes.md --out notes.docx
-genoffice create --type xlsx --from table.json --out sales.xlsx   # "=SUM(B2:B9)" cells stay live formulas
-genoffice docs read report.docx --range 0-9 --json # then `docs apply --ops edits.json` edits in place
-genoffice render report.docx --out shots/          # one PNG per page, to look at what you made
-genoffice open sales.xlsx                          # hand the result to the editor
+threadnoteoffice --version
+threadnoteoffice info report.docx --json                  # headings and blocks; or sheets, slides, pages
+threadnoteoffice convert report.md --to pdf               # md/html/docx/xlsx/pptx → pdf, pdf → docx/xlsx/pptx, …
+threadnoteoffice create --type docx --from notes.md --out notes.docx
+threadnoteoffice create --type xlsx --from table.json --out sales.xlsx   # "=SUM(B2:B9)" cells stay live formulas
+threadnoteoffice docs read report.docx --range 0-9 --json # then `docs apply --ops edits.json` edits in place
+threadnoteoffice render report.docx --out shots/          # one PNG per page, to look at what you made
+threadnoteoffice open sales.xlsx                          # hand the result to the editor
 ```
 
 Cada comando imprime un resumen de una línea, o un único objeto JSON con
 `--json`. Las ediciones son atómicas: una operación rechazada deja el archivo
-intacto y devuelve un error con indicaciones. `genoffice help` muestra la
+intacto y devuelve un error con indicaciones. `threadnoteoffice help` muestra la
 lista actual de comandos; la referencia completa está en
 [packages/cli/README.md](../../packages/cli/README.md).
 
@@ -311,21 +313,21 @@ en Claude Code. Por detrás, el agente siguió el flujo de trabajo por etapas
 del skill y la CLI comprobó cada etapa antes de iniciar la siguiente:
 
 ```bash
-genoffice capabilities --json                        # which cloud tools GenOffice has configured
-genoffice guide slides design                        # the deck workflow and layout library
-genoffice image "the eight planets in a row …" --aspect 16:9 --out deck/assets/cover.jpg
-genoffice slides check deck/outline.json --json      # 8 pages, no findings
-genoffice slides check deck/pages/01.json --json     # builds one slide, audits overflow and overlap
+threadnoteoffice capabilities --json                        # which cloud tools ThreadnoteOffice has configured
+threadnoteoffice guide slides design                        # the deck workflow and layout library
+threadnoteoffice image "the eight planets in a row …" --aspect 16:9 --out deck/assets/cover.jpg
+threadnoteoffice slides check deck/outline.json --json      # 8 pages, no findings
+threadnoteoffice slides check deck/pages/01.json --json     # builds one slide, audits overflow and overlap
 …                                                    # one page file per slide, fixed until each check is clean
-genoffice create --type pptx --spec deck/pages --outline deck/outline.json --out deck/solar-system.pptx --json
-genoffice slides render deck/solar-system.pptx --out deck/shots --json
-genoffice slides audit deck/solar-system.pptx --json    # 8 slides, no layout issues
-genoffice slides replace deck/solar-system.pptx --slide 4 --spec deck/pages/05.json --json
-genoffice open deck/solar-system.pptx
+threadnoteoffice create --type pptx --spec deck/pages --outline deck/outline.json --out deck/solar-system.pptx --json
+threadnoteoffice slides render deck/solar-system.pptx --out deck/shots --json
+threadnoteoffice slides audit deck/solar-system.pptx --json    # 8 slides, no layout issues
+threadnoteoffice slides replace deck/solar-system.pptx --slide 4 --spec deck/pages/05.json --json
+threadnoteoffice open deck/solar-system.pptx
 ```
 
-Dentro de `genoffice` no se hace ninguna llamada a un modelo: el agente
-piensa, la CLI construye y comprueba, y el resultado se abre en GenOffice o
+Dentro de `threadnoteoffice` no se hace ninguna llamada a un modelo: el agente
+piensa, la CLI construye y comprueba, y el resultado se abre en ThreadnoteOffice o
 en PowerPoint como un `.pptx` normal.
 
 <a id="mcp-server"></a>
@@ -338,35 +340,35 @@ que no pueden ejecutar una terminal o a los que prefieras no dársela. Hay
 dos formas de conectarse, ambas con fragmentos listos para copiar en
 **Ajustes → Integraciones → MCP**:
 
-| Vía                                   | Qué es                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **A · `genoffice mcp`** (recomendado) | Un servidor stdio que el propio asistente inicia; GenOffice no necesita estar abierto. Una herramienta por comando (`info`, `convert`, `create_docx`, `create_xlsx`, `create_pptx`, `create_pdf`, `docs_read` / `docs_apply` / `docs_check`, `sheet_*`, `slides_*`, `render`, `guide`, `search`, `image`, `media`, `open`) más el flujo de presentación por etapas `deck_start` → `deck_page` → `deck_build` → `deck_replace`. Las operaciones, especificaciones y el Markdown se pasan en línea, así que un cliente sin sistema de archivos también funciona. |
-| **B · Servidor HTTP local**           | Se ejecuta dentro de la app GenOffice en `http://127.0.0.1:3093/mcp` (Streamable HTTP, con SSE heredado). Sus herramientas manejan una pestaña de editor de Word visible: `create_session`, `insert_content`, `replace_blocks`, `apply_ops`, `read_document`, `save_session`, y ves cómo el documento va tomando forma. Desactivado por defecto; actívalo en el mismo panel de ajustes.                                                                                                                                                                        |
+| Vía                                          | Qué es                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A · `threadnoteoffice mcp`** (recomendado) | Un servidor stdio que el propio asistente inicia; ThreadnoteOffice no necesita estar abierto. Una herramienta por comando (`info`, `convert`, `create_docx`, `create_xlsx`, `create_pptx`, `create_pdf`, `docs_read` / `docs_apply` / `docs_check`, `sheet_*`, `slides_*`, `render`, `guide`, `search`, `image`, `media`, `open`) más el flujo de presentación por etapas `deck_start` → `deck_page` → `deck_build` → `deck_replace`. Las operaciones, especificaciones y el Markdown se pasan en línea, así que un cliente sin sistema de archivos también funciona. |
+| **B · Servidor HTTP local**                  | Se ejecuta dentro de la app ThreadnoteOffice en `http://127.0.0.1:3093/mcp` (Streamable HTTP, con SSE heredado). Sus herramientas manejan una pestaña de editor de Word visible: `create_session`, `insert_content`, `replace_blocks`, `apply_ops`, `read_document`, `save_session`, y ves cómo el documento va tomando forma. Desactivado por defecto; actívalo en el mismo panel de ajustes.                                                                                                                                                                        |
 
 ```bash
 # Claude Code
-claude mcp add --transport stdio genoffice -- genoffice mcp
+claude mcp add --transport stdio threadnoteoffice -- threadnoteoffice mcp
 ```
 
 ```jsonc
 // Cursor, Claude Desktop o cualquier otro cliente MCP
-{ "mcpServers": { "genoffice": { "command": "genoffice", "args": ["mcp"] } } }
+{ "mcpServers": { "threadnoteoffice": { "command": "threadnoteoffice", "args": ["mcp"] } } }
 ```
 
-Aquí `genoffice` es la CLI incluida dentro de la app (en macOS
-`/Applications/GenOffice.app/Contents/Resources/cli/genoffice`; el panel de
+Aquí `threadnoteoffice` es la CLI incluida dentro de la app (en macOS
+`/Applications/ThreadnoteOffice.app/Contents/Resources/cli/threadnoteoffice`; el panel de
 ajustes imprime la ruta exacta de tu instalación). El servidor lleva sus
 propias instrucciones de flujo de trabajo y expone las referencias de
-operaciones como recursos `genoffice://guide/*`, así que no hace falta
+operaciones como recursos `threadnoteoffice://guide/*`, así que no hace falta
 ningún skill; el skill y el servidor MCP pueden coexistir y el asistente
 elige uno. Las funciones en la nube (`search`, `image`, `media`) siguen
-pasando por el proveedor configurado en GenOffice; todo lo demás se ejecuta
-localmente, y `GENOFFICE_ALLOWED_ROOTS` limita cada herramienta a las
+pasando por el proveedor configurado en ThreadnoteOffice; todo lo demás se ejecuta
+localmente, y `THREADNOTE_OFFICE_ALLOWED_ROOTS` limita cada herramienta a las
 carpetas que indiques.
 
 La presentación sobre energías renovables de la demo de arriba es lo que
 parece, desde el lado del protocolo, un solo prompt en Claude Code con solo
-el servidor MCP de `genoffice` conectado:
+el servidor MCP de `threadnoteoffice` conectado:
 
 ```text
 capabilities · guide(slides, spec) · guide(slides, design)
@@ -387,41 +389,41 @@ Treinta y ocho llamadas, unos trece minutos, y el asistente nunca tocó una
 terminal: las figuras, las fotos, las guías, las comprobaciones y las
 renderizaciones viajaron todas como resultados de herramientas MCP. Solo
 `search` y `media` salieron de la máquina, hacia el proveedor configurado
-en GenOffice.
+en ThreadnoteOffice.
 
 <a id="download"></a>
 
 ## Descargar
 
-| Plataforma                              | Requisitos                                            | Descarga                                                                                         |
-| --------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| **macOS** — Apple Silicon (arm64)       | macOS 11+                                             | [Última versión `.dmg` (arm64)](https://github.com/genspark-ai/genoffice/releases/latest)        |
-| **macOS** — Intel (x64)                 | macOS 11+                                             | [Última versión `.dmg` (x64)](https://github.com/genspark-ai/genoffice/releases/latest)          |
-| **Windows** (x64, la mayoría de los PC) | Windows 10+, Intel/AMD                                | [Instalador `-x64.exe` más reciente](https://github.com/genspark-ai/genoffice/releases/latest)   |
-| **Windows** en Arm (ARM64)              | Windows 11 en Arm (Snapdragon X y similares)          | [Instalador `-arm64.exe` más reciente](https://github.com/genspark-ai/genoffice/releases/latest) |
-| **Linux** — Debian / Ubuntu             | x86_64, glibc 2.34+ (Ubuntu 22.04 o posterior)        | [Última versión `.deb`](https://github.com/genspark-ai/genoffice/releases/latest)                |
-| **Linux** — Fedora / RHEL / openSUSE    | x86_64, glibc 2.34+ (Fedora 35+, RHEL 9+, Leap 15.6+) | [Última versión `.rpm`](https://github.com/genspark-ai/genoffice/releases/latest)                |
-| **Linux** — otras distribuciones        | x86_64, glibc 2.34+, FUSE 2                           | [Última versión `.AppImage`](https://github.com/genspark-ai/genoffice/releases/latest)           |
+| Plataforma                              | Requisitos                                            | Descarga                                                                              |
+| --------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **macOS** — Apple Silicon (arm64)       | macOS 11+                                             | [Última versión `.dmg` (arm64)](https://github.com/ashutosh-rath02/threadnote)        |
+| **macOS** — Intel (x64)                 | macOS 11+                                             | [Última versión `.dmg` (x64)](https://github.com/ashutosh-rath02/threadnote)          |
+| **Windows** (x64, la mayoría de los PC) | Windows 10+, Intel/AMD                                | [Instalador `-x64.exe` más reciente](https://github.com/ashutosh-rath02/threadnote)   |
+| **Windows** en Arm (ARM64)              | Windows 11 en Arm (Snapdragon X y similares)          | [Instalador `-arm64.exe` más reciente](https://github.com/ashutosh-rath02/threadnote) |
+| **Linux** — Debian / Ubuntu             | x86_64, glibc 2.34+ (Ubuntu 22.04 o posterior)        | [Última versión `.deb`](https://github.com/ashutosh-rath02/threadnote)                |
+| **Linux** — Fedora / RHEL / openSUSE    | x86_64, glibc 2.34+ (Fedora 35+, RHEL 9+, Leap 15.6+) | [Última versión `.rpm`](https://github.com/ashutosh-rath02/threadnote)                |
+| **Linux** — otras distribuciones        | x86_64, glibc 2.34+, FUSE 2                           | [Última versión `.AppImage`](https://github.com/ashutosh-rath02/threadnote)           |
 
 Todas las compilaciones provienen de `main`; los instaladores de macOS y
 Windows están firmados. Las versiones anteriores están en la página de
-[Releases](https://github.com/genspark-ai/genoffice/releases).
+[Releases](https://github.com/ashutosh-rath02/threadnote).
 
 <details>
 <summary><b>Instalación en Linux</b></summary>
 
 El paquete deb se instala con apt: descarga las dependencias y añade
-GenOffice al menú de aplicaciones:
+ThreadnoteOffice al menú de aplicaciones:
 
 ```bash
-sudo apt install ./genoffice_<version>_amd64.deb
+sudo apt install ./threadnoteoffice_<version>_amd64.deb
 ```
 
 En Fedora, la familia RHEL u openSUSE, instala el rpm en su lugar:
 
 ```bash
-sudo dnf install ./genoffice-<version>.x86_64.rpm     # Fedora / RHEL family
-sudo zypper install ./genoffice-<version>.x86_64.rpm  # openSUSE
+sudo dnf install ./threadnoteoffice-<version>.x86_64.rpm     # Fedora / RHEL family
+sudo zypper install ./threadnoteoffice-<version>.x86_64.rpm  # openSUSE
 ```
 
 El AppImage se ejecuta directamente: instala el runtime de FUSE 2
@@ -429,8 +431,8 @@ El AppImage se ejecuta directamente: instala el runtime de FUSE 2
 haz que el archivo sea ejecutable y luego ejecútalo:
 
 ```bash
-chmod +x GenOffice-<version>.AppImage
-./GenOffice-<version>.AppImage
+chmod +x ThreadnoteOffice-<version>.AppImage
+./ThreadnoteOffice-<version>.AppImage
 ```
 
 </details>
@@ -471,37 +473,37 @@ npm run dist:linux   # package Linux AppImage + deb + rpm
 ```
 
 La app de sheets además necesita un toolchain de Rust para su sidecar de
-xlsx (`cargo` en el PATH); `npm run build -w @genoffice/sheets` lo compila
+xlsx (`cargo` en el PATH); `npm run build -w @threadnote/sheets` lo compila
 automáticamente. Consulta [CONTRIBUTING.md](../../CONTRIBUTING.md) para ver
 las comprobaciones que debe pasar cada cambio y cómo se integran las pull
 requests.
 
 ## Comunidad
 
-GenOffice está en desarrollo activo y tu opinión ayuda a darle forma.
+ThreadnoteOffice está en desarrollo activo y tu opinión ayuda a darle forma.
 
 - **Reporta un error o solicita una función** en
-  [GitHub Issues](https://github.com/genspark-ai/genoffice/issues).
-- **Únete al chat de grupo de GenOffice** en
-  [GenTeam](https://genoffice.ai/join) para hablar con el equipo y otros
+  [GitHub Issues](https://github.com/ashutosh-rath02/threadnote/issues).
+- **Únete al chat de grupo de ThreadnoteOffice** en
+  [GenTeam](https://threadnote.ashutosh123rath.workers.dev) para hablar con el equipo y otros
   usuarios.
-- **Dale una estrella al repositorio** si GenOffice te resulta útil: es la
+- **Dale una estrella al repositorio** si ThreadnoteOffice te resulta útil: es la
   mejor forma de apoyar el proyecto.
 
 ## Preguntas frecuentes
 
 <details>
-<summary><b>¿Es GenOffice gratuito?</b></summary>
+<summary><b>¿Es ThreadnoteOffice gratuito?</b></summary>
 
-Sí. GenOffice es gratuito y de código abierto bajo la licencia Apache-2.0:
+Sí. ThreadnoteOffice es gratuito y de código abierto bajo la licencia Apache-2.0:
 sin prueba gratuita, sin nivel de pago para las apps en sí.
 
 </details>
 
 <details>
-<summary><b>¿Puede GenOffice abrir archivos de Microsoft Word, Excel y PowerPoint?</b></summary>
+<summary><b>¿Puede ThreadnoteOffice abrir archivos de Microsoft Word, Excel y PowerPoint?</b></summary>
 
-Sí. GenOffice abre y guarda archivos nativos `.docx`, `.xlsx` y `.pptx`. Al
+Sí. ThreadnoteOffice abre y guarda archivos nativos `.docx`, `.xlsx` y `.pptx`. Al
 guardar se preservan los bytes: las partes del archivo que no tocaste se
 escriben de nuevo byte por byte, así que los documentos siguen funcionando
 en Microsoft Office.
@@ -509,7 +511,7 @@ en Microsoft Office.
 </details>
 
 <details>
-<summary><b>¿Funciona GenOffice sin conexión?</b></summary>
+<summary><b>¿Funciona ThreadnoteOffice sin conexión?</b></summary>
 
 La edición de documentos es completamente local: los archivos nunca salen
 de tu equipo para abrirse, editarse, guardarse o convertirse. Las funciones
@@ -520,7 +522,7 @@ de modelo.
 </details>
 
 <details>
-<summary><b>¿Puede GenOffice editar archivos PDF?</b></summary>
+<summary><b>¿Puede ThreadnoteOffice editar archivos PDF?</b></summary>
 
 Sí: una edición real de texto e imágenes en PDF que reescribe el flujo de
 contenido de la página conservando las fuentes originales, sin recurrir a
@@ -529,7 +531,7 @@ anotaciones que tapan el contenido.
 </details>
 
 <details>
-<summary><b>¿Puede GenOffice convertir PDF a Word, Excel o PowerPoint?</b></summary>
+<summary><b>¿Puede ThreadnoteOffice convertir PDF a Word, Excel o PowerPoint?</b></summary>
 
 Sí, íntegramente en el dispositivo: extracción a nivel de carácter con
 PDFium más análisis de diseño basado en geometría, sin servicios en la nube
@@ -542,7 +544,7 @@ en lugar de una imagen de página.
 <details>
 <summary><b>¿Puedo usar mi propio modelo de IA o clave de API?</b></summary>
 
-Sí. Además del inicio de sesión sin clave con Genspark, GenOffice admite tu
+Sí. Además del inicio de sesión sin clave con Genspark, ThreadnoteOffice admite tu
 propia clave para Claude, OpenAI, Gemini, DeepSeek, Kimi, GLM, Qwen, Doubao,
 MiniMax, Grok, Mistral, OpenRouter, Requesty y OpenCode Zen/Go, además de cualquier
 endpoint compatible con OpenAI, incluidos servidores de modelos locales. La
@@ -552,7 +554,7 @@ propias claves en Settings → AI Media & Search.
 </details>
 
 <details>
-<summary><b>¿Puede GenOffice convertir HTML a Word?</b></summary>
+<summary><b>¿Puede ThreadnoteOffice convertir HTML a Word?</b></summary>
 
 Sí: Export as Word en la app de HTML produce un `.docx` nativo y editable,
 íntegramente en el dispositivo. La página se renderiza en el Chromium
@@ -564,9 +566,9 @@ iconos, cajas decoradas) se incrustan como imágenes.
 </details>
 
 <details>
-<summary><b>¿Puedo manejar GenOffice desde Claude Code, Codex, Cursor o un script?</b></summary>
+<summary><b>¿Puedo manejar ThreadnoteOffice desde Claude Code, Codex, Cursor o un script?</b></summary>
 
-Sí. GenOffice instala una línea de comandos `genoffice` que ejecuta los mismos
+Sí. ThreadnoteOffice instala una línea de comandos `threadnoteoffice` que ejecuta los mismos
 motores sin interfaz gráfica: inspecciona, convierte, crea, lee y edita
 documentos desde una terminal o un script, con salida `--json` para
 programas. El skill de agente incluido enseña a Claude Code, Codex, Cursor,
@@ -577,13 +579,13 @@ Gemini CLI, GitHub Copilot, OpenCode y Windsurf a usarla; instálalo desde
 </details>
 
 <details>
-<summary><b>¿GenOffice recopila algún dato?</b></summary>
+<summary><b>¿ThreadnoteOffice recopila algún dato?</b></summary>
 
 Las compilaciones oficiales empaquetadas envían por defecto un análisis de
 uso limitado, y puedes desactivar este reporte en cualquier momento en
 Settings → General. El análisis nunca envía el contenido de los documentos,
 nombres de archivo, rutas de archivo, identidad de la cuenta ni direcciones
-de correo electrónico. Consulta [GenOffice Privacy](../../PRIVACY.md) para
+de correo electrónico. Consulta [ThreadnoteOffice Privacy](../../PRIVACY.md) para
 ver la lista completa de eventos y datos.
 
 </details>
@@ -597,7 +599,7 @@ IA.
 
 ## Agradecimientos
 
-GenOffice no sería posible sin estos proyectos de código abierto:
+ThreadnoteOffice no sería posible sin estos proyectos de código abierto:
 
 - [Electron](https://www.electronjs.org/): el runtime de escritorio de
   todas las apps.
@@ -646,11 +648,11 @@ ejecución son MIT/Apache-2.0/BSD-3-Clause/OFL.
 
 ## Licencia
 
-GenOffice tiene licencia [Apache License 2.0](../../LICENSE), con una
+ThreadnoteOffice tiene licencia [Apache License 2.0](../../LICENSE), con una
 excepción: el directorio `ee/` está reservado para futuros módulos
 empresariales y está cubierto por la
-[GenOffice Enterprise License](../../ee/LICENSE).
+[ThreadnoteOffice Enterprise License](../../ee/LICENSE).
 
-Los nombres y logotipos de GenOffice y Genspark son marcas registradas de
+Los nombres y logotipos de ThreadnoteOffice y Genspark son marcas registradas de
 Mainfunc, Inc. La licencia Apache-2.0 no otorga permiso para usarlos
 (consulta la sección 6); los forks deben usar su propia identidad de marca.

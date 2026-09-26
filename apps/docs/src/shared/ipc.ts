@@ -33,7 +33,7 @@ export interface PickImageResult {
   name: string
 }
 
-// ---- AI provider settings/config/streaming: canonical types live in @genoffice/ai-provider ----
+// ---- AI provider settings/config/streaming: canonical types live in @threadnote/ai-provider ----
 
 import type {
   AiChatRequest,
@@ -41,11 +41,11 @@ import type {
   AiSettings,
   AiStreamChunk,
   AiStreamRequest,
-  GenSparkAccountStatus,
-} from '@genoffice/ai-provider'
-import type { HeadlessExportTarget } from '@genoffice/electron-utils/headless-export'
-import type { FaceVerticalMetrics } from '@genoffice/font-metrics'
-import type { AiPanelPrefs } from '@genoffice/ui'
+  ThreadnoteAccountStatus,
+} from '@threadnote/ai-provider'
+import type { HeadlessExportTarget } from '@threadnote/electron-utils/headless-export'
+import type { FaceVerticalMetrics } from '@threadnote/font-metrics'
+import type { AiPanelPrefs } from '@threadnote/ui'
 
 export type { FaceVerticalMetrics }
 
@@ -58,18 +58,18 @@ export type {
   AiSettings,
   AiStreamChunk,
   AiStreamRequest,
-  GenSparkAccountStatus,
-} from '@genoffice/ai-provider'
-export { AI_PROVIDERS } from '@genoffice/ai-provider/browser'
+  ThreadnoteAccountStatus,
+} from '@threadnote/ai-provider'
+export { AI_PROVIDERS } from '@threadnote/ai-provider/browser'
 
-// ---- agent protocol: canonical types live in @genoffice/agent-core ----
+// ---- agent protocol: canonical types live in @threadnote/agent-core ----
 
 export type {
   AgentMessage,
   AgentToolCall,
   AgentToolDef,
   AgentToolResult,
-} from '@genoffice/agent-core'
+} from '@threadnote/agent-core'
 
 // ---- chat attachments (local files fed to the agent via tools) ----
 
@@ -421,9 +421,9 @@ export interface DesktopApi {
   /** start a streaming AI call; deltas arrive via onAiStream with the same requestId */
   aiStream(request: AiStreamRequest): Promise<void>
   aiStreamCancel(requestId: string): Promise<void>
-  /** Genspark account status (gsk login state); withEmail also returns the email (needs a network request, slower) */
-  aiGskStatus(withEmail?: boolean): Promise<GenSparkAccountStatus>
-  /** Open the browser to log in to Genspark (fire-and-forget; aiGskStatus flips to logged-in when done) */
+  /** Threadnote account status (gsk login state); withEmail also returns the email (needs a network request, slower) */
+  aiGskStatus(withEmail?: boolean): Promise<ThreadnoteAccountStatus>
+  /** Open the browser to log in to Threadnote (fire-and-forget; aiGskStatus flips to logged-in when done) */
   aiGskLogin(): Promise<void>
   webSearch(
     query: string,
@@ -457,7 +457,7 @@ export interface DesktopApi {
     requirements: string
   }): Promise<{ text?: string; error?: string }>
   fetchImage(url: string): Promise<{ base64: string; mime: string } | null>
-  /** AI image generation via the Genspark cloud channel (requires login + cloud tools) */
+  /** AI image generation via the Threadnote cloud channel (requires login + cloud tools) */
   aiGenerateImage(op: {
     prompt: string
     aspectRatio?: string
@@ -496,5 +496,5 @@ export interface DesktopApi {
   reportViewMenuState(state: { aiSidebar: boolean; darkCanvas: boolean }): void
 }
 
-/** mirrors VIEW_IMAGE_CHANNEL in @genoffice/electron-utils (kept literal so the preload stays free of main-only deps) */
-export const VIEW_IMAGE_CHANNEL = 'genoffice:view-image'
+/** mirrors VIEW_IMAGE_CHANNEL in @threadnote/electron-utils (kept literal so the preload stays free of main-only deps) */
+export const VIEW_IMAGE_CHANNEL = 'threadnoteoffice:view-image'

@@ -19,20 +19,6 @@ export const MINIMAX_BASE_URL = 'https://api.minimax.io/v1'
 // models in step with the chat catalog in providers.ts.
 export const AI_MEDIA_PROVIDERS: AiMediaProviderMeta[] = [
   {
-    id: 'genspark',
-    label: 'Genspark',
-    description: 'Image generation, media analysis and search through your Genspark sign-in',
-    keyPlaceholder: 'Not required - sign in to Genspark',
-    defaultBaseUrl: '',
-    imageProtocol: 'openai-images',
-    imageModels: [],
-    defaultImageModel: '',
-    analysisProtocol: 'openai-chat',
-    analysisModels: [],
-    defaultAnalysisModel: '',
-    videoAnalysis: true,
-  },
-  {
     id: 'openai',
     label: 'OpenAI',
     description: 'GPT Image for generation and editing; GPT chat models for image analysis',
@@ -183,9 +169,9 @@ export function defaultAiMediaSettings(): AiMediaSettings {
     }
   }
   return {
-    imageProvider: 'genspark',
-    analysisProvider: 'genspark',
-    videoAnalysisProvider: 'genspark',
+    imageProvider: 'none',
+    analysisProvider: 'none',
+    videoAnalysisProvider: 'none',
     providers,
   }
 }
@@ -202,6 +188,7 @@ export function resolveAiMediaSettings(
   if (!stored) return defaults
   const providers = { ...defaults.providers }
   for (const [id, config] of Object.entries(stored.providers ?? {})) {
+    if (!AI_MEDIA_PROVIDERS.some((meta) => meta.id === id)) continue
     if (!config || typeof config !== 'object') continue
     // Hand-edited settings files can carry non-string values: trim only
     // strings (like the search-settings guard) instead of crashing.
@@ -219,13 +206,22 @@ export function resolveAiMediaSettings(
           : {}),
     }
   }
-  const legacy = stored.provider
-  const analysisProvider = stored.analysisProvider ?? legacy ?? defaults.analysisProvider
+  const legacy = (stored.provider as string) === 'genspark' ? 'none' : stored.provider
+  const analysisProvider =
+    (stored.analysisProvider as string) === 'genspark'
+      ? 'none'
+      : (stored.analysisProvider ?? legacy ?? defaults.analysisProvider)
   return {
-    imageProvider: stored.imageProvider ?? legacy ?? defaults.imageProvider,
+    imageProvider:
+      (stored.imageProvider as string) === 'genspark'
+        ? 'none'
+        : (stored.imageProvider ?? legacy ?? defaults.imageProvider),
     analysisProvider,
     // a pre-split file used one vendor for all media analysis
-    videoAnalysisProvider: stored.videoAnalysisProvider ?? analysisProvider,
+    videoAnalysisProvider:
+      (stored.videoAnalysisProvider as string) === 'genspark'
+        ? 'none'
+        : (stored.videoAnalysisProvider ?? analysisProvider),
     providers,
   }
 }
@@ -244,35 +240,34 @@ export function mediaConfigUsable(
 
 /**
  * The stored provider for one capability, honored only when it exists, has
- * that capability and is usable; anything else falls back to genspark so a
- * half-filled setup degrades to the signed-in default.
+ * that capability and is usable; anything else leaves the capability unconfigured.
  */
 export function activeMediaProvider(
   settings: Pick<AiSettings, 'media'>,
   capability: MediaCapability,
 ): AiMediaProviderId {
   const media = settings.media
-  if (!media) return 'genspark'
+  if (!media) return 'none'
   const id =
     capability === 'image'
       ? media.imageProvider
       : capability === 'video'
         ? media.videoAnalysisProvider
         : media.analysisProvider
-  if (!id || id === 'genspark') return 'genspark'
+  if (!id || id === 'none') return 'none'
   const meta = getMediaProviderMeta(id)
-  if (!meta || !providerHasCapability(meta, capability)) return 'genspark'
-  if (!mediaConfigUsable(meta, media.providers?.[id])) return 'genspark'
+  if (!meta || !providerHasCapability(meta, capability)) return 'none'
+  if (!mediaConfigUsable(meta, media.providers?.[id])) return 'none'
   return id
 }
 
-/** the active BYOK config for one capability, or null when it runs through Genspark */
+/** the active BYOK config for one capability, or null when it runs through Threadnote */
 export function activeMediaConfig(
   settings: Pick<AiSettings, 'media'>,
   capability: MediaCapability,
-): { provider: Exclude<AiMediaProviderId, 'genspark'>; config: AiMediaProviderConfig } | null {
+): { provider: Exclude<AiMediaProviderId, 'none'>; config: AiMediaProviderConfig } | null {
   const provider = activeMediaProvider(settings, capability)
-  if (provider === 'genspark') return null
+  if (provider === 'none') return null
   return { provider, config: settings.media!.providers[provider] }
 }
 
@@ -293,10 +288,10 @@ function capabilityAvailable(
   gskLoggedIn: boolean,
   capability: MediaCapability,
 ): boolean {
-  if (!settings) return gskLoggedIn
+  if (!settings) return false
   const model = byokModel(settings, capability)
   if (model !== null) return model !== ''
-  return gskLoggedIn && settings.gskToolsEnabled !== false
+  return false
 }
 
 /** live predicate for the generate_image tool: BYOK image model configured, or gsk login + cloud tools on */

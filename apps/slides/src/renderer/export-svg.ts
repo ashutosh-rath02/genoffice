@@ -26,8 +26,8 @@ import type {
   ShapeRenderNode,
   TableCellRender,
   TableRenderNode,
-} from '@genoffice/pptx-render'
-import { extrusionFrontFace } from '@genoffice/pptx-render'
+} from '@threadnote/pptx-render'
+import { extrusionFrontFace } from '@threadnote/pptx-render'
 import {
   anchoredTileCanvas,
   averageColor,

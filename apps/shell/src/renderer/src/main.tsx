@@ -1,14 +1,14 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { htmlLang } from '@genoffice/i18n'
+import { htmlLang } from '@threadnote/i18n'
 import { AppFrame } from './AppFrame'
 import { LocaleProvider } from './locale'
-import '@genoffice/ui/tokens.css'
-import '@genoffice/ui/screentip.css'
-import '@genoffice/ui/dropdown.css'
+import '@threadnote/ui/tokens.css'
+import '@threadnote/ui/screentip.css'
+import '@threadnote/ui/dropdown.css'
 import './home.css'
 import './tabbar.css'
-import { installScreenTips } from '@genoffice/ui'
+import { installScreenTips } from '@threadnote/ui'
 
 installScreenTips()
 

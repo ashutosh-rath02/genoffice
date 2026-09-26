@@ -8,11 +8,11 @@ import type {
   AiSearchProviderMeta,
   AiSettings,
   CodexModelCatalog,
-} from '@genoffice/ai-provider'
+} from '@threadnote/ai-provider'
 import type { UpdateChannel } from './update-api'
-import type { AiPanelPrefs } from '@genoffice/ui/ai-panel-prefs'
+import type { AiPanelPrefs } from '@threadnote/ui/ai-panel-prefs'
 
-/** UI language; kept self-contained here (mirrors Lang in @genoffice/i18n) */
+/** UI language; kept self-contained here (mirrors Lang in @threadnote/i18n) */
 export type UiLanguage =
   | 'zh'
   | 'en'
@@ -222,9 +222,9 @@ export interface HomeApi {
   getUpdateChannel(): Promise<UpdateChannel>
   /** switch + persist the update channel; triggers an immediate update check */
   setUpdateChannel(channel: UpdateChannel): Promise<void>
-  /** Genspark account status (gsk login state; to be upgraded to a signup/account system later) */
+  /** Threadnote account status (gsk login state; to be upgraded to a signup/account system later) */
   accountStatus(): Promise<AccountStatus>
-  /** start Genspark login (opens the browser; accountStatus flips to logged-in on completion); returns whether the launch succeeded */
+  /** start Threadnote login (opens the browser; accountStatus flips to logged-in on completion); returns whether the launch succeeded */
   accountLogin(): Promise<boolean>
   /** progress events for the login started via accountLogin; returns an unsubscribe */
   onAccountLogin(handler: (ev: AccountLoginEvent) => void): () => void
@@ -269,7 +269,7 @@ export interface HomeApi {
   getAiPanelPrefs(): Promise<AiPanelPrefs>
   /** merge + persist; broadcasts 'app:ai-panel-prefs-changed' to all web contents */
   setAiPanelPrefs(patch: Partial<AiPanelPrefs>): Promise<AiPanelPrefs>
-  /** effective default save folder for new/untitled files (configured in userData/app-settings.json, falls back to <Documents>/GenOffice) */
+  /** effective default save folder for new/untitled files (configured in userData/app-settings.json, falls back to <Documents>/Threadnote Office) */
   getDefaultSaveDir(): Promise<string>
   /** directory picker to change the default save folder; resolves to the new folder, or null when canceled or the pick was unusable */
   pickDefaultSaveDir(): Promise<string | null>
@@ -277,7 +277,7 @@ export interface HomeApi {
   onThemeChanged(handler: (theme: UiTheme) => void): () => void
   /** open the GenTeam community page in the default browser */
   openGenTeam(): Promise<void>
-  /** open the Genspark credit-usage page in the default browser */
+  /** open the Threadnote credit-usage page in the default browser */
   openCreditUsage(): Promise<void>
   /** open the public GitHub repository in the default browser */
   openGitHubRepo(): Promise<void>
@@ -290,15 +290,15 @@ export interface HomeApi {
   starPromptAction(action: StarPromptAction): Promise<void>
   /** locally stored full cloud project list (instant; null when no store or logged out) */
   cloudProjectsCached(): Promise<CloudProjectsSnapshot | null>
-  /** sync the full list from Genspark and return it (1 request when nothing changed); null when the sync failed */
+  /** sync the full list from Threadnote and return it (1 request when nothing changed); null when the sync failed */
   cloudProjectsSync(): Promise<CloudProjectsSnapshot | null>
   /** open a cloud project (relative '/agents?id=...' URL) in the default browser */
   openCloudProject(projectUrl: string): Promise<void>
-  /** AI settings (userData/ai-settings.json, shared by every editor); the genspark key never appears here */
+  /** AI settings (userData/ai-settings.json, shared by every editor) */
   getAiSettings(): Promise<AiSettings>
   /** persist AI settings; open editors pick the change up on their next settings read */
   setAiSettings(settings: AiSettings): Promise<void>
-  /** provider catalog with each fixed endpoint's default base URL (empty for genspark/custom) */
+  /** provider catalog with each fixed endpoint's default base URL */
   getAiProviders(): AiCatalogEntry[]
   /** live Codex model catalog discovered through the current or overridden app-server */
   getCodexModels(cliPath?: string): Promise<CodexModelCatalog>
@@ -308,14 +308,14 @@ export interface HomeApi {
   testAiSettings(settings: AiSettings): Promise<AiChatResponse>
   /** image generation / media analysis provider catalog */
   getAiMediaProviders(): AiMediaProviderMeta[]
-  /** credential check for a (possibly unsaved) media provider; genspark reports the gsk login state */
+  /** credential check for a possibly unsaved media provider */
   testAiMediaSettings(input: {
     provider: AiMediaProviderId
     config: AiMediaProviderConfig
   }): Promise<{ ok: boolean; error?: string }>
   /** web search provider catalog */
   getAiSearchProviders(): AiSearchProviderMeta[]
-  /** one minimal query against the given key (genspark reports the gsk login state) */
+  /** one minimal query against the given search provider */
   testAiSearchSettings(input: {
     provider: AiSearchProviderId
     apiKey: string
@@ -340,7 +340,7 @@ export interface StarPromptShow {
 
 export type CloudProjectKind = 'docs' | 'sheets' | 'slides'
 
-/** a Genspark web project shown in the home cloud section */
+/** a Threadnote web project shown in the home cloud section */
 export interface CloudProjectEntry {
   projectId: string
   title: string
@@ -348,7 +348,7 @@ export interface CloudProjectEntry {
   kind: CloudProjectKind | 'other'
   /** creation time, ms since epoch (0 when unparsable) */
   ctimeMs: number
-  /** relative genspark.ai URL ('/agents?id=...') */
+  /** Legacy project URL; this integration is disabled. */
   projectUrl: string
 }
 
@@ -366,7 +366,7 @@ export interface AccountStatus {
   /** gsk is installed and logged in */
   loggedIn: boolean
   email?: string
-  /** remaining Genspark credits (absent when the balance query failed) */
+  /** remaining Threadnote credits (absent when the balance query failed) */
   creditBalance?: number
 }
 

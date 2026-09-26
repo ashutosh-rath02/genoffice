@@ -104,7 +104,7 @@ describe('mcp server', () => {
     dir = tempDir()
     ctx = createContext({
       cwd: dir,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off' },
+      env: { ...process.env, THREADNOTE_OFFICE_AUDIT_LOG: 'off' },
       log: () => {},
     })
     const server = createMcpServer(ctx, { registry })
@@ -178,12 +178,12 @@ describe('mcp server', () => {
     const first = (before.json().detail.items[0].text as string).split(' ')[0]!
     const r = await call('docs_apply', {
       file: copy,
-      ops: [{ op: 'findReplace', find: first, replace: 'GENOFFICE' }],
+      ops: [{ op: 'findReplace', find: first, replace: 'THREADNOTE_OFFICE' }],
     })
     expect(r.isError).toBe(false)
     expect(r.json()).toMatchObject({ status: 'ok', command: 'docs', output_path: copy })
     const after = await call('docs_read', { file: copy, range: '0', full: true })
-    expect(after.json().detail.items[0].text).toContain('GENOFFICE')
+    expect(after.json().detail.items[0].text).toContain('THREADNOTE_OFFICE')
   })
 
   it('serves the guides as plain text tools and as resources', async () => {
@@ -192,8 +192,8 @@ describe('mcp server', () => {
     expect(r.text).toContain('Word ops')
     expect(() => r.json()).toThrow()
     const { resources } = await client.listResources()
-    expect(resources.map((x) => x.uri)).toContain('genoffice://guide/slides/spec')
-    const spec = await client.readResource({ uri: 'genoffice://guide/slides/spec' })
+    expect(resources.map((x) => x.uri)).toContain('threadnoteoffice://guide/slides/spec')
+    const spec = await client.readResource({ uri: 'threadnoteoffice://guide/slides/spec' })
     expect((spec.contents[0] as { text: string }).text.length).toBeGreaterThan(200)
   })
 
@@ -312,11 +312,15 @@ describe('mcp server', () => {
     expect(readFileSync(join(deck, 'pages', '02.json'), 'utf-8')).toContain('Thanks')
   })
 
-  it('keeps the deck tools inside GENOFFICE_ALLOWED_ROOTS', async () => {
+  it('keeps the deck tools inside THREADNOTE_OFFICE_ALLOWED_ROOTS', async () => {
     const inside = join(dir, 'roots')
     const ctx2 = createContext({
       cwd: dir,
-      env: { ...process.env, GENOFFICE_AUDIT_LOG: 'off', GENOFFICE_ALLOWED_ROOTS: inside },
+      env: {
+        ...process.env,
+        THREADNOTE_OFFICE_AUDIT_LOG: 'off',
+        THREADNOTE_OFFICE_ALLOWED_ROOTS: inside,
+      },
       log: () => {},
     })
     const server = createMcpServer(ctx2, { registry })
