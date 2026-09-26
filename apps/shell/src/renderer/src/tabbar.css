@@ -57,8 +57,8 @@ body.overlay-title-bar .tab-bar-drag-spacer {
   padding: 0 14px;
   border: 0;
   border-radius: 7px;
-  background: #6f55c7;
-  color: #fff;
+  background: var(--color-share-button);
+  color: var(--color-share-button-text);
   font:
     600 12px system-ui,
     sans-serif;
@@ -66,7 +66,7 @@ body.overlay-title-bar .tab-bar-drag-spacer {
 }
 
 .tab-share-btn:hover {
-  background: #7c65cf;
+  background: var(--color-share-button-hover);
 }
 
 /* scrollable middle section; empty space stays part of the window drag region.
