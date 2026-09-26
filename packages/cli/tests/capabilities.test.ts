@@ -1,7 +1,6 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import * as aiSearch from '@threadnote/ai-search'
 import { run, tempDir } from './helpers'
 
 // hasGskAuth reads process.env, not the command context: isolate the login state per test
@@ -38,7 +37,7 @@ describe('threadnoteoffice capabilities', () => {
     })
     expect(r.code).toBe(0)
     const d = r.json().detail
-    expect(d.search.available).toBe(false)
+    expect(d.search).toEqual({ available: true, via: 'parallel' })
     expect(d.image_search.available).toBe(false)
     expect(d.image_generation.available).toBe(false)
     expect(d.media_analysis.available).toBe(false)
@@ -89,24 +88,6 @@ describe('threadnoteoffice capabilities', () => {
     expect(d.search).toEqual({ available: true, via: provider })
     expect(d.image_search.available).toBe(false)
   })
-
-  it.each(['tavily', 'parallel'])(
-    '%s does not advertise Genspark image search when signed in',
-    async (provider) => {
-      vi.spyOn(aiSearch, 'hasGskAuth').mockReturnValue(true)
-      const settings = settingsFile(tempDir(), {
-        search: { provider, providers: { [provider]: { apiKey: 'test-key' } } },
-      })
-      const r = await run(['capabilities', '--json'], {
-        env: { ...process.env, THREADNOTE_OFFICE_AI_SETTINGS: settings },
-      })
-      const d = r.json().detail
-      expect(d.search).toEqual({ available: true, via: provider })
-      expect(d.image_search).toEqual({ available: false, via: null })
-      expect(d.image_generation).toEqual({ available: true, via: 'genspark' })
-      expect(d.media_analysis).toEqual({ available: true, via: 'genspark' })
-    },
-  )
 
   it('reports selected keyless Parallel as web search without requiring a login', async () => {
     const settings = settingsFile(tempDir(), {

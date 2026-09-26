@@ -766,8 +766,8 @@ export function AiPanel({
       />
       <header className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
-          Genspark
+          <ThreadnoteMark size={22} />
+          Threadnote
         </span>
         <div className="ai-panel-header-actions">
           <AiPanelSideButton
@@ -1248,8 +1248,8 @@ function IconClock(): ReactElement {
   )
 }
 
-/** Genspark brand mark, inline for crisp device-resolution rendering */
-export function GensparkMark({ size = 18 }: { size?: number }): React.JSX.Element {
+/** Threadnote brand mark, inline for crisp device-resolution rendering */
+export function ThreadnoteMark({ size = 18 }: { size?: number }): React.JSX.Element {
   return (
     <svg
       width={size}

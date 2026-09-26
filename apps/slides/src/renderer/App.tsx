@@ -101,7 +101,7 @@ import {
   type WordArtPreset,
 } from '@threadnote/ui'
 import type { ChartPresetDef, IconDef, SmartArtDef } from './insert-presets'
-import { GensparkMark, IconAiBeautify, IconAiFactCheck, IconAiImage } from './components/icons'
+import { ThreadnoteMark, IconAiBeautify, IconAiFactCheck, IconAiImage } from './components/icons'
 import { ToastHost } from './components/toast'
 import { showToast } from './components/toast-bus'
 import { t, useI18n } from './i18n/locale'
@@ -3484,7 +3484,7 @@ export function App() {
                 data-tip={t('appAiRailExpand')}
                 aria-label={t('appAiRailExpand')}
               >
-                <GensparkMark size={22} />
+                <ThreadnoteMark size={22} />
               </button>
             )}
           </div>
@@ -3818,8 +3818,8 @@ export function App() {
                               data-tip={t('aiOpenAssistant')}
                               onClick={toggleAi}
                             >
-                              <GensparkMark size={14} />
-                              <span>Genspark AI</span>
+                              <ThreadnoteMark size={14} />
+                              <span>Threadnote AI</span>
                             </button>
                             {/* Same one-click presets as the Home tab; hidden instead of
                         disabled while the deck has no real content */}

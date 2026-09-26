@@ -1,7 +1,6 @@
 import type { AgentMessage, AgentToolCall, AgentToolDef } from '@threadnote/agent-core'
 
 export type AiProviderId =
-  | 'genspark'
   | 'codex'
   | 'anthropic'
   | 'gemini'
@@ -21,8 +20,8 @@ export type AiProviderId =
   | 'opencode-go'
   | 'custom'
 
-/** Genspark account status (gsk login state; the sole auth source for AI features) */
-export interface GenSparkAccountStatus {
+/** Legacy account-status IPC shape retained for older editor windows. */
+export interface ThreadnoteAccountStatus {
   loggedIn: boolean
   email?: string
 }
@@ -54,7 +53,7 @@ export interface AiProviderMeta {
 
 /** Image generation / media analysis backends (separate from the chat provider) */
 export type AiMediaProviderId =
-  'genspark' | 'openai' | 'gemini' | 'doubao' | 'glm' | 'xai' | 'qwen' | 'minimax' | 'custom'
+  'none' | 'openai' | 'gemini' | 'doubao' | 'glm' | 'xai' | 'qwen' | 'minimax' | 'custom'
 
 /** wire shape of the image endpoint */
 export type AiImageProtocol = 'openai-images' | 'gemini' | 'dashscope' | 'minimax'
@@ -78,7 +77,7 @@ export interface AiMediaProviderMeta {
   description: string
   keyPlaceholder: string
   needsBaseUrl?: boolean
-  /** '' for genspark (gsk login) and custom (user-supplied) */
+  /** Empty for custom providers until a URL is configured. */
   defaultBaseUrl: string
   /** absent = the provider does not generate images */
   imageProtocol?: AiImageProtocol
@@ -105,7 +104,7 @@ export interface AiMediaSettings {
 }
 
 /** web/image search backends; Parallel supports both a user key and free keyless search */
-export type AiSearchProviderId = 'genspark' | 'serper' | 'tavily' | 'parallel'
+export type AiSearchProviderId = 'serper' | 'tavily' | 'parallel'
 
 export interface AiSearchProviderMeta {
   id: AiSearchProviderId
@@ -117,25 +116,20 @@ export interface AiSearchProviderMeta {
 
 export interface AiSearchSettings {
   provider: AiSearchProviderId
-  providers: Record<Exclude<AiSearchProviderId, 'genspark'>, { apiKey: string }>
+  providers: Record<AiSearchProviderId, { apiKey: string }>
 }
 
 export interface AiSettings {
   provider: AiProviderId
   providers: Record<AiProviderId, AiProviderConfig>
   /**
-   * Provider for generate_image / analyze_media. Absent (pre-media settings
-   * files) means Genspark, i.e. the gsk login + gskToolsEnabled gate.
+   * Provider for generate_image / analyze_media. Absent means unconfigured.
    */
   media?: AiMediaSettings | undefined
-  /** web/image search backend; absent means Genspark (gsk when signed in, then the free chain) */
+  /** Web and image search backend; absent selects keyless Parallel search. */
   search?: AiSearchSettings | undefined
   /**
-   * Genspark cloud tools (web/image search via gsk, image generation, media
-   * analysis). Default true; false makes tools skip the gsk backend entirely
-   * (search falls back to free sources, gsk-only tools are unavailable).
-   * Only meaningful while signed in — signed out, the gsk backend is
-   * unavailable regardless.
+   * Legacy setting retained to read older files. It no longer changes routing.
    */
   gskToolsEnabled?: boolean
   /**

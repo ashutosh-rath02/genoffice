@@ -1,18 +1,17 @@
 import {
   activeMediaProvider,
   activeSearchProvider,
-  cloudToolsEnabled,
   imageGenerationAvailable,
   mediaAnalysisAvailable,
 } from '@threadnote/ai-provider'
-import { hasGskAuth, readAiSettingsFile } from '@threadnote/ai-search'
+import { readAiSettingsFile } from '@threadnote/ai-search'
 import { aiSettingsPath, prepareCloud } from '../cloud'
 import type { CommandDef } from '../registry'
 import { appLaunch } from '../resources'
 
 /**
  * What the cloud commands can do on this machine, decided from ThreadnoteOffice's
- * own settings without a network call: a Genspark login with cloud tools on,
+ * own settings without a network call: a Threadnote login with cloud tools on,
  * a BYOK key, or explicitly selected free Parallel search. Unkeyed fallbacks (DuckDuckGo)
  * do not count as configured. Agents check this once before planning work
  * that needs photos or web facts.
@@ -25,23 +24,18 @@ export const capabilitiesCommand: CommandDef = {
   async run(_args, ctx) {
     await prepareCloud(ctx.env)
     const settings = readAiSettingsFile(aiSettingsPath(ctx.env))
-    const gsk = hasGskAuth() && cloudToolsEnabled(settings)
     const searchProvider = activeSearchProvider(settings)
-    const gskSearch = gsk && searchProvider === 'genspark'
-    const customSearch = searchProvider !== 'genspark'
-    const search = gskSearch || customSearch
-    const imageSearch = gskSearch || searchProvider === 'serper'
-    const imageGeneration = imageGenerationAvailable(settings, hasGskAuth())
-    const mediaAnalysis = mediaAnalysisAvailable(settings, hasGskAuth())
-    const via = (byok: string | null | undefined) => (byok ? byok : gsk ? 'genspark' : null)
+    const imageGeneration = imageGenerationAvailable(settings, false)
+    const mediaAnalysis = mediaAnalysisAvailable(settings, false)
+    const via = (provider: string) => provider === 'none' ? null : provider
     const detail = {
       search: {
-        available: search,
-        via: customSearch ? searchProvider : gskSearch ? 'genspark' : null,
+        available: true,
+        via: searchProvider,
       },
       image_search: {
-        available: imageSearch,
-        via: searchProvider === 'serper' ? 'serper' : gskSearch ? 'genspark' : null,
+        available: searchProvider === 'serper',
+        via: searchProvider === 'serper' ? 'serper' : null,
       },
       image_generation: {
         available: imageGeneration,

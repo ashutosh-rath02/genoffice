@@ -31,7 +31,6 @@ import {
   type AiSettings,
   type AiStreamChunk,
   type AiStreamRequest,
-  type GenSparkAccountStatus,
   type LegacyAiSettings,
 } from '@threadnote/ai-provider'
 import { shutdownCodexAppServers } from '@threadnote/ai-provider/codex-app-server'
@@ -39,12 +38,8 @@ import { MAX_REMOTE_IMAGE_BYTES, fetchRemoteImage, readBodyCapped } from '@threa
 import {
   webSearchTool,
   imageSearchTool,
-  ensureThreadnoteOfficeLogin,
-  gskApiKey,
   generateImageTool,
   analyzeMediaTool,
-  gskLoginInfo,
-  hasGskAuth,
 } from '@threadnote/ai-search'
 import { addPicture, editPictureSrcRect, replacePictureBytes } from '@threadnote/pptx-engine'
 import { matchesElementRef } from '@threadnote/pptx-engine/identity'
@@ -110,25 +105,15 @@ export function registerAiIpc(): void {
   ipcMain.handle('ai:get-settings', (): AiSettings => {
     const stored = readJson<Partial<AiSettings> & LegacyAiSettings>(AI_SETTINGS_PATH(), {})
     const settings = resolveAiSettings(stored, defaultAiSettings())
-    // a stored BYOK provider is honored when usable; half-filled configs fall back to genspark
+    // Incomplete provider settings fall back to Codex.
     settings.provider = activeProvider(settings)
     return settings
   })
 
-  // Genspark account (gsk login state): the auth source for AI features; when logged out the frontend uses this to guide login
-  ipcMain.handle(
-    'ai:gsk-status',
-    async (_event, withEmail?: boolean): Promise<GenSparkAccountStatus> => {
-      if (!hasGskAuth()) return { loggedIn: false }
-      if (!withEmail) return { loggedIn: true }
-      const info = await gskLoginInfo()
-      return info?.email ? { loggedIn: true, email: info.email } : { loggedIn: true }
-    },
-  )
+  // Retained for compatibility with older renderers; Genspark sign-in is disabled.
+  ipcMain.handle('ai:gsk-status', () => ({ loggedIn: false }))
 
-  ipcMain.handle('ai:gsk-login', () => {
-    ensureThreadnoteOfficeLogin((url) => void shell.openExternal(url))
-  })
+  ipcMain.handle('ai:gsk-login', () => undefined)
 
   ipcMain.handle('ai:set-settings', (_event, settings: AiSettings) => {
     writeJson(AI_SETTINGS_PATH(), settings)
@@ -144,10 +129,6 @@ export function registerAiIpc(): void {
     const maxTokens = request.maxTokens ?? maxOutputTokensOf(settings)
     const provider = settings.provider
     let config = settings.providers?.[provider]
-    // The genspark key never enters the settings file; it is fetched from the gsk login state per request
-    if (provider === 'genspark' && config && !config.apiKey) {
-      config = { ...config, apiKey: gskApiKey() }
-    }
     const send = (chunk: AiStreamChunk) => {
       if (!event.sender.isDestroyed()) event.sender.send('ai:stream-chunk', chunk)
     }
@@ -155,7 +136,7 @@ export function registerAiIpc(): void {
       send({
         requestId,
         type: 'error',
-        error: provider === 'genspark' ? tm('errGskNotLoggedIn') : tm('errNoApiKey', { provider }),
+        error: tm('errNoApiKey', { provider }),
       })
       return
     }
@@ -253,7 +234,7 @@ export function registerAiIpc(): void {
 // never called; docs does not have these channels, so putting them in the wrong place raises
 // "No handler registered".
 export function registerSlidesOnlyAiIpc(): void {
-  // gsk (Genspark CLI) capabilities: AI image generation / media analysis. Returns an error prompt when not logged in.
+  // gsk (Threadnote CLI) capabilities: AI image generation / media analysis. Returns an error prompt when not logged in.
   ipcMain.handle(
     'ai:generate-image',
     async (

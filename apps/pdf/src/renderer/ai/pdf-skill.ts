@@ -45,7 +45,7 @@ const SYSTEM_PROMPT = `You are ThreadnoteOffice's PDF assistant, helping the use
 const SELECTION_CONTEXT_CHARS = 12_000
 
 const IMAGE_GEN_OFF_NOTE =
-  '\n\nNote: generate_image is currently unavailable (no image provider: signed out of Genspark or cloud tools off, and no media API key in Settings). Do not call or promise it; use image_search for imagery.'
+  '\n\nNote: generate_image is currently unavailable (no image provider: signed out of Threadnote or cloud tools off, and no media API key in Settings). Do not call or promise it; use image_search for imagery.'
 
 export function createPdfSkill(deps: PdfAiDeps): AgentSkill {
   return {

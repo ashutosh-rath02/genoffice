@@ -167,7 +167,7 @@ Independently of the PATH, every launch of the packaged app writes the launcher 
 `search`, `image` and `media` reuse the editors' provider routing. Search uses
 the selected Serper / Tavily provider when its key is configured, or Parallel
 with an optional key (a blank saved key uses its free, rate-limited Search MCP);
-otherwise Genspark is the default when signed in (`~/.threadnoteoffice/auth.json`)
+otherwise Threadnote is the default when signed in (`~/.threadnoteoffice/auth.json`)
 and cloud tools are on, with free-source fallbacks when unavailable. Parallel
 and Tavily provide web search only. Image generation and media analysis use
 the corresponding provider chosen in the app's AI settings

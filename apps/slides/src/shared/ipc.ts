@@ -15,7 +15,7 @@ import type {
   AiSettings,
   AiStreamChunk,
   AiStreamRequest,
-  GenSparkAccountStatus,
+  ThreadnoteAccountStatus,
 } from '@threadnote/ai-provider'
 
 import type {
@@ -49,7 +49,7 @@ export type {
   AiSettings,
   AiStreamChunk,
   AiStreamRequest,
-  GenSparkAccountStatus,
+  ThreadnoteAccountStatus,
 } from '@threadnote/ai-provider'
 export { AI_PROVIDERS } from '@threadnote/ai-provider/browser'
 export type { AgentToolCall, AgentToolDef } from '@threadnote/agent-core'
@@ -1696,9 +1696,9 @@ export interface SlidesApi {
   setAiSettings: (settings: AiSettings) => Promise<void>
   aiStream: (request: AiStreamRequest) => Promise<void>
   aiStreamCancel: (requestId: string) => Promise<void>
-  /** Genspark account status (gsk login state); with withEmail also fetches the email (needs a network request, slower) */
-  aiGskStatus: (withEmail?: boolean) => Promise<GenSparkAccountStatus>
-  /** Open the browser to log into Genspark (fire-and-forget; aiGskStatus turns logged-in once done) */
+  /** Threadnote account status (gsk login state); with withEmail also fetches the email (needs a network request, slower) */
+  aiGskStatus: (withEmail?: boolean) => Promise<ThreadnoteAccountStatus>
+  /** Open the browser to log into Threadnote (fire-and-forget; aiGskStatus turns logged-in once done) */
   aiGskLogin: () => Promise<void>
   /** Record a run that ended without a usable reply, for post-mortem (fire-and-forget, never throws) */
   aiLogRunFailure: (entry: AiRunFailure) => Promise<void>
@@ -1750,7 +1750,7 @@ export interface SlidesApi {
     ext?: string
     keepSrcRect?: boolean
   }) => Promise<RenderSlide | null>
-  /** gsk (Genspark) AI image generation/editing, returns the image URL (error prompts login when logged out) */
+  /** gsk (Threadnote) AI image generation/editing, returns the image URL (error prompts login when logged out) */
   generateImage: (op: {
     prompt: string
     model?: string
@@ -1759,7 +1759,7 @@ export interface SlidesApi {
     imageSize?: string
     transparentBackground?: boolean
   }) => Promise<{ url?: string; error?: string }>
-  /** gsk (Genspark) media analysis: image/audio/video content understanding, returns analysis text */
+  /** gsk (Threadnote) media analysis: image/audio/video content understanding, returns analysis text */
   analyzeMedia: (op: {
     mediaUrls: string[]
     requirements: string

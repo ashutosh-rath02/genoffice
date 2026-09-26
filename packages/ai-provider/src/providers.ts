@@ -3,29 +3,6 @@ import { defaultAiSearchSettings, resolveAiSearchSettings } from './search-setti
 import type { AiProviderId, AiProviderMeta, AiSettings, LegacyAiSettings } from './types'
 
 /**
- * Genspark server-side LLM proxy endpoints. All three protocols share the
- * api_key from the gsk login; model ids follow the proxy's own naming scheme,
- * which differs from the official vendor ids.
- */
-export const GENSPARK_LLM_BASE_URLS = {
-  anthropic: 'https://www.genspark.ai/api/anthropic',
-  openai: 'https://www.genspark.ai/api/llm_proxy/v1',
-} as const
-
-/**
- * Splits ThreadnoteOffice usage out of the proxy's default "Claw" billing bucket
- * (the backend attributes gsk-key traffic by X-Agent-Type). Only sent to the
- * Genspark proxy — never to direct vendor APIs.
- */
-export const GENSPARK_AGENT_TYPE = 'threadnoteoffice'
-
-export function gensparkAttributionHeaders(baseUrl?: string): Record<string, string> {
-  return baseUrl?.startsWith('https://www.genspark.ai')
-    ? { 'X-Agent-Type': GENSPARK_AGENT_TYPE }
-    : {}
-}
-
-/**
  * OpenCode Zen / Go route and cache per conversation and answer 400
  * MissingSessionID without this header (threadnoteoffice#331). The renderer's
  * transport id is stable for a chat; a one-shot call is its own conversation.
@@ -39,30 +16,10 @@ export function opencodeSessionHeaders(
     : {}
 }
 
-/** DeepSeek V4.1 Flash under the Genspark pool spelling, shared by the direct provider so the two lists read alike */
+/** DeepSeek V4.1 Flash under the Threadnote pool spelling, shared by the direct provider so the two lists read alike */
 export const DEEPSEEK_V41_FLASH = 'deep-seek-v4.1-flash'
 
 export const AI_PROVIDERS: AiProviderMeta[] = [
-  {
-    id: 'genspark',
-    label: 'Genspark',
-    // must stay within the proxy's served set (GET /api/llm_proxy/v1/models);
-    // bare gpt-5.6 and the gemini family dropped off it (verified 2026-08-31).
-    // DeepSeek goes by the proxy's hyphenated pool id; V4.1 Flash takes images
-    // (live-verified 2026-09-15). gpt-6-astra: chat, tool call and image
-    // input all live-verified through the proxy 2026-09-17
-    models: [
-      'claude-opus-4-7',
-      'claude-opus-4-8',
-      'claude-sonnet-4-6',
-      'gpt-6-astra',
-      'gpt-5.6-terra',
-      'gpt-5.6-luna',
-      DEEPSEEK_V41_FLASH,
-    ],
-    defaultModel: 'claude-opus-4-7',
-    keyPlaceholder: 'Not required - sign in to Genspark',
-  },
   {
     id: 'codex',
     label: 'Codex CLI',
@@ -108,7 +65,7 @@ export const AI_PROVIDERS: AiProviderMeta[] = [
     label: 'DeepSeek',
     // GET api.deepseek.com/v1/models serves `deepseek-v4-pro` and
     // `deepseek-flash` (verified 2026-09-21); the latter is V4.1 Flash with
-    // native vision. We list it under the Genspark pool spelling so both
+    // native vision. We list it under the Threadnote pool spelling so both
     // providers show the same versioned name; the adapter maps it back to
     // the unversioned wire id (see DEEPSEEK_WIRE_IDS in registry.ts).
     models: ['deepseek-v4-pro', DEEPSEEK_V41_FLASH],
@@ -318,7 +275,7 @@ export function defaultAiSettings(
     }
   }
   return {
-    provider: 'genspark',
+    provider: 'codex',
     providers,
     gskToolsEnabled: true,
     media: defaultAiMediaSettings(),
@@ -334,28 +291,26 @@ export function cloudToolsEnabled(settings: Pick<AiSettings, 'gskToolsEnabled'>)
 /**
  * The stored provider selection is honored only when its config is usable
  * (api-key providers need a key and a model id; custom also needs a base URL).
- * Codex can auto-discover its executable. Anything else — including unknown
- * ids from a hand-edited
- * settings file — falls back to genspark, so a half-filled setup degrades
- * to the signed-in default instead of silently disabling AI.
+ * Codex can auto-discover its executable. Invalid or incomplete settings
+ * fall back to Codex.
  */
 export function activeProvider(settings: AiSettings): AiProviderId {
   const provider = settings.provider
-  if (provider === 'genspark') return 'genspark'
+  if ((provider as string) === 'genspark') return 'codex'
   const meta = AI_PROVIDERS.find((m) => m.id === provider)
   const config = settings.providers?.[provider]
-  if (!meta || !config) return 'genspark'
+  if (!meta || !config) return 'codex'
   if (meta.needsCliPath) return provider
   // Trim-aware: in-memory settings bypass the trimConfigs applied to
   // persisted files, and a whitespace-only key/URL/model is a 401, not a config.
-  if (!config.model?.trim()) return 'genspark'
+  if (!config.model?.trim()) return 'codex'
   if (meta.needsBaseUrl) {
     // Custom OpenAI-compatible endpoints (Ollama, LM Studio, vLLM) accept
     // anonymous requests: base URL + model suffice, the key stays optional.
-    if (!config.baseUrl?.trim()) return 'genspark'
+    if (!config.baseUrl?.trim()) return 'codex'
     return provider
   }
-  if (!config.apiKey?.trim()) return 'genspark'
+  if (!config.apiKey?.trim()) return 'codex'
   return provider
 }
 
@@ -375,15 +330,6 @@ const RETIRED_MODELS: Partial<Record<AiProviderId, Record<string, string>>> = {
     'deepseek-v4-flash': DEEPSEEK_V41_FLASH,
     'deepseek-v4-flash-vision-exp': DEEPSEEK_V41_FLASH,
     'deepseek-flash': DEEPSEEK_V41_FLASH,
-  },
-  // proxy stopped serving bare gpt-5.6 (400) and removed the gemini route
-  // entirely (405), verified 2026-08-31; gemini selections fall back to the
-  // provider default since no gemini id is served at all
-  genspark: {
-    'gpt-5.6': 'gpt-5.6-terra',
-    'gemini-3.1-pro-preview': 'claude-opus-4-7',
-    'gemini-3-flash-preview': 'claude-opus-4-7',
-    'gemini-3.7-flash': 'claude-opus-4-7',
   },
 }
 
@@ -419,8 +365,9 @@ const str = (v: unknown): string => (typeof v === 'string' ? v.trim() : '')
 
 /** pasted keys/URLs/model ids often carry stray whitespace, which turns into a 401 with a valid key */
 function trimConfigs(providers: AiSettings['providers']): AiSettings['providers'] {
-  const trimmed = { ...providers }
-  for (const [id, config] of Object.entries(trimmed)) {
+  const trimmed = {} as AiSettings['providers']
+  for (const [id, config] of Object.entries(providers)) {
+    if (!AI_PROVIDERS.some((meta) => meta.id === id)) continue
     trimmed[id as AiProviderId] = {
       ...config,
       apiKey: str(config.apiKey),
@@ -463,7 +410,7 @@ export function resolveAiSettings(
     return defaults
   }
   return {
-    provider: stored.provider ?? defaults.provider,
+    provider: (stored.provider as string) === 'genspark' ? 'codex' : (stored.provider ?? defaults.provider),
     // Trim before migrating: a pasted " deepseek-reasoner " must still hit
     // the retired-id remap instead of being sent to the API verbatim.
     providers: migrateRetiredModels(trimConfigs({ ...defaults.providers, ...stored.providers })),

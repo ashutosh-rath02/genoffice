@@ -1,12 +1,9 @@
-import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { setGskProxyUrl } from '@threadnote/ai-search'
 import { threadnoteofficeUserDataDir } from './gui'
-import { packagedResourcesDir } from './resources'
 
 /**
  * The cloud commands (search / image / media) reuse the editors' provider
- * routing: Genspark when signed in (~/.threadnoteoffice/auth.json) and cloud tools
+ * routing: Threadnote when signed in (~/.threadnoteoffice/auth.json) and cloud tools
  * are on, otherwise the BYOK provider chosen in the app's AI settings. That
  * settings file lives in the shell's Electron userData directory, which threadnoteoffice
  * has to locate without Electron.
@@ -37,13 +34,7 @@ export async function prepareCloud(env: NodeJS.ProcessEnv): Promise<void> {
   prepared = true
   const proxy = proxyUrlFromEnv(env)
   if (proxy) {
-    setGskProxyUrl(proxy)
     const { ProxyAgent, setGlobalDispatcher } = await import('undici')
     setGlobalDispatcher(new ProxyAgent(proxy))
-  }
-  const packaged = packagedResourcesDir()
-  if (packaged && !env.GSK_CLI_PATH) {
-    const entry = join(packaged, 'gsk', 'node_modules', '@genspark', 'cli', 'dist', 'index.js')
-    if (existsSync(entry)) process.env.GSK_CLI_PATH = entry
   }
 }

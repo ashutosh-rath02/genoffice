@@ -5,7 +5,7 @@ import type {
   AiChatResponse,
   AiSettings,
   AiStreamChunk,
-  GenSparkAccountStatus,
+  ThreadnoteAccountStatus,
 } from '@threadnote/ai-provider'
 import type { ProjectApi } from '@threadnote/project-store'
 import type {
@@ -464,9 +464,9 @@ const desktopApi: DesktopApi = {
   async aiGskStatus(withEmail) {
     const result: unknown = await ipcRenderer.invoke(IPC_CHANNELS.aiGskStatus, withEmail)
     if (!isRecord(result) || typeof result.loggedIn !== 'boolean') {
-      throw new Error('Invalid Genspark account status response.')
+      throw new Error('Invalid Threadnote account status response.')
     }
-    return result as unknown as GenSparkAccountStatus
+    return result as unknown as ThreadnoteAccountStatus
   },
   async aiGskLogin() {
     await ipcRenderer.invoke(IPC_CHANNELS.aiGskLogin)

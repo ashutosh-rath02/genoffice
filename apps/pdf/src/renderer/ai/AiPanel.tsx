@@ -621,8 +621,8 @@ export function AiPanel({
       />
       <header className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
-          Genspark
+          <ThreadnoteMark size={22} />
+          Threadnote
         </span>
         <div className="ai-panel-header-actions">
           <AiPanelSideButton
@@ -1003,9 +1003,9 @@ function IconCollapse(): ReactElement {
   )
 }
 
-/** Genspark brand mark (rounded-square sparkle badge), inline so it renders
+/** Threadnote brand mark (rounded-square sparkle badge), inline so it renders
  * crisply at device resolution instead of going through <img> rasterization */
-export function GensparkMark({ size = 18 }: { size?: number }): React.JSX.Element {
+export function ThreadnoteMark({ size = 18 }: { size?: number }): React.JSX.Element {
   return (
     <svg
       width={size}

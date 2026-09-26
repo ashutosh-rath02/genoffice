@@ -437,8 +437,8 @@ const homeApi: HomeApi = {
   getAiProviders() {
     return AI_PROVIDERS.map((meta) => {
       let defaultBaseUrl = ''
-      // genspark routes by model and custom has no default — both stay ''
-      if (meta.id !== 'genspark' && !meta.needsBaseUrl && !meta.needsCliPath) {
+      // CLI and custom providers have no default HTTP base URL.
+      if (!meta.needsBaseUrl && !meta.needsCliPath) {
         defaultBaseUrl = getProviderAdapter(meta.id).resolveEndpoint({
           apiKey: '',
           model: meta.defaultModel,
