@@ -1,4 +1,4 @@
-import { defineStrings } from '@genoffice/i18n'
+import { defineStrings } from '@threadnote/i18n'
 
 const en = {
   ribbonTableStyleOptions: 'Table Style Options',

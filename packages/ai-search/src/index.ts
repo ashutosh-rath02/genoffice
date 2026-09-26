@@ -18,7 +18,7 @@ import { parallelMcpSearch } from './parallel-mcp'
 
 export type { ImageSearchResult, WebSearchResult } from './shared'
 export * from './gsk'
-export * from './genoffice-auth'
+export * from './threadnoteoffice-auth'
 export * from './media-tools'
 export * from './search-tools'
 
@@ -171,7 +171,7 @@ async function parallelWebSearch(
           .join('\n'),
       })
     }
-    // v1 search has no result-count parameter; apply GenOffice's limit locally.
+    // v1 search has no result-count parameter; apply ThreadnoteOffice's limit locally.
     const limited = results.slice(0, maxResults)
     return limited.length ? { results: limited, method: 'parallel' } : null
   } catch {

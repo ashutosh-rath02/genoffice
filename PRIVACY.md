@@ -1,70 +1,9 @@
-# GenOffice Privacy
+# Threadnote Office privacy
 
-Last updated: August 26, 2026
+Threadnote Office opens and saves files on your computer. A file is sent to Threadnote only when you explicitly share it with a project or person. Shared files are subject to the selected workspace's access rules.
 
-GenOffice opens, edits, and saves documents locally. Document editing does not
-upload files to GenOffice. AI features require a network connection and send
-requests only when you use them.
+Signing in to Threadnote uses the Threadnote account connection. AI and search features may contact the provider selected in Settings; using those features can send prompt text and relevant document content to that provider. If no provider is configured, local editing still works.
 
-## Usage analytics
+Packaged builds can send anonymous usage events to Google Analytics 4 only when analytics credentials are supplied at build time and the user has not turned off **Send anonymous usage statistics** in Settings. Source builds without those credentials send no analytics events. Analytics events include app version, platform, interface language, and file type for open/new actions; they do not include document content, file names, paths, or account email.
 
-Usage analytics is enabled by default in packaged official builds, including
-the initial app launch before the onboarding notice is shown. Onboarding
-explains what is collected and where to turn it off.
-
-You can disable reporting at any time under **Settings → General → Send
-anonymous usage statistics**. An explicit opt-out is remembered and stops all
-subsequent analytics events.
-
-### Events and parameters
-
-When enabled, the app sends these events:
-
-- `install_first_launch` — marks the first analytics-enabled use of a newly
-  assigned anonymous `client_id`; used for retention cohorts
-- `app_launch` — no event-specific parameter
-- `file_open` — `ext`, the file extension such as `docx` or `xlsx`
-- `file_new` — `kind`, one of `docx`, `xlsx`, `pptx`, `md`, or `pdf`
-- `login_click` — no event-specific parameter
-- `login_success` — no event-specific parameter
-
-Every event includes:
-
-- `app_version`
-- `platform`
-- `os_version`
-- `ui_lang`
-- a per-process `session_id` derived from the process start time
-- `engagement_time_msec` with the fixed value `100`
-
-When available, the payload also includes `country_id`, the two-letter country
-code from the operating system's regional locale. This can differ from the
-user's physical location.
-
-The Google Analytics 4 payload also uses a random install UUID as `client_id`.
-The country code is sent through GA4's country-only `user_location` field; the
-app does not send a city or region. Neither identifier is a Genspark account or
-email address.
-
-## Network information
-
-Events are sent to Google Analytics 4 using the Measurement Protocol over
-HTTPS. As the HTTPS recipient, Google necessarily sees the connection's public
-IP address and transport metadata, and may use them for coarse geolocation and
-security or spam-abuse processing. GenOffice does not add an IP address to the
-event payload.
-
-## Data not collected by analytics
-
-GenOffice analytics never sends:
-
-- document content
-- file names
-- file paths
-- Genspark account identity
-- email addresses
-
-The analytics metadata is injected only into packaged official builds and is
-not part of this repository. Source builds and forks without that packaged
-metadata install a no-op tracker and send no usage analytics; all features work
-the same.
+See [NOTICE](NOTICE) and [third-party notices](tools/gen-third-party-notices.mjs) for source and dependency attribution.

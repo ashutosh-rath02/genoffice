@@ -8,7 +8,7 @@
  */
 import { Editor } from '@tiptap/core'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import type { ParsedDocFull } from '@genoffice/docx-engine'
+import type { ParsedDocFull } from '@threadnote/docx-engine'
 import { docStyleCss } from '../src/renderer/doc-style-css'
 import { editorExtensions } from '../src/renderer/editor/extensions'
 
@@ -89,7 +89,7 @@ function stubMetricsCanvas(ascent: number, descent: number) {
 function mountBlankFace() {
   const style = document.createElement('style')
   style.textContent =
-    "@font-face { font-family: 'GenOffice PUA Blank'; src: url('./GenOfficePUABlank.woff2') format('woff2'); }"
+    "@font-face { font-family: 'ThreadnoteOffice PUA Blank'; src: url('./ThreadnoteOfficePUABlank.woff2') format('woff2'); }"
   document.head.appendChild(style)
 }
 
@@ -98,12 +98,12 @@ describe('docStyleCss grid strut face', () => {
     stubMetricsCanvas(1143, 286)
     mountBlankFace()
     const css = docStyleCss(parsedWith(GRID_SECT, 'ＭＳ 明朝'))
-    expect(css).toContain("@font-face { font-family:'GenOffice Grid Strut'")
+    expect(css).toContain("@font-face { font-family:'ThreadnoteOffice Grid Strut'")
     expect(css).toContain('ascent-override:114.3%')
     expect(css).toContain('descent-override:28.6%')
-    expect(css).toContain('GenOfficePUABlank.woff2')
+    expect(css).toContain('ThreadnoteOfficePUABlank.woff2')
     expect(css).toContain(
-      ".doc-page .doc-grid-strut { font-family:'GenOffice Grid Strut',var(--doc-grid-strut-tail,serif) }",
+      ".doc-page .doc-grid-strut { font-family:'ThreadnoteOffice Grid Strut',var(--doc-grid-strut-tail,serif) }",
     )
     expect(css).toContain('--doc-grid-strut-tail:')
   })

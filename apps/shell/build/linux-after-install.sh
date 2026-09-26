@@ -1,8 +1,8 @@
 #!/bin/sh
-# deb/rpm post-install: expose the genoffice command line shipped inside the app.
+# deb/rpm post-install: expose the threadnoteoffice command line shipped inside the app.
 set -e
-launcher="/opt/GenOffice/resources/cli/genoffice"
+launcher="/opt/ThreadnoteOffice/resources/cli/threadnoteoffice"
 if [ -x "$launcher" ]; then
-  ln -sf "$launcher" /usr/bin/genoffice
+  ln -sf "$launcher" /usr/bin/threadnoteoffice
 fi
 exit 0

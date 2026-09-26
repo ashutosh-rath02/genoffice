@@ -9,18 +9,18 @@ const local = (rel: string) => fileURLToPath(new URL(rel, import.meta.url))
 export default defineConfig({
   resolve: {
     alias: {
-      '@genoffice/docx-engine/lazy-media': local('../../packages/docx-engine/src/lazy-media.ts'),
-      '@genoffice/docx-engine': local('../../packages/docx-engine/src/index.ts'),
-      '@genoffice/font-metrics': local('../../packages/font-metrics/src/index.ts'),
+      '@threadnote/docx-engine/lazy-media': local('../../packages/docx-engine/src/lazy-media.ts'),
+      '@threadnote/docx-engine': local('../../packages/docx-engine/src/index.ts'),
+      '@threadnote/font-metrics': local('../../packages/font-metrics/src/index.ts'),
       // subpath before the bare name: string aliases are prefix replacements
-      '@genoffice/electron-utils/headless-export': local(
+      '@threadnote/electron-utils/headless-export': local(
         '../../packages/electron-utils/src/headless-export.ts',
       ),
-      '@genoffice/electron-utils': local('../../packages/electron-utils/src/index.ts'),
-      '@genoffice/ai-provider/browser': local('../../packages/ai-provider/src/browser.ts'),
-      '@genoffice/ai-provider': local('../../packages/ai-provider/src/index.ts'),
-      '@genoffice/i18n': local('../../packages/i18n/src/index.ts'),
-      '@genoffice/ui': local('../../packages/ui/src/index.ts'),
+      '@threadnote/electron-utils': local('../../packages/electron-utils/src/index.ts'),
+      '@threadnote/ai-provider/browser': local('../../packages/ai-provider/src/browser.ts'),
+      '@threadnote/ai-provider': local('../../packages/ai-provider/src/index.ts'),
+      '@threadnote/i18n': local('../../packages/i18n/src/index.ts'),
+      '@threadnote/ui': local('../../packages/ui/src/index.ts'),
     },
   },
   test: {

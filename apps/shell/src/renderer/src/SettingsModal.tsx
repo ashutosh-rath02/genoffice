@@ -7,15 +7,15 @@ import {
   Dropdown,
   aiPanelFontPx,
   clampAiCustomFontSize,
-} from '@genoffice/ui'
-import type { AiFontSize, AiPanelPrefs, AiPanelSide } from '@genoffice/ui'
+} from '@threadnote/ui'
+import type { AiFontSize, AiPanelPrefs, AiPanelSide } from '@threadnote/ui'
 import type { FileSearchSettings, JevEndpoint } from '../../shared/home-api'
 import {
   DEFAULT_MAX_OUTPUT_TOKENS,
   MAX_MAX_OUTPUT_TOKENS,
   MIN_MAX_OUTPUT_TOKENS,
   clampMaxOutputTokens,
-} from '@genoffice/ai-provider/browser'
+} from '@threadnote/ai-provider/browser'
 import type {
   AiMediaProviderId,
   AiMediaProviderMeta,
@@ -23,7 +23,7 @@ import type {
   AiSearchProviderMeta,
   AiSearchSettings,
   AiSettings,
-} from '@genoffice/ai-provider'
+} from '@threadnote/ai-provider'
 import { useI18n } from './locale'
 import type { StringKey, TFunc } from './locale'
 import type { AccountStatus, AiCatalogEntry, UiTheme } from '../../shared/home-api'
@@ -1588,8 +1588,8 @@ export function SettingsModal({
                   label={t('setGithub')}
                   value={
                     githubStars === null
-                      ? 'github.com/genspark-ai/genoffice'
-                      : `github.com/genspark-ai/genoffice · ★ ${formatStars(githubStars)}`
+                      ? 'github.com/ashutosh-rath02/threadnote'
+                      : `github.com/ashutosh-rath02/threadnote · ★ ${formatStars(githubStars)}`
                   }
                   action={
                     <button

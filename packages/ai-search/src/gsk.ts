@@ -25,7 +25,7 @@ import {
   type ImageSearchResult,
   type WebSearchResult,
 } from './shared'
-import { genofficeApiKey, genofficeAuthPath, reloadGenofficeAuth } from './genoffice-auth'
+import { threadnoteofficeApiKey, threadnoteofficeAuthPath, reloadThreadnoteOfficeAuth } from './threadnoteoffice-auth'
 
 const SEARCH_TIMEOUT_MS = 60_000
 const GENERATE_TIMEOUT_MS = 600_000
@@ -67,7 +67,7 @@ function electronCompatArgs(): string[] {
   if (!process.versions.electron) return []
   if (compatPath === undefined) {
     try {
-      const dir = join(homedir(), '.genoffice', 'bin')
+      const dir = join(homedir(), '.threadnoteoffice', 'bin')
       mkdirSync(dir, { recursive: true })
       compatPath = join(dir, 'electron-compat.js')
       writeFileSync(compatPath, 'delete process.versions.electron;\n')
@@ -80,12 +80,12 @@ function electronCompatArgs(): string[] {
 
 /**
  * API key for Genspark LLM proxy / tool_cli auth; '' when not logged in.
- * Priority: GSK_API_KEY env → GenOffice's own key (bills to us via its
+ * Priority: GSK_API_KEY env → ThreadnoteOffice's own key (bills to us via its
  * key_name) → shared gsk CLI login (bills to the Claw bucket).
  */
 export function gskApiKey(): string {
   if (process.env.GSK_API_KEY) return process.env.GSK_API_KEY
-  const own = genofficeApiKey()
+  const own = threadnoteofficeApiKey()
   if (own) return own
   try {
     const configPath = join(homedir(), '.genspark-tool-cli', 'config.json')
@@ -98,7 +98,7 @@ export function gskApiKey(): string {
 }
 
 /**
- * Fires when the effective gsk key changes on disk — another GenOffice-family
+ * Fires when the effective gsk key changes on disk — another ThreadnoteOffice-family
  * app re-logging in mints a new key and revokes the one this process holds.
  * Polls by path (watchFile): auth.json is replaced whole, and fs.watch misses
  * events for a moment after it is armed.
@@ -106,13 +106,13 @@ export function gskApiKey(): string {
 export function watchGskApiKey(onChange: (key: string) => void, intervalMs = 2000): () => void {
   let last = gskApiKey()
   const check = (): void => {
-    reloadGenofficeAuth()
+    reloadThreadnoteOfficeAuth()
     const key = gskApiKey()
     if (key === last) return
     last = key
     onChange(key)
   }
-  const files = [genofficeAuthPath(), join(homedir(), '.genspark-tool-cli', 'config.json')]
+  const files = [threadnoteofficeAuthPath(), join(homedir(), '.genspark-tool-cli', 'config.json')]
   for (const f of files) watchFile(f, { persistent: false, interval: intervalMs }, check)
   return () => {
     for (const f of files) unwatchFile(f, check)
@@ -440,11 +440,11 @@ async function toolCliPost(
   try {
     const resp = await fetch(`${GSK_TOOL_CLI_BASE}${path}`, {
       method: 'POST',
-      // X-Agent-Type splits GenOffice usage out of the proxy's "Claw" billing bucket
+      // X-Agent-Type splits ThreadnoteOffice usage out of the proxy's "Claw" billing bucket
       headers: {
         'X-Api-Key': key,
         'Content-Type': 'application/json',
-        'X-Agent-Type': 'genoffice',
+        'X-Agent-Type': 'threadnoteoffice',
       },
       body: JSON.stringify(body),
       signal: controller.signal,

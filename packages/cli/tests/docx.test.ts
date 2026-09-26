@@ -12,7 +12,7 @@ async function documentXml(path: string): Promise<string> {
   return zip.file('word/document.xml')!.async('string')
 }
 
-describe('genoffice docx (docs editor under jsdom)', () => {
+describe('threadnoteoffice docx (docs editor under jsdom)', () => {
   it('creates a document from markdown and from a restricted-HTML fragment', async () => {
     const dir = tempDir()
     const md = join(dir, 'report.md')
@@ -31,7 +31,7 @@ describe('genoffice docx (docs editor under jsdom)', () => {
     const html = join(dir, 'brief.html')
     writeFileSync(
       html,
-      '<h1>Brief</h1><p>Hello <strong>genoffice</strong>.</p><ul><li>one</li><li>two</li></ul>',
+      '<h1>Brief</h1><p>Hello <strong>threadnoteoffice</strong>.</p><ul><li>one</li><li>two</li></ul>',
     )
     const fromHtml = join(dir, 'brief.docx')
     const h = await run(['create', '--type', 'docx', '--from', html, '--out', fromHtml, '--json'])
@@ -63,9 +63,9 @@ describe('genoffice docx (docs editor under jsdom)', () => {
     writeFileSync(
       ops,
       JSON.stringify([
-        { op: 'findReplace', find: firstText.split(' ')[0], replace: 'GENOFFICE' },
+        { op: 'findReplace', find: firstText.split(' ')[0], replace: 'THREADNOTE_OFFICE' },
         { op: 'setFont', target: { blockIndexes: [0] }, color: 'FF0000', bold: true },
-        { op: 'insert_content', afterBlockIndex: 0, html: '<p>Inserted by genoffice.</p>' },
+        { op: 'insert_content', afterBlockIndex: 0, html: '<p>Inserted by threadnoteoffice.</p>' },
         {
           op: 'replace_blocks',
           startBlockIndex: 2,
@@ -83,13 +83,13 @@ describe('genoffice docx (docs editor under jsdom)', () => {
     expect(applied.code).toBe(0)
     expect(applied.json().detail.blocks).toBe(before.blocks + 1)
     const xml = await documentXml(copy)
-    expect(xml).toContain('Inserted by genoffice.')
+    expect(xml).toContain('Inserted by threadnoteoffice.')
     expect(xml).toContain('Replaced heading')
-    expect(xml).toContain('GENOFFICE')
+    expect(xml).toContain('THREADNOTE_OFFICE')
     expect(xml).toContain('<w:color w:val="FF0000"/>')
 
     const after = await run(['docs', 'read', copy, '--range', '1', '--json'])
-    expect(after.json().detail.items[0].text).toBe('Inserted by genoffice.')
+    expect(after.json().detail.items[0].text).toBe('Inserted by threadnoteoffice.')
   })
 
   it('restructures a table: rows, columns, merges, cell format and style land in the docx', async () => {
@@ -471,7 +471,7 @@ describe('genoffice docx (docs editor under jsdom)', () => {
   })
 })
 
-describe('genoffice convert docx → md', () => {
+describe('threadnoteoffice convert docx → md', () => {
   it('round-trips headings, marks, lists and tables through the two editors', async () => {
     const dir = tempDir()
     const md = join(dir, 'in.md')
@@ -603,7 +603,7 @@ async function zipOf(path: string): Promise<JSZip> {
   return JSZip.loadAsync(readFileSync(path))
 }
 
-describe('genoffice docs: comments, revisions, header/footer, images, charts', () => {
+describe('threadnoteoffice docs: comments, revisions, header/footer, images, charts', () => {
   it('reads comment threads and tracked changes with block indexes', async () => {
     const dir = tempDir()
     const path = await reviewFixture(dir)

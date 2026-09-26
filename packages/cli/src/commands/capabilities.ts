@@ -4,14 +4,14 @@ import {
   cloudToolsEnabled,
   imageGenerationAvailable,
   mediaAnalysisAvailable,
-} from '@genoffice/ai-provider'
-import { hasGskAuth, readAiSettingsFile } from '@genoffice/ai-search'
+} from '@threadnote/ai-provider'
+import { hasGskAuth, readAiSettingsFile } from '@threadnote/ai-search'
 import { aiSettingsPath, prepareCloud } from '../cloud'
 import type { CommandDef } from '../registry'
 import { appLaunch } from '../resources'
 
 /**
- * What the cloud commands can do on this machine, decided from GenOffice's
+ * What the cloud commands can do on this machine, decided from ThreadnoteOffice's
  * own settings without a network call: a Genspark login with cloud tools on,
  * a BYOK key, or explicitly selected free Parallel search. Unkeyed fallbacks (DuckDuckGo)
  * do not count as configured. Agents check this once before planning work
@@ -20,7 +20,7 @@ import { appLaunch } from '../resources'
 export const capabilitiesCommand: CommandDef = {
   name: 'capabilities',
   summary:
-    'Report which cloud features (search, image search, image generation, media analysis) are configured in GenOffice, and whether the app is installed.',
+    'Report which cloud features (search, image search, image generation, media analysis) are configured in ThreadnoteOffice, and whether the app is installed.',
   usage: 'capabilities',
   async run(_args, ctx) {
     await prepareCloud(ctx.env)

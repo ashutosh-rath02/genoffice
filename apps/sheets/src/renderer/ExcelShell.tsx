@@ -1,6 +1,6 @@
 import type { IFunctionInfo } from '@univerjs/engine-formula'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { platformShortcuts } from '@genoffice/i18n'
+import { platformShortcuts } from '@threadnote/i18n'
 import {
   Dropdown,
   RibbonCollapseButton,
@@ -8,7 +8,7 @@ import {
   ShapePreview,
   useDismissablePopover,
   useRibbonCollapse,
-} from '@genoffice/ui'
+} from '@threadnote/ui'
 
 import {
   BorderAllIcon,
@@ -40,8 +40,8 @@ import { type SelectionFormat } from './selection-format'
 import { fontFamilyGroups, useSystemFontFamilies } from './system-fonts'
 import { isGridKeyTarget, shouldInterceptClearSelection } from './clear-selection-keyboard'
 
-import type { ChartSeriesVisualState } from '@genoffice/xlsx-gateway/domain/chart-visual'
-import type { ChangePlan } from '@genoffice/xlsx-gateway/domain/workbook.types'
+import type { ChartSeriesVisualState } from '@threadnote/xlsx-gateway/domain/chart-visual'
+import type { ChangePlan } from '@threadnote/xlsx-gateway/domain/workbook.types'
 import type { AttachmentMeta } from '../shared/desktop-api'
 import { AiChatPanel, type AiChatMessage } from './ai/AiChatPanel'
 import { AiSelectionAsk } from './ai/AiSelectionAsk'

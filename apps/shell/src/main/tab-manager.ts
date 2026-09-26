@@ -70,7 +70,7 @@ const HOME_ID = 'home'
  */
 export class TabManager {
   private readonly tabs: TabRecord[] = [
-    { id: HOME_ID, kind: 'home', view: null, title: 'GenOffice' },
+    { id: HOME_ID, kind: 'home', view: null, title: 'Threadnote Office' },
   ]
   private activeId: string = HOME_ID
   private nextId = 1
@@ -99,7 +99,6 @@ export class TabManager {
     // then once more on the next tick. On Linux/X11, `resize` fires before the
     // window manager applies the new size, so getContentBounds() is still the
     // pre-maximize size inside the handler and a follow-up layout is required.
-    // See https://github.com/genspark-ai/genoffice/issues/15
     shellWindow.on('resize', () => {
       this.layout()
       setImmediate(() => this.layout())
@@ -108,7 +107,7 @@ export class TabManager {
   }
 
   private scheduleSpareSheetsView(delayMs: number): void {
-    if (process.env.GENOFFICE_NO_SPARE_VIEW || this.spareSheetsTimer) return
+    if (process.env.THREADNOTE_OFFICE_NO_SPARE_VIEW || this.spareSheetsTimer) return
     this.spareSheetsTimer = setTimeout(() => {
       this.spareSheetsTimer = null
       if (this.spareSheetsView || this.shellWindow.isDestroyed()) return
@@ -263,7 +262,7 @@ export class TabManager {
       id,
       kind: 'docs',
       view,
-      title: openPath ? basename(openPath) : this.untitled('docs', 'GenOffice Docs'),
+      title: openPath ? basename(openPath) : this.untitled('docs', 'ThreadnoteOffice Docs'),
       filePath: openPath,
     })
     this.activateTab(id)

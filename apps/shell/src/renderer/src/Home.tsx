@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { DragEvent as ReactDragEvent, ReactElement } from 'react'
-import logoLockup from './assets/genoffice-logo.svg'
+import logoLockup from './assets/threadnoteoffice-logo.svg'
 import iconDocx from './assets/file-docx.svg'
 import iconXlsx from './assets/file-xlsx.svg'
 import iconPptx from './assets/file-pptx.svg'
@@ -29,7 +29,7 @@ import type {
   ThreadnoteProject,
 } from '../../shared/threadnote-api'
 import { markText } from '../../shared/text-marks'
-import { useDismissablePopover } from '@genoffice/ui'
+import { useDismissablePopover } from '@threadnote/ui'
 import { fileCountKey, visiblePageCount } from './counts'
 import { useI18n } from './locale'
 import type { I18n, StringKey } from './locale'
@@ -76,7 +76,7 @@ const FILE_ICONS: Record<string, string> = {
 const OPEN_LOCAL_EXTENSIONS = '.docx / .xlsx / .xlsm / .xls / .csv / .pptx / .pdf / .md / .html'
 
 /** drag payload of home file/folder rows (JSON array of absolute paths) */
-const DRAG_PATHS_MIME = 'application/x-genoffice-paths'
+const DRAG_PATHS_MIME = 'application/x-threadnoteoffice-paths'
 /** hovering a collapsed folder this long while dragging expands it */
 const DRAG_EXPAND_DELAY_MS = 600
 /** expanded folders survive a home reload; the selection is per session */
@@ -799,7 +799,7 @@ function AccountEntry({
 
   const loggedIn = status?.loggedIn ?? false
   const email = status?.email ?? ''
-  const initial = email ? email[0].toUpperCase() : loggedIn ? 'G' : '?'
+  const initial = email ? email[0].toUpperCase() : loggedIn ? 'G' : '⚙'
   const errorText = loginError
     ? {
         timeout: t('loginTimeout'),
@@ -853,7 +853,7 @@ function AccountEntry({
     void window.aiOffice.accountStatus?.().then((s) => {
       if (seq === statusSeq.current) setStatus(s)
     })
-    setTarget(to)
+    setTarget(to ?? { section: 'general' })
     setSettingsOpen(true)
   }, [])
   const handleClick = () => openSettings(null)
@@ -935,13 +935,7 @@ function AccountEntry({
         onClick={handleClick}
         aria-haspopup="dialog"
         aria-expanded={settingsOpen}
-        data-tip={
-          loggedIn
-            ? email || t('loggedInGenspark')
-            : waiting
-              ? t('waitingLogin')
-              : (errorText ?? t('loginGenspark'))
-        }
+        data-tip={t('settings')}
         aria-label={t('settings')}
       >
         <span
@@ -976,13 +970,7 @@ function AccountEntry({
         </span>
         <span className="account-text">
           <span className="account-name">
-            {loggedIn
-              ? email
-                ? email.split('@')[0]
-                : t('loggedIn')
-              : waiting
-                ? t('waitingShort')
-                : t('login')}
+            {waiting ? t('waitingShort') : t('settings')}
           </span>
           {!loggedIn && !waiting && errorText && (
             <span className="account-sub error">{errorText}</span>
@@ -3336,7 +3324,7 @@ export function Home() {
     <div className="home">
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <img className="logo-lockup" src={logoLockup} alt="GenOffice" />
+          <img className="logo-lockup" src={logoLockup} alt="Threadnote Office" />
         </div>
         <nav className="sidebar-nav">
           <button

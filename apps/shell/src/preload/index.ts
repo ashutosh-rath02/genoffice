@@ -5,10 +5,10 @@ import {
   AI_PROVIDERS,
   AI_SEARCH_PROVIDERS,
   getProviderAdapter,
-} from '@genoffice/ai-provider/browser'
-import type { AiSettings, CodexModelCatalog } from '@genoffice/ai-provider/browser'
-import { installDropOpenBridge } from '@genoffice/electron-utils/drop-open'
-import { normalizeAiPanelPrefs } from '@genoffice/ui/ai-panel-prefs'
+} from '@threadnote/ai-provider/browser'
+import type { AiSettings, CodexModelCatalog } from '@threadnote/ai-provider/browser'
+import { installDropOpenBridge } from '@threadnote/electron-utils/drop-open'
+import { normalizeAiPanelPrefs } from '@threadnote/ui/ai-panel-prefs'
 import type {
   AccountLoginEvent,
   AccountStatus,

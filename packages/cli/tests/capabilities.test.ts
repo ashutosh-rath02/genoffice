@@ -1,14 +1,14 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import * as aiSearch from '@genoffice/ai-search'
+import * as aiSearch from '@threadnote/ai-search'
 import { run, tempDir } from './helpers'
 
 // hasGskAuth reads process.env, not the command context: isolate the login state per test
 const saved: Record<string, string | undefined> = {}
 beforeEach(() => {
-  for (const k of ['GENOFFICE_AUTH_DIR', 'AI_SEARCH_DISABLE_GSK']) saved[k] = process.env[k]
-  process.env.GENOFFICE_AUTH_DIR = join(tempDir(), 'no-auth')
+  for (const k of ['THREADNOTE_OFFICE_AUTH_DIR', 'AI_SEARCH_DISABLE_GSK']) saved[k] = process.env[k]
+  process.env.THREADNOTE_OFFICE_AUTH_DIR = join(tempDir(), 'no-auth')
   process.env.AI_SEARCH_DISABLE_GSK = '1'
 })
 afterEach(() => {
@@ -26,14 +26,14 @@ function settingsFile(dir: string, settings: Record<string, unknown>): string {
   return path
 }
 
-describe('genoffice capabilities', () => {
+describe('threadnoteoffice capabilities', () => {
   it('reports nothing configured when signed out with default settings', async () => {
     const dir = tempDir()
     const r = await run(['capabilities', '--json'], {
       env: {
         ...process.env,
-        GENOFFICE_AI_SETTINGS: join(dir, 'missing.json'),
-        GENOFFICE_APP_BIN: '',
+        THREADNOTE_OFFICE_AI_SETTINGS: join(dir, 'missing.json'),
+        THREADNOTE_OFFICE_APP_BIN: '',
       },
     })
     expect(r.code).toBe(0)
@@ -60,8 +60,8 @@ describe('genoffice capabilities', () => {
     const r = await run(['capabilities', '--json'], {
       env: {
         ...process.env,
-        GENOFFICE_AI_SETTINGS: settings,
-        GENOFFICE_APP_BIN: join(dir, 'bin', 'app'),
+        THREADNOTE_OFFICE_AI_SETTINGS: settings,
+        THREADNOTE_OFFICE_APP_BIN: join(dir, 'bin', 'app'),
       },
     })
     expect(r.code).toBe(0)
@@ -83,7 +83,7 @@ describe('genoffice capabilities', () => {
       },
     })
     const r = await run(['capabilities', '--json'], {
-      env: { ...process.env, GENOFFICE_AI_SETTINGS: settings },
+      env: { ...process.env, THREADNOTE_OFFICE_AI_SETTINGS: settings },
     })
     const d = r.json().detail
     expect(d.search).toEqual({ available: true, via: provider })
@@ -98,7 +98,7 @@ describe('genoffice capabilities', () => {
         search: { provider, providers: { [provider]: { apiKey: 'test-key' } } },
       })
       const r = await run(['capabilities', '--json'], {
-        env: { ...process.env, GENOFFICE_AI_SETTINGS: settings },
+        env: { ...process.env, THREADNOTE_OFFICE_AI_SETTINGS: settings },
       })
       const d = r.json().detail
       expect(d.search).toEqual({ available: true, via: provider })
@@ -113,7 +113,7 @@ describe('genoffice capabilities', () => {
       search: { provider: 'parallel', providers: { parallel: { apiKey: '' } } },
     })
     const r = await run(['capabilities', '--json'], {
-      env: { ...process.env, GENOFFICE_AI_SETTINGS: settings },
+      env: { ...process.env, THREADNOTE_OFFICE_AI_SETTINGS: settings },
     })
     expect(r.json().detail.search).toEqual({ available: true, via: 'parallel' })
     expect(r.json().detail.image_search).toEqual({ available: false, via: null })

@@ -1,8 +1,8 @@
 /**
- * GenOffice's own Genspark identity: device-code login (office_addin_auth,
- * app_type=genoffice) minting a gsk API key named "genoffice" — the key_name
+ * ThreadnoteOffice's own Genspark identity: device-code login (office_addin_auth,
+ * app_type=threadnoteoffice) minting a gsk API key named "threadnoteoffice" — the key_name
  * lands in billing as billing_tag, attributing all traffic (incl. gsk CLI
- * subprocesses) to GenOffice. Stored in ~/.genoffice/auth.json, deliberately
+ * subprocesses) to ThreadnoteOffice. Stored in ~/.threadnoteoffice/auth.json, deliberately
  * NOT the shared config.json that Claw Desktop overwrites on every launch.
  *
  * Flow: POST /device_code → browser approve → poll /token for a 30-day Bearer
@@ -25,8 +25,8 @@ export interface GskLoginProgress {
   error?: string
 }
 
-const APP_TYPE = 'genoffice'
-const KEY_NAME = 'genoffice'
+const APP_TYPE = 'threadnoteoffice'
+const KEY_NAME = 'threadnoteoffice'
 const HTTP_TIMEOUT_MS = 30_000
 
 function baseUrl(): string {
@@ -88,7 +88,7 @@ async function proxyFallbackFetch(): Promise<typeof fetch | null> {
         session?: { fromPartition: (partition: string) => ProxySession }
       }
       if (session) {
-        const ses = session.fromPartition('genoffice-login-proxy')
+        const ses = session.fromPartition('threadnoteoffice-login-proxy')
         await ses.setProxy({ proxyRules: proxyUrl })
         impl = ses.fetch.bind(ses)
       }
@@ -108,22 +108,22 @@ async function loginFetchChannels(): Promise<(typeof fetch)[]> {
   return proxyFallbackPreferred ? [fallback, primary] : [primary, fallback]
 }
 
-/** Override dir via GENOFFICE_AUTH_DIR (test isolation). */
-export function genofficeAuthPath(): string {
-  return join(process.env.GENOFFICE_AUTH_DIR || join(homedir(), '.genoffice'), 'auth.json')
+/** Override dir via THREADNOTE_OFFICE_AUTH_DIR (test isolation). */
+export function threadnoteofficeAuthPath(): string {
+  return join(process.env.THREADNOTE_OFFICE_AUTH_DIR || join(homedir(), '.threadnoteoffice'), 'auth.json')
 }
 
-export interface GenofficeAuth {
+export interface ThreadnoteOfficeAuth {
   apiKey: string
   keyId?: string
   accessToken?: string
 }
 
-let cachedAuth: GenofficeAuth | null | undefined
+let cachedAuth: ThreadnoteOfficeAuth | null | undefined
 
-function readAuthFile(): GenofficeAuth | null {
+function readAuthFile(): ThreadnoteOfficeAuth | null {
   try {
-    const raw = asRecord(JSON.parse(readFileSync(genofficeAuthPath(), 'utf-8')))
+    const raw = asRecord(JSON.parse(readFileSync(threadnoteofficeAuthPath(), 'utf-8')))
     if (typeof raw.api_key !== 'string' || !raw.api_key) return null
     return {
       apiKey: raw.api_key,
@@ -137,23 +137,23 @@ function readAuthFile(): GenofficeAuth | null {
   }
 }
 
-export function loadGenofficeAuth(): GenofficeAuth | null {
+export function loadThreadnoteOfficeAuth(): ThreadnoteOfficeAuth | null {
   if (cachedAuth === undefined) cachedAuth = readAuthFile()
   return cachedAuth
 }
 
 /** Drop the cache so the next read sees a key written by another process. */
-export function reloadGenofficeAuth(): void {
+export function reloadThreadnoteOfficeAuth(): void {
   cachedAuth = undefined
 }
 
-/** The GenOffice-named api key; '' when not signed in. Cached (invalidated by login/logout). */
-export function genofficeApiKey(): string {
-  return loadGenofficeAuth()?.apiKey ?? ''
+/** The ThreadnoteOffice-named api key; '' when not signed in. Cached (invalidated by login/logout). */
+export function threadnoteofficeApiKey(): string {
+  return loadThreadnoteOfficeAuth()?.apiKey ?? ''
 }
 
-function saveAuth(auth: GenofficeAuth): void {
-  const path = genofficeAuthPath()
+function saveAuth(auth: ThreadnoteOfficeAuth): void {
+  const path = threadnoteofficeAuthPath()
   mkdirSync(dirname(path), { recursive: true })
   writeFileSync(
     path,
@@ -169,7 +169,7 @@ function saveAuth(auth: GenofficeAuth): void {
 
 function clearAuth(): void {
   try {
-    if (existsSync(genofficeAuthPath())) unlinkSync(genofficeAuthPath())
+    if (existsSync(threadnoteofficeAuthPath())) unlinkSync(threadnoteofficeAuthPath())
   } catch {
     /* local sign-out must not throw */
   }
@@ -317,7 +317,7 @@ async function runDeviceLogin(
   if (!apiKey) {
     throw new LoginFlowError(String(created.message ?? 'API key creation failed'))
   }
-  const previousKeyId = loadGenofficeAuth()?.keyId
+  const previousKeyId = loadThreadnoteOfficeAuth()?.keyId
   saveAuth({
     apiKey,
     ...(typeof data.key_id === 'string' ? { keyId: data.key_id } : {}),
@@ -338,11 +338,11 @@ async function runDeviceLogin(
 let activeLogin: { cancel: () => void } | null = null
 
 /**
- * Starts the GenOffice device-code login, cancelling a previous in-flight one
+ * Starts the ThreadnoteOffice device-code login, cancelling a previous in-flight one
  * (its device code would otherwise be approved into a dead flow). The caller
  * opens `url` in the system browser. Returns whether the flow was started.
  */
-export function startGenofficeLogin(onEvent?: (progress: GskLoginProgress) => void): boolean {
+export function startThreadnoteOfficeLogin(onEvent?: (progress: GskLoginProgress) => void): boolean {
   activeLogin?.cancel()
   const emit = onEvent ?? (() => {})
   const controller = new AbortController()
@@ -374,8 +374,8 @@ export function startGenofficeLogin(onEvent?: (progress: GskLoginProgress) => vo
   return true
 }
 
-/** True while a login started via startGenofficeLogin is in flight. */
-export function genofficeLoginInFlight(): boolean {
+/** True while a login started via startThreadnoteOfficeLogin is in flight. */
+export function threadnoteofficeLoginInFlight(): boolean {
   return activeLogin !== null
 }
 
@@ -384,20 +384,20 @@ export function genofficeLoginInFlight(): boolean {
  * in-flight flow (restarting would strand it on a dead device code); openUrl
  * is the caller's browser opener (this module is Electron-free).
  */
-export function ensureGenofficeLogin(openUrl: (url: string) => void): void {
-  if (genofficeLoginInFlight()) return
-  startGenofficeLogin((progress) => {
+export function ensureThreadnoteOfficeLogin(openUrl: (url: string) => void): void {
+  if (threadnoteofficeLoginInFlight()) return
+  startThreadnoteOfficeLogin((progress) => {
     if (progress.url) openUrl(progress.url)
   })
 }
 
 /**
- * Signs out of GenOffice only: best-effort server-side revoke of the
- * genoffice key, then local removal. The shared gsk CLI login
+ * Signs out of ThreadnoteOffice only: best-effort server-side revoke of the
+ * threadnoteoffice key, then local removal. The shared gsk CLI login
  * (~/.genspark-tool-cli) is untouched — terminal gsk and Claw keep working.
  */
-export async function genofficeLogout(): Promise<void> {
-  const auth = loadGenofficeAuth()
+export async function threadnoteofficeLogout(): Promise<void> {
+  const auth = loadThreadnoteOfficeAuth()
   if (auth?.accessToken && auth.keyId) {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), HTTP_TIMEOUT_MS)
@@ -414,13 +414,13 @@ export async function genofficeLogout(): Promise<void> {
 }
 
 /** Test hook: drop the auth cache and fetch-channel state. */
-export function resetGenofficeAuthCache(): void {
+export function resetThreadnoteOfficeAuthCache(): void {
   cachedAuth = undefined
   proxyFetchCache = undefined
   proxyFallbackPreferred = false
 }
 
 /** Test hook: whether the proxy fallback channel is currently preferred. */
-export function genofficeProxyFallbackPreferred(): boolean {
+export function threadnoteofficeProxyFallbackPreferred(): boolean {
   return proxyFallbackPreferred
 }

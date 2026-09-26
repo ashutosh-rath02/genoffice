@@ -1,11 +1,11 @@
-import type { AiPanelPrefs } from '@genoffice/ui'
-import type { Lang } from '@genoffice/i18n'
+import type { AiPanelPrefs } from '@threadnote/ui'
+import type { Lang } from '@threadnote/i18n'
 import type {
   AiSettings,
   AiStreamChunk,
   AiStreamRequest,
   GenSparkAccountStatus,
-} from '@genoffice/ai-provider'
+} from '@threadnote/ai-provider'
 
 export const MARKDOWN_CHANNELS = {
   consumePending: 'markdown:consume-pending',
@@ -23,7 +23,7 @@ export const MARKDOWN_CHANNELS = {
   saveImage: 'markdown:save-image',
   readImage: 'markdown:read-image',
   saveImageAs: 'markdown:save-image-as',
-  viewImage: 'genoffice:view-image',
+  viewImage: 'threadnoteoffice:view-image',
   exportRequest: 'markdown:export-request',
   exportDocx: 'markdown:export-docx',
   exportPdf: 'markdown:export-pdf',

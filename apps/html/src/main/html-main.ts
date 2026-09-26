@@ -39,10 +39,10 @@ import {
   rendererUrl,
   MAX_REMOTE_IMAGE_BYTES,
   readBodyCapped,
-} from '@genoffice/electron-utils'
-import { createI18n, getUiLang } from '@genoffice/i18n'
-import { generateImageTool } from '@genoffice/ai-search'
-import { parseFileToText } from '@genoffice/file-parse'
+} from '@threadnote/electron-utils'
+import { createI18n, getUiLang } from '@threadnote/i18n'
+import { generateImageTool } from '@threadnote/ai-search'
+import { parseFileToText } from '@threadnote/file-parse'
 import { convertHtmlToDocx } from '../../../../packages/html2docx/src'
 import { atomicWriteFile } from './atomic-write'
 import { ElectronBrowserDriver } from '../../../../packages/html2docx/src/drivers/electron'
@@ -646,7 +646,7 @@ const TEXT_EXTS = new Set([
   'sql',
   'css',
 ])
-/** office/pdf formats get text extracted via @genoffice/file-parse; images skip extraction and go multimodal */
+/** office/pdf formats get text extracted via @threadnote/file-parse; images skip extraction and go multimodal */
 const ATTACHMENT_EXTS = new Set([
   ...TEXT_EXTS,
   'doc',
@@ -736,7 +736,7 @@ function savePastedImage(data: unknown, ext: unknown): string | null {
         ? Buffer.from(data.buffer, data.byteOffset, data.byteLength)
         : null
   if (!bytes || bytes.byteLength === 0) return null
-  const dir = join(app.getPath('temp'), 'genoffice-pasted')
+  const dir = join(app.getPath('temp'), 'threadnoteoffice-pasted')
   mkdirSync(dir, { recursive: true })
   prunePastedImages(dir)
   const stamp = new Date().toISOString().slice(0, 19).replace(/[-:]/g, '').replace('T', '-')
@@ -767,7 +767,7 @@ interface RuntimePaths {
   preloadPath: string
   rendererUrl?: string
   rendererFile?: string
-  /** Shell router used to open exported PDFs in a new GenOffice tab. */
+  /** Shell router used to open exported PDFs in a new ThreadnoteOffice tab. */
   openGeneratedPath?: (path: string) => boolean
 }
 
@@ -1599,7 +1599,7 @@ function registerHtmlIpc(): void {
       if (docxExportPrepareHook && !(await docxExportPrepareHook(picked.filePath))) {
         return { ok: true, canceled: true }
       }
-      const workDir = await mkdtemp(join(tmpdir(), 'genoffice-html-docx-'))
+      const workDir = await mkdtemp(join(tmpdir(), 'threadnoteoffice-html-docx-'))
       let driver: ElectronBrowserDriver | null = null
       try {
         // Same document the preview shows (scripts on, relative assets via html-asset://):
@@ -1644,7 +1644,7 @@ function registerHtmlIpc(): void {
               configuredDefaultSaveDir(app),
             )
       if (picked.canceled || !picked.filePath) return { ok: true, canceled: true }
-      const workDir = await mkdtemp(join(tmpdir(), 'genoffice-html-pdf-'))
+      const workDir = await mkdtemp(join(tmpdir(), 'threadnoteoffice-html-pdf-'))
       try {
         const docPath = savePathByWc.get(e.sender.id)
         await writeFile(picked.filePath, await renderPrintPdf(request.html, docPath, workDir))
@@ -1865,7 +1865,7 @@ export function createHtmlView(openPath?: string | null): WebContentsView {
   return view
 }
 
-/** Standalone window mode: `npm run dev -w @genoffice/html`, md path passed via argv */
+/** Standalone window mode: `npm run dev -w @threadnote/html`, md path passed via argv */
 export function startHtmlStandalone(): void {
   registerPrivilegedSchemes()
   installNavigationGuard(app)

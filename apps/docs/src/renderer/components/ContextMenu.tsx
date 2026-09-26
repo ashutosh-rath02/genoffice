@@ -16,8 +16,8 @@ import {
   selectedRect,
   splitCell,
 } from '@tiptap/pm/tables'
-import { platformShortcuts } from '@genoffice/i18n'
-import { Dropdown, isSymbolFontFamily, type DropdownOption } from '@genoffice/ui'
+import { platformShortcuts } from '@threadnote/i18n'
+import { Dropdown, isSymbolFontFamily, type DropdownOption } from '@threadnote/ui'
 import { useI18n, type StringKey } from '../i18n/locale'
 import { fontFamiliesFor } from '../font-list'
 import { useSystemFontFamilies } from '../system-fonts'

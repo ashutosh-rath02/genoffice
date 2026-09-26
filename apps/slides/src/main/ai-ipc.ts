@@ -33,28 +33,28 @@ import {
   type AiStreamRequest,
   type GenSparkAccountStatus,
   type LegacyAiSettings,
-} from '@genoffice/ai-provider'
-import { shutdownCodexAppServers } from '@genoffice/ai-provider/codex-app-server'
-import { MAX_REMOTE_IMAGE_BYTES, fetchRemoteImage, readBodyCapped } from '@genoffice/electron-utils'
+} from '@threadnote/ai-provider'
+import { shutdownCodexAppServers } from '@threadnote/ai-provider/codex-app-server'
+import { MAX_REMOTE_IMAGE_BYTES, fetchRemoteImage, readBodyCapped } from '@threadnote/electron-utils'
 import {
   webSearchTool,
   imageSearchTool,
-  ensureGenofficeLogin,
+  ensureThreadnoteOfficeLogin,
   gskApiKey,
   generateImageTool,
   analyzeMediaTool,
   gskLoginInfo,
   hasGskAuth,
-} from '@genoffice/ai-search'
-import { addPicture, editPictureSrcRect, replacePictureBytes } from '@genoffice/pptx-engine'
-import { matchesElementRef } from '@genoffice/pptx-engine/identity'
-import { coverCropFractions } from '@genoffice/pipelines/slides'
+} from '@threadnote/ai-search'
+import { addPicture, editPictureSrcRect, replacePictureBytes } from '@threadnote/pptx-engine'
+import { matchesElementRef } from '@threadnote/pptx-engine/identity'
+import { coverCropFractions } from '@threadnote/pipelines/slides'
 import type { AiRunFailure } from '../shared/ipc'
-import { EMU_PER_PX_96 } from '@genoffice/pptx-render'
+import { EMU_PER_PX_96 } from '@threadnote/pptx-render'
 import { tm } from './i18n-main'
 import { pushHistory, rebuildSlide, scheduleHistoryNotify, sessions } from './session-state'
 
-// ---- AI settings + streaming proxy (the main process does the networking to avoid renderer CORS; implementation shared via @genoffice/ai-provider) ----
+// ---- AI settings + streaming proxy (the main process does the networking to avoid renderer CORS; implementation shared via @threadnote/ai-provider) ----
 
 const AI_SETTINGS_PATH = () => join(app.getPath('userData'), 'ai-settings.json')
 
@@ -105,7 +105,7 @@ export function registerAiIpc(): void {
   app.once('before-quit', shutdownCodexAppServers)
   // Node fetch (undici) direct connections get reset under VPN/tun setups; retry over Chromium's stack
   setRescueFetch((url, init) => net.fetch(url, init))
-  setAiUserAgent(`GenOffice/${app.getVersion()}`)
+  setAiUserAgent(`ThreadnoteOffice/${app.getVersion()}`)
 
   ipcMain.handle('ai:get-settings', (): AiSettings => {
     const stored = readJson<Partial<AiSettings> & LegacyAiSettings>(AI_SETTINGS_PATH(), {})
@@ -127,7 +127,7 @@ export function registerAiIpc(): void {
   )
 
   ipcMain.handle('ai:gsk-login', () => {
-    ensureGenofficeLogin((url) => void shell.openExternal(url))
+    ensureThreadnoteOfficeLogin((url) => void shell.openExternal(url))
   })
 
   ipcMain.handle('ai:set-settings', (_event, settings: AiSettings) => {
