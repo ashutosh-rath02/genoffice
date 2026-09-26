@@ -6,4 +6,11 @@ Signing in to Threadnote uses the Threadnote account connection. AI and search f
 
 Packaged builds can send anonymous usage events to Google Analytics 4 only when analytics credentials are supplied at build time and the user has not turned off **Send anonymous usage statistics** in Settings. Source builds without those credentials send no analytics events. Analytics events include app version, platform, interface language, and file type for open/new actions; they do not include document content, file names, paths, or account email.
 
+The app emits these event names when analytics is enabled:
+
+- `app_launch` — the app starts.
+- `file_open` — a file opens; includes its extension, not its name.
+- `file_new` — a new file is created; includes its type.
+- `install_first_launch` — the first launch after installation.
+
 See [NOTICE](NOTICE) and [third-party notices](tools/gen-third-party-notices.mjs) for source and dependency attribution.

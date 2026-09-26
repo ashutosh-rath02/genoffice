@@ -183,7 +183,7 @@ beforeEach(() => {
 describe('initial state', () => {
   it('starts with only the non-closable, active Home tab', () => {
     expect(manager.list()).toEqual([
-      { id: 'home', kind: 'home', title: 'ThreadnoteOffice', closable: false, active: true },
+      { id: 'home', kind: 'home', title: 'Threadnote Office', closable: false, active: true },
     ])
   })
 })
@@ -212,7 +212,7 @@ describe('opening tabs', () => {
     manager.openSlidesTab('/tmp/deck.pptx')
     manager.openPdfTab('/tmp/scan.pdf')
     expect(manager.list().map((t) => t.title)).toEqual([
-      'ThreadnoteOffice',
+      'Threadnote Office',
       'report.docx',
       'budget.xlsx',
       'deck.pptx',
@@ -223,7 +223,7 @@ describe('opening tabs', () => {
   it('uses module default titles for pathless tabs', () => {
     manager.openSheetsTab()
     manager.openSlidesTab()
-    expect(manager.list().map((t) => t.title)).toEqual(['ThreadnoteOffice', 'AI Sheets', 'AI Slides'])
+    expect(manager.list().map((t) => t.title)).toEqual(['Threadnote Office', 'AI Sheets', 'AI Slides'])
   })
 
   it('assigns unique, monotonic tab ids', () => {

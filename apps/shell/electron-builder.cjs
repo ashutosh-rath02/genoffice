@@ -75,7 +75,11 @@ if (winArm64 && !process.env.ELECTRON_BUILDER_7Z_FILTER) {
 }
 const winArch = winArm64 ? 'arm64' : 'x64'
 const winSidecarTarget = winArm64 ? 'aarch64-pc-windows-msvc' : 'x86_64-pc-windows-gnu'
-const WIN_SIDECAR = `../sheets/native/xlsx-engine/target/${winSidecarTarget}/release/xlsx-sidecar.exe`
+// Native Windows x64 builds use the host MSVC target/release directory. Linux
+// cross-builds keep their explicit GNU target directory.
+const WIN_SIDECAR = !winArm64 && process.platform === 'win32' && process.arch === 'x64'
+  ? '../sheets/native/xlsx-engine/target/release/xlsx-sidecar.exe'
+  : `../sheets/native/xlsx-engine/target/${winSidecarTarget}/release/xlsx-sidecar.exe`
 
 // LICENSES.chromium.html only exists after the Electron binary download —
 // since Electron 42 that no longer happens during `npm ci` (the postinstall
@@ -557,7 +561,7 @@ const config = {
     }
     if (context.electronPlatformName === 'win32' && !existsSync(join(__dirname, WIN_SIDECAR))) {
       throw new Error(
-        `win extraResources source missing: ${WIN_SIDECAR} (cargo build --target ${winSidecarTarget} first)`,
+        `win extraResources source missing: ${WIN_SIDECAR} (build the matching Sheets sidecar first)`,
       )
     }
   },
