@@ -17,10 +17,15 @@ export function AppFrame({ initialOnboardingSeen }: AppFrameProps) {
 
   useEffect(() => {
     let active = true
-    void window.threadnoteOffice.status().then((status) => {
-      if (active) setThreadnoteAvailable(status.available)
-    }).catch(() => {})
-    return () => { active = false }
+    void window.threadnoteOffice
+      .status()
+      .then((status) => {
+        if (active) setThreadnoteAvailable(status.available)
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
   }, [])
 
   useEffect(() => {

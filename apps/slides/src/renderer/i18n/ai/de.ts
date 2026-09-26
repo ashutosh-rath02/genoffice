@@ -117,8 +117,7 @@ export const de = {
   aiErrOverloaded: 'Der KI-Dienst ist derzeit überlastet — bitte gleich erneut versuchen',
   aiErrNetwork:
     'Netzwerkproblem: Der KI-Dienst ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut',
-  aiCreditsExhausted:
-    'Deine AI-Credits sind aufgebraucht',
+  aiCreditsExhausted: 'Deine AI-Credits sind aufgebraucht',
   aiErrRequestFailed: 'Senden der Anfrage fehlgeschlagen: {msg}',
   aiErrGenerateFailed: 'Generierung fehlgeschlagen',
   aiErrRegenFailed: 'Neuerstellung der Folie fehlgeschlagen',

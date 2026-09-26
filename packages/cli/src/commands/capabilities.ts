@@ -27,7 +27,7 @@ export const capabilitiesCommand: CommandDef = {
     const searchProvider = activeSearchProvider(settings)
     const imageGeneration = imageGenerationAvailable(settings, false)
     const mediaAnalysis = mediaAnalysisAvailable(settings, false)
-    const via = (provider: string) => provider === 'none' ? null : provider
+    const via = (provider: string) => (provider === 'none' ? null : provider)
     const detail = {
       search: {
         available: true,

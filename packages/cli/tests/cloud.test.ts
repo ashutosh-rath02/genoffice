@@ -11,7 +11,9 @@ describe('cloud command plumbing', () => {
     const p = aiSettingsPath({})
     expect(p.endsWith(join('ThreadnoteOffice', 'ai-settings.json'))).toBe(true)
     if (process.platform === 'darwin') expect(p).toContain('Library/Application Support')
-    expect(aiSettingsPath({ THREADNOTE_OFFICE_USER_DATA: '/ud' })).toBe(join('/ud', 'ai-settings.json'))
+    expect(aiSettingsPath({ THREADNOTE_OFFICE_USER_DATA: '/ud' })).toBe(
+      join('/ud', 'ai-settings.json'),
+    )
   })
 
   it('picks the first http(s) proxy variable and ignores socks', () => {
@@ -48,7 +50,11 @@ describe('cloud command plumbing', () => {
     const { tempDir } = await import('./helpers')
     const inside = tempDir()
     const outside = tempDir()
-    const env = { ...process.env, THREADNOTE_OFFICE_AUDIT_LOG: 'off', THREADNOTE_OFFICE_ALLOWED_ROOTS: inside }
+    const env = {
+      ...process.env,
+      THREADNOTE_OFFICE_AUDIT_LOG: 'off',
+      THREADNOTE_OFFICE_ALLOWED_ROOTS: inside,
+    }
     const out = await run(['image', 'a cat', '--out', join(outside, 'x.png'), '--json'], { env })
     expect(out.code).toBe(2)
     expect(out.json().message).toContain('refusing to write')

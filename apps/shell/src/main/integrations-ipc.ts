@@ -47,7 +47,10 @@ export function registerIntegrationsIpc(deps: IntegrationsDeps): void {
   ipcMain.handle(INTEGRATIONS_CHANNELS.status, (): IntegrationsStatus => {
     const skill = bundled()
     const l = ledger()
-    const launcher = join(deps.cliDir, process.platform === 'win32' ? 'threadnoteoffice.cmd' : 'threadnoteoffice')
+    const launcher = join(
+      deps.cliDir,
+      process.platform === 'win32' ? 'threadnoteoffice.cmd' : 'threadnoteoffice',
+    )
     return {
       cli: {
         ...inspectCliLink({ launcher }),

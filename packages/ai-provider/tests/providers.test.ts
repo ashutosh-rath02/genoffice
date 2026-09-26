@@ -315,7 +315,6 @@ describe('activeProvider', () => {
     settings.provider = 'nonsense' as AiProviderId
     expect(activeProvider(settings)).toBe('codex')
   })
-
 })
 
 describe('gskToolsEnabled', () => {

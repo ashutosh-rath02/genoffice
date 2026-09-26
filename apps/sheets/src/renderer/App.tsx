@@ -4350,7 +4350,9 @@ export function App(): React.JSX.Element {
 
   // threadnoteoffice CLI (`open --range`, `selection`): the shell evaluates this hook
   useEffect(() => {
-    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (req: ControlRequest) =>
+    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (
+      req: ControlRequest,
+    ) =>
       handleSheetsControl(
         req,
         univerRef.current?.univerAPI.getActiveWorkbook(),

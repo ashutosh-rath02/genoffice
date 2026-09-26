@@ -111,8 +111,7 @@ export const ar = {
   aiErrOverloaded: 'خدمة الذكاء الاصطناعي مشغولة حاليًا — يرجى المحاولة مرة أخرى بعد قليل',
   aiErrNetwork:
     'مشكلة في الشبكة: تعذّر الوصول إلى خدمة الذكاء الاصطناعي. تحقق من الاتصال وحاول مجددًا',
-  aiCreditsExhausted:
-    'نفدت أرصدة AI لديك',
+  aiCreditsExhausted: 'نفدت أرصدة AI لديك',
   aiErrRequestFailed: 'فشل إرسال الطلب: {msg}',
   aiErrGenerateFailed: 'فشل الإنشاء',
   aiErrRegenFailed: 'فشلت إعادة إنشاء الصفحة',

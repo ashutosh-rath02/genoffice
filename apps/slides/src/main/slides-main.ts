@@ -1742,7 +1742,8 @@ export function registerSlidesIpc(): void {
   ipcMain.handle('slides:cloud-gen-status', () => ({ enabled: false }))
   ipcMain.handle('slides:cloud-page-generate', () => ({
     ok: false,
-    error: 'Cloud slide generation is unavailable. Configure an AI provider for local slide generation.',
+    error:
+      'Cloud slide generation is unavailable. Configure an AI provider for local slide generation.',
   }))
 
   ipcMain.handle(
@@ -3372,7 +3373,8 @@ export function registerSlidesIpc(): void {
   }
 
   ipcMain.handle('slides:clipboard-external', () => {
-    if (slideClipboard && clipboardMarker('io.threadnoteoffice.slides.slide')) return { kind: 'slide' }
+    if (slideClipboard && clipboardMarker('io.threadnoteoffice.slides.slide'))
+      return { kind: 'slide' }
     if (elementClipboard && elementClipboardMarkerMatches(elementClipboard.token))
       return { kind: 'internal' }
     const img = clipboard.readImage()
@@ -4938,7 +4940,7 @@ async function applyMainProcessProxy(): Promise<void> {
   const setDispatcher = async (proxyUrl: string) => {
     // spawned gsk CLI children do their own fetch and never see the
     // dispatcher below — forward the proxy to them via env
-      try {
+    try {
       const { ProxyAgent, setGlobalDispatcher } = await import('undici')
       setGlobalDispatcher(new ProxyAgent(proxyUrl))
       // strip user:pass credentials before logging

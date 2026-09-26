@@ -59,7 +59,9 @@ body.overlay-title-bar .tab-bar-drag-spacer {
   border-radius: 7px;
   background: #6f55c7;
   color: #fff;
-  font: 600 12px system-ui, sans-serif;
+  font:
+    600 12px system-ui,
+    sans-serif;
   cursor: pointer;
 }
 

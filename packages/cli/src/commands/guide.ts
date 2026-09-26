@@ -42,7 +42,10 @@ export const guideCommand: CommandDef = {
       throw new CliError(
         EXIT.usage,
         'guides available for: slides, docs, sheets',
-        { usage: 'threadnoteoffice guide slides | threadnoteoffice guide docs | threadnoteoffice guide sheets' },
+        {
+          usage:
+            'threadnoteoffice guide slides | threadnoteoffice guide docs | threadnoteoffice guide sheets',
+        },
         {
           reason: domain === undefined ? 'missing_argument' : 'invalid_argument',
           suggestion: 'run `threadnoteoffice guide slides|docs|sheets`',

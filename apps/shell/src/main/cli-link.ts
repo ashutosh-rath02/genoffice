@@ -35,7 +35,10 @@ export function installCliLinkBestEffort(settingsPath: string): void {
     const version = app.getVersion()
     const previous = readAppSettings(settingsPath)[SETTING_KEY] as CliLinkRecord | undefined
     if (process.platform === 'win32' && previous?.version === version) return
-    const launcher = join(dir, process.platform === 'win32' ? 'threadnoteoffice.cmd' : 'threadnoteoffice')
+    const launcher = join(
+      dir,
+      process.platform === 'win32' ? 'threadnoteoffice.cmd' : 'threadnoteoffice',
+    )
     const outcome = installCliLink({ launcher })
     console.log(
       `[threadnoteoffice] cli link: ${outcome.status}${outcome.location ? ` (${outcome.location})` : ''}`,

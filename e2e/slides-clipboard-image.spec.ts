@@ -26,7 +26,11 @@ test('Slides copy provides an OS image while internal paste stays editable and s
       resolve('apps/slides'),
       pptx,
     ],
-    env: { ...env, THREADNOTE_OFFICE_USER_DATA: join(dir, 'user-data'), THREADNOTE_OFFICE_LANG: 'en' },
+    env: {
+      ...env,
+      THREADNOTE_OFFICE_USER_DATA: join(dir, 'user-data'),
+      THREADNOTE_OFFICE_LANG: 'en',
+    },
   })
   try {
     const page = await app.firstWindow()

@@ -197,7 +197,10 @@ describe('Settings → Integrations', () => {
     )
     expect(JSON.parse(mcpConfigJson(win))).toEqual({ mcpServers: { threadnoteoffice: win } })
     expect(
-      mcpClaudeCommand({ command: '/Applications/Gen Office.app/cli/threadnoteoffice', args: ['mcp'] }),
+      mcpClaudeCommand({
+        command: '/Applications/Gen Office.app/cli/threadnoteoffice',
+        args: ['mcp'],
+      }),
     ).toBe(
       'claude mcp add --transport stdio threadnoteoffice -- "/Applications/Gen Office.app/cli/threadnoteoffice" mcp',
     )
@@ -217,7 +220,9 @@ describe('Settings → Integrations', () => {
     const row = host.querySelector('[data-agent="claude-code"]')!
     await click(buttonWithText('Install', row))
     expect(install).not.toHaveBeenCalled()
-    expect(row.textContent).toContain('Will write: /home/u/.claude/skills/threadnoteoffice/SKILL.md')
+    expect(row.textContent).toContain(
+      'Will write: /home/u/.claude/skills/threadnoteoffice/SKILL.md',
+    )
 
     await click(buttonWithText('Cancel', row))
     expect(row.querySelector('.set-intg-confirm')).toBeNull()
@@ -252,7 +257,9 @@ describe('Settings → Integrations', () => {
 
     await click(buttonWithText('Download skill (zip)'))
     expect(saveZip).toHaveBeenCalledWith('Save skill')
-    expect(host.textContent).toContain('Saved to /Users/u/Downloads/threadnoteoffice-skill-2.1.0.zip')
+    expect(host.textContent).toContain(
+      'Saved to /Users/u/Downloads/threadnoteoffice-skill-2.1.0.zip',
+    )
   })
 
   it('marks the Integrations entry while a detected assistant holds an older skill', async () => {

@@ -841,7 +841,8 @@ export function cssFontFamily(font: string, followAltName = true): string {
   if (f.includes('nunito')) return `${chain(font, 'Nunito Sans GO', CJK_SANS)},sans-serif`
   // Poppins is an M365 cloud font Word renders real; the bundled Latin subset
   // (fonts.css) carries its true advances (probe 2026-09-01)
-  if (f.includes('poppins')) return `${chain(font, 'ThreadnoteOffice Poppins', CJK_SANS)},sans-serif`
+  if (f.includes('poppins'))
+    return `${chain(font, 'ThreadnoteOffice Poppins', CJK_SANS)},sans-serif`
   // Microsoft New Tai Lue ships with Office; its Latin is Segoe-flavored with
   // Arial-class widths (probe 2026-08-23: +0.5% vs Helvetica)
   if (f.includes('new tai lue'))
@@ -885,11 +886,26 @@ export function cssFontFamily(font: string, followAltName = true): string {
     'ThreadnoteOffice MS Mincho',
     'Noto Serif JP',
   ]
-  const KO_SANS = ['Malgun Gothic', 'ThreadnoteOffice Sans KR', 'Apple SD Gothic Neo', 'Noto Sans KR']
-  const KO_SERIF = ['ThreadnoteOffice Batang', 'ThreadnoteOffice Serif KR', 'ThreadnoteOffice Myungjo', 'Noto Serif KR']
+  const KO_SANS = [
+    'Malgun Gothic',
+    'ThreadnoteOffice Sans KR',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+  ]
+  const KO_SERIF = [
+    'ThreadnoteOffice Batang',
+    'ThreadnoteOffice Serif KR',
+    'ThreadnoteOffice Myungjo',
+    'Noto Serif KR',
+  ]
   const TC_SANS = ['Microsoft JhengHei', 'PingFang TC', 'ThreadnoteOffice Heiti TC', 'Noto Sans TC']
   // 'ThreadnoteOffice Fullwidth TC' (fonts.css): fullwidth U+FF0D/FF0F/FF3C/FF3F/FF5E whose Songti TC glyphs look half-width
-  const TC_SERIF = ['ThreadnoteOffice MingLiU', 'ThreadnoteOffice Fullwidth TC', 'Songti TC', 'Noto Serif TC']
+  const TC_SERIF = [
+    'ThreadnoteOffice MingLiU',
+    'ThreadnoteOffice Fullwidth TC',
+    'Songti TC',
+    'Noto Serif TC',
+  ]
   const SC_SANS = ['PingFang SC', 'Microsoft YaHei', CJK_SANS]
   const SC_SERIF = ['ThreadnoteOffice Songti SC', 'STSong', 'SimSun', CJK_SERIF]
   const nfkc = font.normalize('NFKC')
@@ -991,7 +1007,8 @@ export function cssFontFamily(font: string, followAltName = true): string {
     // claims: hangul lands on Batang (1em, Word probe 2026-09-06). The
     // SC/TC/JP chains carry no hangul, so without this tail Chromium falls to
     // the system sans (Apple SD Gothic Neo, 0.865em) and lines wrap late
-    const hangulTail = !isKr && missingLocally() ? ['ThreadnoteOffice Batang', 'ThreadnoteOffice Serif KR'] : []
+    const hangulTail =
+      !isKr && missingLocally() ? ['ThreadnoteOffice Batang', 'ThreadnoteOffice Serif KR'] : []
     return `${chain(...head, ...krLatin, ...chainFor, ...hangulTail)},${serif ? 'serif' : 'sans-serif'}`
   }
   if (

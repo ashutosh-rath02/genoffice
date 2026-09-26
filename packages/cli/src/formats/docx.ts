@@ -1183,7 +1183,8 @@ const CONTENT_NOTES: Record<(typeof CONTENT_OPS)[number], string> = {
     'the blocks after afterBlockIndex become a new section (a copy of the current setup, then change it with set_page_setup section: N); type nextPage (default) / continuous / evenPage / oddPage',
   add_comment:
     'new thread on a block, or on an exact text span inside it (occurrence picks one of several matches); the document text is untouched; author defaults to "AI Assistant"',
-  reply_comment: 'ids from `threadnoteoffice docs read --comments`; replies attach to the thread root',
+  reply_comment:
+    'ids from `threadnoteoffice docs read --comments`; replies attach to the thread root',
   resolve_comment: 'ids from `threadnoteoffice docs read --comments`',
   accept_changes:
     'selector: all: true, ids from `threadnoteoffice docs read --revisions` (positional, re-read after every edit), or author / type / blockIndex / blockRange / before; insertions become plain text, deleted text goes',

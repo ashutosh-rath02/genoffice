@@ -39,7 +39,11 @@ export const imageCommand: CommandDef = {
       value: 'ratio',
       description: '1:1 | 4:3 | 16:9 | 9:16 | 3:4 | 2:3 | 3:2 | auto',
     },
-    { name: 'size', value: 'size', description: 'auto | 0.5k | 1k | 2k | 3k | 4k (Threadnote only)' },
+    {
+      name: 'size',
+      value: 'size',
+      description: 'auto | 0.5k | 1k | 2k | 3k | 4k (Threadnote only)',
+    },
     {
       name: 'ref',
       value: 'images',

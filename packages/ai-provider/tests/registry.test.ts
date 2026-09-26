@@ -237,9 +237,7 @@ describe('provider registry', () => {
 
   it('only Codex uses local account authentication', () => {
     for (const [id, adapter] of Object.entries(AI_PROVIDER_ADAPTERS)) {
-      expect(adapter.capabilities.auth).toBe(
-        id === 'codex' ? 'codex-chatgpt' : 'api-key',
-      )
+      expect(adapter.capabilities.auth).toBe(id === 'codex' ? 'codex-chatgpt' : 'api-key')
     }
   })
 

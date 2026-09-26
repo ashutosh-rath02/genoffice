@@ -24,7 +24,10 @@ export function auditLogPath(env: NodeJS.ProcessEnv): string | null {
   const raw = env.THREADNOTE_OFFICE_AUDIT_LOG?.trim()
   if (raw?.toLowerCase() === 'off') return null
   if (raw) return raw
-  return join(env.THREADNOTE_OFFICE_AUTH_DIR || join(homedir(), '.threadnoteoffice'), 'cli-audit.jsonl')
+  return join(
+    env.THREADNOTE_OFFICE_AUTH_DIR || join(homedir(), '.threadnoteoffice'),
+    'cli-audit.jsonl',
+  )
 }
 
 export function appendAudit(env: NodeJS.ProcessEnv, record: AuditRecord): void {

@@ -26,7 +26,11 @@ export default defineConfig({
   main: {
     plugins: [
       externalizeDepsPlugin({
-        exclude: ['@threadnote/docx-engine', '@threadnote/electron-utils', '@threadnote/font-metrics'],
+        exclude: [
+          '@threadnote/docx-engine',
+          '@threadnote/electron-utils',
+          '@threadnote/font-metrics',
+        ],
       }),
     ],
     resolve: { alias: localAlias },

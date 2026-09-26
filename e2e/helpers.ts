@@ -45,7 +45,8 @@ export async function launchShell(options: LaunchOptions): Promise<LaunchedApp> 
   if (!existsSync(SHELL_MAIN)) {
     throw new Error(`Missing build output at ${SHELL_MAIN} — run \`npm run build:all\` first`)
   }
-  const userDataDir = options.userDataDir ?? (await mkdtemp(join(tmpdir(), 'threadnoteoffice-e2e-')))
+  const userDataDir =
+    options.userDataDir ?? (await mkdtemp(join(tmpdir(), 'threadnoteoffice-e2e-')))
   if (options.onboardingSeen || options.settings) {
     await writeFile(
       join(userDataDir, 'app-settings.json'),

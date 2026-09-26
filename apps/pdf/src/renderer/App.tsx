@@ -1513,7 +1513,9 @@ export default function App() {
 
   // threadnoteoffice CLI (`open --page`, `selection`): the shell evaluates this hook
   useEffect(() => {
-    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (req: ControlRequest) =>
+    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (
+      req: ControlRequest,
+    ) =>
       handlePdfControl(req, {
         loaded: doc !== null,
         pageCount,

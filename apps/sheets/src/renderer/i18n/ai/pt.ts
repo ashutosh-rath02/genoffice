@@ -66,8 +66,7 @@ export const pt = {
     'O serviço de IA está sobrecarregado no momento — tente novamente em instantes',
   aiNetworkError:
     'Problema de rede: não foi possível conectar ao serviço de IA. Verifique sua conexão e tente novamente',
-  aiCreditsExhausted:
-    'Seus créditos AI acabaram',
+  aiCreditsExhausted: 'Seus créditos AI acabaram',
   aiToolWorkbookContext: 'Ler informações da pasta de trabalho',
   aiToolReadRange: 'Ler intervalo',
   aiToolReadRangeOf: 'Ler intervalo {range}',

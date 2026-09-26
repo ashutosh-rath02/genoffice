@@ -67,8 +67,7 @@ export const es = {
     'El servicio de IA está saturado en este momento; inténtalo de nuevo en unos instantes',
   aiNetworkError:
     'Problema de red: no se pudo conectar con el servicio de IA. Comprueba tu conexión e inténtalo de nuevo',
-  aiCreditsExhausted:
-    'Tus créditos de AI se han agotado',
+  aiCreditsExhausted: 'Tus créditos de AI se han agotado',
   aiToolWorkbookContext: 'Leer información del libro',
   aiToolReadRange: 'Leer rango',
   aiToolReadRangeOf: 'Leer rango {range}',

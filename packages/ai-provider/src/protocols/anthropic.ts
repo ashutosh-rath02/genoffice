@@ -139,7 +139,7 @@ async function anthropicTurn(
         // which adds browser-semantics headers; Anthropic rejects those with 403 "Request not
         // allowed". This header is the official opt-in for browser/Electron environments.
         'anthropic-dangerous-direct-browser-access': 'true',
-          ...opencodeSessionHeaders(baseUrl, cb.sessionId),
+        ...opencodeSessionHeaders(baseUrl, cb.sessionId),
       },
       body: JSON.stringify({
         model: config.model,

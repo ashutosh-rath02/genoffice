@@ -73,7 +73,11 @@ export function installCliLink(opts: InstallOptions): InstallOutcome {
     }
   }
   if (occupied) return { status: 'occupied', location: occupied, manual }
-  return { status: 'unwritable', location: join(dirs[0] ?? '/usr/local/bin', 'threadnoteoffice'), manual }
+  return {
+    status: 'unwritable',
+    location: join(dirs[0] ?? '/usr/local/bin', 'threadnoteoffice'),
+    manual,
+  }
 }
 
 /** Read-only twin of `installCliLink`: what a fresh terminal would find, without changing anything. */
@@ -98,7 +102,11 @@ export function inspectCliLink(opts: InstallOptions): InstallOutcome {
     if (writable(dir)) return { status: 'missing', location: link, manual }
   }
   if (occupied) return { status: 'occupied', location: occupied, manual }
-  return { status: 'unwritable', location: join(dirs[0] ?? '/usr/local/bin', 'threadnoteoffice'), manual }
+  return {
+    status: 'unwritable',
+    location: join(dirs[0] ?? '/usr/local/bin', 'threadnoteoffice'),
+    manual,
+  }
 }
 
 function manualCommand(launcher: string): string {

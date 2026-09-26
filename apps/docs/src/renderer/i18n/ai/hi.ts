@@ -114,8 +114,7 @@ export const hi = {
   aiOverloadedError: 'AI सेवा अभी व्यस्त है — कृपया थोड़ी देर बाद फिर से प्रयास करें',
   aiNetworkError:
     'नेटवर्क समस्या: AI सेवा से कनेक्ट नहीं हो सका। कनेक्शन जांचें और फिर से प्रयास करें',
-  aiCreditsExhausted:
-    'आपके AI क्रेडिट समाप्त हो गए हैं',
+  aiCreditsExhausted: 'आपके AI क्रेडिट समाप्त हो गए हैं',
   aiSumReadAttachment: 'अनुलग्नक पढ़ें',
   aiSumImageAttachment: 'चित्र अनुलग्नक {name}',
   aiSumRead: '{name} पढ़ें',

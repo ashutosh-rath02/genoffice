@@ -100,8 +100,8 @@ test('sheets: typing into the active cell works immediately after opening from H
     const sheets = await waitForPageWithUrl(launched.app, '://sheets/')
     await sheets.waitForFunction(
       () =>
-        (window as unknown as { __threadnoteofficeDebug?: { univerAPI?: unknown } }).__threadnoteofficeDebug
-          ?.univerAPI,
+        (window as unknown as { __threadnoteofficeDebug?: { univerAPI?: unknown } })
+          .__threadnoteofficeDebug?.univerAPI,
       null,
       { timeout: 60_000 },
     )

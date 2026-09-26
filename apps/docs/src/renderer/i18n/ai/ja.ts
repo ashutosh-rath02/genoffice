@@ -114,8 +114,7 @@ export const ja = {
   aiOverloadedError: 'AI サービスが混み合っています。しばらくしてからもう一度お試しください',
   aiNetworkError:
     'ネットワークに問題があり、AI サービスに接続できません。接続を確認して再試行してください',
-  aiCreditsExhausted:
-    'AIクレジットを使い切りました',
+  aiCreditsExhausted: 'AIクレジットを使い切りました',
   aiSumReadAttachment: '添付ファイルを読み取り',
   aiSumImageAttachment: '画像添付 {name}',
   aiSumRead: '{name} を読み取り',

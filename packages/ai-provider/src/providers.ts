@@ -410,7 +410,8 @@ export function resolveAiSettings(
     return defaults
   }
   return {
-    provider: (stored.provider as string) === 'genspark' ? 'codex' : (stored.provider ?? defaults.provider),
+    provider:
+      (stored.provider as string) === 'genspark' ? 'codex' : (stored.provider ?? defaults.provider),
     // Trim before migrating: a pasted " deepseek-reasoner " must still hit
     // the retired-id remap instead of being sent to the API verbatim.
     providers: migrateRetiredModels(trimConfigs({ ...defaults.providers, ...stored.providers })),

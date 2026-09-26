@@ -77,9 +77,10 @@ const winArch = winArm64 ? 'arm64' : 'x64'
 const winSidecarTarget = winArm64 ? 'aarch64-pc-windows-msvc' : 'x86_64-pc-windows-gnu'
 // Native Windows x64 builds use the host MSVC target/release directory. Linux
 // cross-builds keep their explicit GNU target directory.
-const WIN_SIDECAR = !winArm64 && process.platform === 'win32' && process.arch === 'x64'
-  ? '../sheets/native/xlsx-engine/target/release/xlsx-sidecar.exe'
-  : `../sheets/native/xlsx-engine/target/${winSidecarTarget}/release/xlsx-sidecar.exe`
+const WIN_SIDECAR =
+  !winArm64 && process.platform === 'win32' && process.arch === 'x64'
+    ? '../sheets/native/xlsx-engine/target/release/xlsx-sidecar.exe'
+    : `../sheets/native/xlsx-engine/target/${winSidecarTarget}/release/xlsx-sidecar.exe`
 
 // LICENSES.chromium.html only exists after the Electron binary download —
 // since Electron 42 that no longer happens during `npm ci` (the postinstall
@@ -587,7 +588,9 @@ const config = {
 const winSignMode = process.env.THREADNOTE_OFFICE_WIN_SIGN_MODE
 if (winSignMode) {
   if (winSignMode !== 'test' && winSignMode !== 'production') {
-    throw new Error(`THREADNOTE_OFFICE_WIN_SIGN_MODE must be "test" or "production", got "${winSignMode}"`)
+    throw new Error(
+      `THREADNOTE_OFFICE_WIN_SIGN_MODE must be "test" or "production", got "${winSignMode}"`,
+    )
   }
   config.win.signtoolOptions = {
     // Single pass per file: the sha1+sha256 dual-signing default is a

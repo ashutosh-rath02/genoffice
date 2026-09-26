@@ -983,7 +983,8 @@ export const tMain = createI18n({
     errImageNoText:
       'Lampiran gambar tidak menyediakan teks; gambar telah dikirim bersama pesan pengguna, silakan lihat gambarnya langsung',
     errNotImage: 'bukan jenis gambar yang didukung',
-    errGskNotLoggedIn: 'Belum masuk ke Threadnote: klik “Masuk ke Threadnote” di bawah, lalu coba lagi',
+    errGskNotLoggedIn:
+      'Belum masuk ke Threadnote: klik “Masuk ke Threadnote” di bawah, lalu coba lagi',
     errNoApiKey: 'API Key untuk {provider} belum dikonfigurasi',
     errNoModel: 'Nama model belum dikonfigurasi',
     errGskCli: 'gsk belum masuk: jalankan gsk login dulu untuk masuk ke akun Threadnote',

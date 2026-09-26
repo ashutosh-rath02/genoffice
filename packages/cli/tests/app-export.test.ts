@@ -58,7 +58,9 @@ function fakeSpawn(script: Script, calls: { command: string; args: string[] }[])
   }) as unknown as typeof import('node:child_process').spawn
 }
 
-const env = { THREADNOTE_OFFICE_APP_BIN: '/Applications/ThreadnoteOffice.app/Contents/MacOS/ThreadnoteOffice' }
+const env = {
+  THREADNOTE_OFFICE_APP_BIN: '/Applications/ThreadnoteOffice.app/Contents/MacOS/ThreadnoteOffice',
+}
 
 describe('exportViaApp', () => {
   it('spawns the app in headless-export mode and returns the envelope', async () => {

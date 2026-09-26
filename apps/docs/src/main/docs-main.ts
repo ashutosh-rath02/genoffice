@@ -1003,7 +1003,8 @@ const tMain = createI18n({
     errImageNoText:
       'Lampiran gambar tidak menyediakan teks; gambar dikirim bersama pesan pengguna dan dapat dilihat langsung',
     errNotImage: 'bukan jenis gambar yang didukung',
-    errGskNotLoggedIn: 'Belum masuk ke Threadnote: klik “Masuk ke Threadnote” di bawah, lalu coba lagi',
+    errGskNotLoggedIn:
+      'Belum masuk ke Threadnote: klik “Masuk ke Threadnote” di bawah, lalu coba lagi',
     errNoApiKey: 'API Key untuk {provider} belum dikonfigurasi',
     errAiBusy: 'Layanan AI sedang sibuk — silakan coba lagi sebentar lagi',
     errNoModel: 'Nama model belum dikonfigurasi',

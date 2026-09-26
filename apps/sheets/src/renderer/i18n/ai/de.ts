@@ -66,8 +66,7 @@ export const de = {
   aiOverloadedError: 'Der KI-Dienst ist derzeit überlastet — bitte gleich erneut versuchen',
   aiNetworkError:
     'Netzwerkproblem: Der KI-Dienst ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut',
-  aiCreditsExhausted:
-    'Deine AI-Credits sind aufgebraucht',
+  aiCreditsExhausted: 'Deine AI-Credits sind aufgebraucht',
   aiToolWorkbookContext: 'Arbeitsmappeninformationen lesen',
   aiToolReadRange: 'Bereich lesen',
   aiToolReadRangeOf: 'Bereich {range} lesen',

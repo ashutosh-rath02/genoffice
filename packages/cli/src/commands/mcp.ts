@@ -47,7 +47,8 @@ export const mcpCommand: CommandDef = {
       log: ctx.log,
       port,
       host: flagString(args, 'host'),
-      token: flagString(args, 'token') ?? (ctx.env.THREADNOTE_OFFICE_MCP_TOKEN?.trim() || undefined),
+      token:
+        flagString(args, 'token') ?? (ctx.env.THREADNOTE_OFFICE_MCP_TOKEN?.trim() || undefined),
     })
     return { summary: 'mcp server stopped' }
   },

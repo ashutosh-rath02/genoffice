@@ -116,8 +116,7 @@ export const nl = {
   aiOverloadedError: 'De AI-service is momenteel overbelast — probeer het zo opnieuw',
   aiNetworkError:
     'Netwerkprobleem: kan de AI-service niet bereiken. Controleer je verbinding en probeer het opnieuw',
-  aiCreditsExhausted:
-    'Je AI-credits zijn op',
+  aiCreditsExhausted: 'Je AI-credits zijn op',
   aiSumReadAttachment: 'Bijlage lezen',
   aiSumImageAttachment: 'Afbeeldingsbijlage {name}',
   aiSumRead: '{name} lezen',

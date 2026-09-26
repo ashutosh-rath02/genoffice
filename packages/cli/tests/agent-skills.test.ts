@@ -150,7 +150,9 @@ describe('buildSkillZip', () => {
   it('holds threadnoteoffice/SKILL.md with the exact bundled bytes', async () => {
     const b = bundled('1.2.0')
     const zip = await JSZip.loadAsync(await buildSkillZip(b))
-    expect(Object.keys(zip.files).filter((f) => !zip.files[f]!.dir)).toEqual(['threadnoteoffice/SKILL.md'])
+    expect(Object.keys(zip.files).filter((f) => !zip.files[f]!.dir)).toEqual([
+      'threadnoteoffice/SKILL.md',
+    ])
     expect(await zip.file('threadnoteoffice/SKILL.md')!.async('string')).toBe(b.text)
   })
 })

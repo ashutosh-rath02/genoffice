@@ -64,8 +64,7 @@ export const id = {
   aiOverloadedError: 'Layanan AI sedang sibuk — silakan coba lagi sebentar lagi',
   aiNetworkError:
     'Masalah jaringan: tidak dapat terhubung ke layanan AI. Periksa koneksi Anda lalu coba lagi',
-  aiCreditsExhausted:
-    'Kredit AI Anda telah habis',
+  aiCreditsExhausted: 'Kredit AI Anda telah habis',
   aiToolWorkbookContext: 'Baca info buku kerja',
   aiToolReadRange: 'Baca rentang',
   aiToolReadRangeOf: 'Baca rentang {range}',

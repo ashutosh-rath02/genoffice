@@ -113,8 +113,7 @@ export const ms = {
   aiErrOverloaded: 'Perkhidmatan AI sedang sibuk — sila cuba lagi sebentar lagi',
   aiErrNetwork:
     'Masalah rangkaian: tidak dapat menghubungi perkhidmatan AI. Semak sambungan anda dan cuba lagi',
-  aiCreditsExhausted:
-    'Kredit AI anda telah habis',
+  aiCreditsExhausted: 'Kredit AI anda telah habis',
   aiErrRequestFailed: 'Gagal menghantar permintaan: {msg}',
   aiErrGenerateFailed: 'Penjanaan gagal',
   aiErrRegenFailed: 'Gagal membuat semula slaid',

@@ -20,7 +20,11 @@ describe('mcp http hardening', () => {
       host: '127.0.0.1',
       token: TOKEN,
       cwd: tempDir(),
-      env: { ...process.env, THREADNOTE_OFFICE_AUDIT_LOG: 'off', THREADNOTE_OFFICE_ALLOWED_ROOTS: '' },
+      env: {
+        ...process.env,
+        THREADNOTE_OFFICE_AUDIT_LOG: 'off',
+        THREADNOTE_OFFICE_ALLOWED_ROOTS: '',
+      },
       log: () => {},
       registry: defaultRegistry(),
     })

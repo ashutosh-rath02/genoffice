@@ -114,8 +114,7 @@ export const cs = {
   aiErrOverloaded: 'Služba AI je momentálně zaneprázdněná — zkuste to prosím za chvíli znovu',
   aiErrNetwork:
     'Problém se sítí: službu AI se nepodařilo kontaktovat. Zkontrolujte připojení a zkuste to znovu',
-  aiCreditsExhausted:
-    'Vaše kredity AI byly vyčerpány',
+  aiCreditsExhausted: 'Vaše kredity AI byly vyčerpány',
   aiErrRequestFailed: 'Odeslání požadavku se nezdařilo: {msg}',
   aiErrGenerateFailed: 'Generování se nezdařilo',
   aiErrRegenFailed: 'Přepracování snímku se nezdařilo',

@@ -316,7 +316,11 @@ describe('mcp server', () => {
     const inside = join(dir, 'roots')
     const ctx2 = createContext({
       cwd: dir,
-      env: { ...process.env, THREADNOTE_OFFICE_AUDIT_LOG: 'off', THREADNOTE_OFFICE_ALLOWED_ROOTS: inside },
+      env: {
+        ...process.env,
+        THREADNOTE_OFFICE_AUDIT_LOG: 'off',
+        THREADNOTE_OFFICE_ALLOWED_ROOTS: inside,
+      },
       log: () => {},
     })
     const server = createMcpServer(ctx2, { registry })

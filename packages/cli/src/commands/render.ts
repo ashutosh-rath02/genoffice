@@ -128,7 +128,9 @@ export const renderCommand: CommandDef = {
     const detail: Record<string, unknown> = {
       files: [...files, ...crops].map((f) => ({ ...f, page: f.page + 1 })),
       formats: RENDERABLE,
-      via: path.toLowerCase().endsWith('.pdf') ? 'pdfium' : 'threadnoteoffice --headless-export + pdfium',
+      via: path.toLowerCase().endsWith('.pdf')
+        ? 'pdfium'
+        : 'threadnoteoffice --headless-export + pdfium',
     }
     if (flagBool(args, 'grid')) {
       const sheet = contactSheet(

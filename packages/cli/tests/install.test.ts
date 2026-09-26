@@ -44,7 +44,14 @@ describe('installCliLink', () => {
 
     const npm = join(dir, 'npm-bin')
     mkdirSync(npm)
-    const npmTarget = join(dir, 'lib', 'node_modules', 'threadnoteoffice', 'bin', 'threadnoteoffice.js')
+    const npmTarget = join(
+      dir,
+      'lib',
+      'node_modules',
+      'threadnoteoffice',
+      'bin',
+      'threadnoteoffice.js',
+    )
     symlinkSync(npmTarget, join(npm, 'threadnoteoffice'))
     expect(installCliLink({ launcher, platform: 'linux', candidateDirs: [npm] }).status).toBe(
       'occupied',
@@ -124,7 +131,8 @@ describe('installCliLink', () => {
     }
     const launcher =
       "C:\\Users\\O'Brien\\AppData\\Local\\Programs\\ThreadnoteOffice\\resources\\threadnoteoffice\\threadnoteoffice.cmd"
-    const dir = "C:\\Users\\O'Brien\\AppData\\Local\\Programs\\ThreadnoteOffice\\resources\\threadnoteoffice"
+    const dir =
+      "C:\\Users\\O'Brien\\AppData\\Local\\Programs\\ThreadnoteOffice\\resources\\threadnoteoffice"
     const first = installCliLink({ launcher, platform: 'win32', runPowerShell: run })
     expect(first).toEqual({ status: 'linked', location: dir })
     expect(scripts[0]).toContain("$dir = 'C:\\Users\\O''Brien\\AppData")

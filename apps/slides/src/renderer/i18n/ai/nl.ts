@@ -115,8 +115,7 @@ export const nl = {
   aiErrOverloaded: 'De AI-service is momenteel overbelast — probeer het zo opnieuw',
   aiErrNetwork:
     'Netwerkprobleem: kan de AI-service niet bereiken. Controleer je verbinding en probeer het opnieuw',
-  aiCreditsExhausted:
-    'Je AI-credits zijn op',
+  aiCreditsExhausted: 'Je AI-credits zijn op',
   aiErrRequestFailed: 'Verzenden van verzoek mislukt: {msg}',
   aiErrGenerateFailed: 'Genereren mislukt',
   aiErrRegenFailed: 'Dia opnieuw genereren mislukt',

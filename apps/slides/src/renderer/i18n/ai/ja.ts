@@ -112,8 +112,7 @@ export const ja = {
   aiErrOverloaded: 'AI サービスが混み合っています。しばらくしてからもう一度お試しください',
   aiErrNetwork:
     'ネットワークに問題があり、AI サービスに接続できません。接続を確認して再試行してください',
-  aiCreditsExhausted:
-    'AIクレジットを使い切りました',
+  aiCreditsExhausted: 'AIクレジットを使い切りました',
   aiErrRequestFailed: 'リクエストの送信に失敗しました: {msg}',
   aiErrGenerateFailed: '生成に失敗しました',
   aiErrRegenFailed: 'ページの再生成に失敗しました',

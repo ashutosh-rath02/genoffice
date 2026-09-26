@@ -276,11 +276,11 @@ każdym klientem MCP.
 
 ### Instalacja skilla
 
-| Jak                                       | Co się dzieje                                                                                                                                                                                          |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Ustawienia → Integracje** w aplikacji   | Wyświetla agentów znalezionych na tym komputerze; jedno kliknięcie zapisuje skill w każdym, którego wybierzesz. Gdy nowe wydanie ThreadnoteOffice przynosi nowszy skill, pojawia się przycisk **Aktualizuj**. |
-| **Pobierz jako zip** na tej samej stronie | Układ, który claude.ai, aplikacje desktopowe Claude i inni asystenci przyjmują jako przesłany skill.                                                                                                   |
-| `install the bundled Threadnote Office skill from Settings`    | Instaluje z tego repozytorium w dowolnym agencie obsługującym skille.                                                                                                                                  |
+| Jak                                                         | Co się dzieje                                                                                                                                                                                                 |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Ustawienia → Integracje** w aplikacji                     | Wyświetla agentów znalezionych na tym komputerze; jedno kliknięcie zapisuje skill w każdym, którego wybierzesz. Gdy nowe wydanie ThreadnoteOffice przynosi nowszy skill, pojawia się przycisk **Aktualizuj**. |
+| **Pobierz jako zip** na tej samej stronie                   | Układ, który claude.ai, aplikacje desktopowe Claude i inni asystenci przyjmują jako przesłany skill.                                                                                                          |
+| `install the bundled Threadnote Office skill from Settings` | Instaluje z tego repozytorium w dowolnym agencie obsługującym skille.                                                                                                                                         |
 
 Następnie zacznij nowy czat i poproś o dokument. Skill uczy agenta, kiedy
 sięgać po `threadnoteoffice`, jak przeczytać plik przed jego edycją i jak sprawdzać
@@ -339,10 +339,10 @@ które nie mogą uruchomić terminala albo którym wolisz go nie dawać. Są dwa
 sposoby połączenia, oba pokazane z gotowymi do skopiowania fragmentami w
 **Ustawienia → Integracje → MCP**:
 
-| Sposób                             | Co to jest                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sposób                                    | Co to jest                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **A · `threadnoteoffice mcp`** (zalecane) | Serwer stdio, który asystent uruchamia sam; ThreadnoteOffice nie musi być otwarte. Jedno narzędzie na polecenie (`info`, `convert`, `create_docx`, `create_xlsx`, `create_pptx`, `create_pdf`, `docs_read` / `docs_apply` / `docs_check`, `sheet_*`, `slides_*`, `render`, `guide`, `search`, `image`, `media`, `open`) oraz etapowy przepływ prezentacji `deck_start` → `deck_page` → `deck_build` → `deck_replace`. Operacje, specyfikacje i Markdown są przekazywane inline, więc działa też klient bez systemu plików. |
-| **B · Lokalny serwer HTTP**        | Działa wewnątrz aplikacji ThreadnoteOffice pod adresem `http://127.0.0.1:3093/mcp` (Streamable HTTP, z przestarzałym SSE). Jego narzędzia sterują widoczną kartą edytora Word: `create_session`, `insert_content`, `replace_blocks`, `apply_ops`, `read_document`, `save_session`, a Ty obserwujesz, jak dokument nabiera kształtu. Domyślnie wyłączony; włącz go w tym samym panelu ustawień.                                                                                                                             |
+| **B · Lokalny serwer HTTP**               | Działa wewnątrz aplikacji ThreadnoteOffice pod adresem `http://127.0.0.1:3093/mcp` (Streamable HTTP, z przestarzałym SSE). Jego narzędzia sterują widoczną kartą edytora Word: `create_session`, `insert_content`, `replace_blocks`, `apply_ops`, `read_document`, `save_session`, a Ty obserwujesz, jak dokument nabiera kształtu. Domyślnie wyłączony; włącz go w tym samym panelu ustawień.                                                                                                                             |
 
 ```bash
 # Claude Code
@@ -394,8 +394,8 @@ ThreadnoteOffice.
 
 ## Pobierz
 
-| Platforma                               | Wymagania                                             | Pobierz                                                                                       |
-| --------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Platforma                               | Wymagania                                             | Pobierz                                                                            |
+| --------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | **macOS** — Apple Silicon (arm64)       | macOS 11+                                             | [Najnowszy plik `.dmg` (arm64)](https://github.com/ashutosh-rath02/threadnote)     |
 | **macOS** — Intel (x64)                 | macOS 11+                                             | [Najnowszy plik `.dmg` (x64)](https://github.com/ashutosh-rath02/threadnote)       |
 | **Windows** (x64, większość komputerów) | Windows 10+, Intel/AMD                                | [Najnowszy instalator `-x64.exe`](https://github.com/ashutosh-rath02/threadnote)   |

@@ -8,7 +8,10 @@
  */
 import { formatAddress, parseAddress } from '@threadnote/xlsx-gateway/domain/cell-address'
 import type { CellScalar } from '@threadnote/xlsx-gateway/domain/workbook.types'
-import { qualifierMatches, type StructuralOp } from '@threadnote/xlsx-gateway/gateway/xlsx-structure'
+import {
+  qualifierMatches,
+  type StructuralOp,
+} from '@threadnote/xlsx-gateway/gateway/xlsx-structure'
 import { containsUnresolvedNames, parseFormulaReferences } from '../formula-closure'
 import { lazySheetScreenExtent } from '../univer-state'
 import { readSheetRangeMapped } from '../univer-sync'

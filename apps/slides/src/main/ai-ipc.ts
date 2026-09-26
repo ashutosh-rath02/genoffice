@@ -34,7 +34,11 @@ import {
   type LegacyAiSettings,
 } from '@threadnote/ai-provider'
 import { shutdownCodexAppServers } from '@threadnote/ai-provider/codex-app-server'
-import { MAX_REMOTE_IMAGE_BYTES, fetchRemoteImage, readBodyCapped } from '@threadnote/electron-utils'
+import {
+  MAX_REMOTE_IMAGE_BYTES,
+  fetchRemoteImage,
+  readBodyCapped,
+} from '@threadnote/electron-utils'
 import {
   webSearchTool,
   imageSearchTool,

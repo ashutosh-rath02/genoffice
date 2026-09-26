@@ -90,8 +90,9 @@ test.describe('sheets: paste repeats into an anchor-shaped target', () => {
 
       await expect(async () => {
         const values = await sheets.evaluate(() => {
-          const debug = (window as unknown as { __threadnoteofficeDebug: { univerAPI: SheetFacade } })
-            .__threadnoteofficeDebug
+          const debug = (
+            window as unknown as { __threadnoteofficeDebug: { univerAPI: SheetFacade } }
+          ).__threadnoteofficeDebug
           return debug.univerAPI
             .getActiveWorkbook()
             .getActiveSheet()

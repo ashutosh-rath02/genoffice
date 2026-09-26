@@ -1,6 +1,9 @@
 import { parseRange } from '@threadnote/xlsx-gateway/domain/cell-address'
 import { splitSheetRef } from '@threadnote/xlsx-gateway/domain/chart-visual'
-import { parseRelationships, parseSheetElements } from '@threadnote/xlsx-gateway/gateway/xlsx-sheets'
+import {
+  parseRelationships,
+  parseSheetElements,
+} from '@threadnote/xlsx-gateway/gateway/xlsx-sheets'
 import {
   FORMULA_REFERENCE_PATTERN,
   qualifierMatches,

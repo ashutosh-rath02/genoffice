@@ -115,7 +115,9 @@ describe('Codex app-server bridge', () => {
         },
       },
     })
-    expect(codexThreadStartParams(config, '/tmp/threadnoteoffice-codex-x', 'read-only')).toMatchObject({
+    expect(
+      codexThreadStartParams(config, '/tmp/threadnoteoffice-codex-x', 'read-only'),
+    ).toMatchObject({
       sandbox: 'read-only',
     })
     expect(activePermissionProfileId({ activePermissionProfile: { id: 'threadnoteoffice' } })).toBe(

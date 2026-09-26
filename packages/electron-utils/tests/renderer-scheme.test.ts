@@ -54,18 +54,22 @@ describe('resolveRendererFile', () => {
 
   it('blocks encoded traversal sequences', () => {
     // Percent-encoded dots are normalized by the URL parser and stay inside.
-    expect(resolveRendererFile(roots, 'threadnoteoffice-app://sheets/%2e%2e/%2e%2e/etc/passwd')).toBe(
-      join(rootDir, 'etc', 'passwd'),
-    )
+    expect(
+      resolveRendererFile(roots, 'threadnoteoffice-app://sheets/%2e%2e/%2e%2e/etc/passwd'),
+    ).toBe(join(rootDir, 'etc', 'passwd'))
     // Encoded separators decode to a traversal that escapes the root.
-    expect(resolveRendererFile(roots, 'threadnoteoffice-app://sheets/%2e%2e%2fetc%2fpasswd')).toBeNull()
-    expect(resolveRendererFile(roots, 'threadnoteoffice-app://sheets/..%5c..%5cetc%5cpasswd')).toBeNull()
+    expect(
+      resolveRendererFile(roots, 'threadnoteoffice-app://sheets/%2e%2e%2fetc%2fpasswd'),
+    ).toBeNull()
+    expect(
+      resolveRendererFile(roots, 'threadnoteoffice-app://sheets/..%5c..%5cetc%5cpasswd'),
+    ).toBeNull()
   })
 
   it('ignores query and fragment suffixes when mapping files', () => {
-    expect(resolveRendererFile(roots, 'threadnoteoffice-app://sheets/index.html?mode=tab#section')).toBe(
-      join(rootDir, 'index.html'),
-    )
+    expect(
+      resolveRendererFile(roots, 'threadnoteoffice-app://sheets/index.html?mode=tab#section'),
+    ).toBe(join(rootDir, 'index.html'))
     expect(resolveRendererFile(roots, 'threadnoteoffice-app://sheets/index.html#frag')).toBe(
       join(rootDir, 'index.html'),
     )
@@ -78,6 +82,8 @@ describe('resolveRendererFile', () => {
   })
 
   it('rejects overlong and NUL paths', () => {
-    expect(resolveRendererFile(roots, `threadnoteoffice-app://sheets/${'a'.repeat(5000)}.js`)).toBeNull()
+    expect(
+      resolveRendererFile(roots, `threadnoteoffice-app://sheets/${'a'.repeat(5000)}.js`),
+    ).toBeNull()
   })
 })

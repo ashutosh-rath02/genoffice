@@ -994,10 +994,8 @@ function AiMediaPane({
       <section key={cap}>
         {subhead(cap, title)}
         {providerRow(title, id, options, pick)}
-        <div className="set-field-desc set-ai-note">
-          {meta.description}
-        </div>
-        {(
+        <div className="set-field-desc set-ai-note">{meta.description}</div>
+        {
           <>
             {modelRow(
               `set-ai-${cap}-model`,
@@ -1013,7 +1011,7 @@ function AiMediaPane({
               updateMediaConfig(id, { baseUrl: v }),
             )}
           </>
-        )}
+        }
       </section>
     )
   }
@@ -1043,10 +1041,10 @@ function AiMediaPane({
         )}
         <div className="set-field-desc set-ai-note">
           {search.provider === 'parallel'
-              ? t('setAiSearchParallelHint')
-              : searchMeta?.imageSearch
-                ? t('setAiSearchSerperHint')
-                : t('setAiSearchTavilyHint')}
+            ? t('setAiSearchParallelHint')
+            : searchMeta?.imageSearch
+              ? t('setAiSearchSerperHint')
+              : t('setAiSearchTavilyHint')}
         </div>
         {keyRow('set-ai-search-key', searchKey, searchMeta?.keyPlaceholder ?? 'API Key', (v) =>
           setSearch({
@@ -1206,7 +1204,9 @@ export function SettingsModal({
   target,
 }: SettingsModalProps) {
   const { lang, setLang, t } = useI18n()
-  const [section, setSection] = useState<SectionId>(target?.section === 'account' ? 'general' : (target?.section ?? 'general'))
+  const [section, setSection] = useState<SectionId>(
+    target?.section === 'account' ? 'general' : (target?.section ?? 'general'),
+  )
   const [theme, setTheme] = useState<UiTheme>('system')
   const [saveDir, setSaveDir] = useState('')
   const [analyticsOn, setAnalyticsOn] = useState(true)

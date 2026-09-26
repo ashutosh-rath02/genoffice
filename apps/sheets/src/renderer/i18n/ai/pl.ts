@@ -64,8 +64,7 @@ export const pl = {
   aiOverloadedError: 'Usługa AI jest obecnie przeciążona — spróbuj ponownie za chwilę',
   aiNetworkError:
     'Problem z siecią: nie można połączyć się z usługą AI. Sprawdź połączenie i spróbuj ponownie',
-  aiCreditsExhausted:
-    'Twoje kredyty AI wyczerpały się',
+  aiCreditsExhausted: 'Twoje kredyty AI wyczerpały się',
   aiToolWorkbookContext: 'Odczyt informacji o skoroszycie',
   aiToolReadRange: 'Odczyt zakresu',
   aiToolReadRangeOf: 'Odczyt zakresu {range}',

@@ -5270,8 +5270,9 @@ export function App() {
 
   // threadnoteoffice CLI (`open --block`, `selection`): the shell evaluates this hook
   useEffect(() => {
-    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (req: ControlRequest) =>
-      handleDocsControl(req, editor, doc !== null)
+    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (
+      req: ControlRequest,
+    ) => handleDocsControl(req, editor, doc !== null)
   })
 
   // e2e/automation hook: lets tests drive open/edit/save without native dialogs

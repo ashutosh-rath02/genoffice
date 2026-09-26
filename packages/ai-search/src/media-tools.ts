@@ -19,7 +19,10 @@ import {
   type MediaBlob,
 } from '@threadnote/ai-provider'
 // deep imports: the package root re-exports Electron-bound modules, and this file also runs in the threadnoteoffice CLI
-import { readGeneratedImage, storeGeneratedImage } from '@threadnote/electron-utils/generated-images'
+import {
+  readGeneratedImage,
+  storeGeneratedImage,
+} from '@threadnote/electron-utils/generated-images'
 import {
   ResponseTooLargeError,
   fetchRemoteImage,
@@ -27,7 +30,8 @@ import {
 } from '@threadnote/electron-utils/remote-image'
 import { fetchWithSsrfGuard } from '@threadnote/electron-utils/safe-remote-url'
 
-export const MEDIA_PROVIDER_NOT_CONFIGURED = 'Configure an AI media provider in Settings to use this tool'
+export const MEDIA_PROVIDER_NOT_CONFIGURED =
+  'Configure an AI media provider in Settings to use this tool'
 
 /** 200 MB: enough for a long clip through the Gemini Files API, small enough to hold in memory */
 const MAX_MEDIA_BYTES = 200 * 1024 * 1024

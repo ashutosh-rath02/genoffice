@@ -65,8 +65,7 @@ export const ms = {
   aiOverloadedError: 'Perkhidmatan AI sedang sibuk — sila cuba lagi sebentar lagi',
   aiNetworkError:
     'Masalah rangkaian: tidak dapat menghubungi perkhidmatan AI. Semak sambungan anda dan cuba lagi',
-  aiCreditsExhausted:
-    'Kredit AI anda telah habis',
+  aiCreditsExhausted: 'Kredit AI anda telah habis',
   aiToolWorkbookContext: 'Baca maklumat buku kerja',
   aiToolReadRange: 'Baca julat',
   aiToolReadRangeOf: 'Baca julat {range}',

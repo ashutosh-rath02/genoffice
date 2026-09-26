@@ -81,11 +81,7 @@ import {
   decodeCsvBuffer,
   sheetCsvToXlsxBuffer,
 } from '@threadnote/xlsx-gateway/gateway/csv-import'
-import {
-  webSearchTool,
-  imageSearchTool,
-  generateImageTool,
-} from '@threadnote/ai-search'
+import { webSearchTool, imageSearchTool, generateImageTool } from '@threadnote/ai-search'
 import { parseFileToText } from '@threadnote/file-parse'
 import type { CellEdit, SheetStructuralOps } from '@threadnote/xlsx-gateway/gateway/xlsx-gateway'
 import {
@@ -670,7 +666,8 @@ const tMain = createI18n({
     errParseFailed: 'Gagal mengurai file',
     errImageNoText: 'Lampiran gambar tidak memiliki teks; gambar dikirim bersama pesan pengguna',
     errNotImage: 'bukan jenis gambar yang didukung',
-    errGskNotLoggedIn: 'Belum masuk ke Threadnote: klik “Masuk ke Threadnote” di bawah, lalu coba lagi',
+    errGskNotLoggedIn:
+      'Belum masuk ke Threadnote: klik “Masuk ke Threadnote” di bawah, lalu coba lagi',
     errNoApiKey: 'API Key untuk {provider} belum dikonfigurasi',
     errAiBusy: 'Layanan AI sedang sibuk — silakan coba lagi sebentar lagi',
     errNoModel: 'Nama model belum dikonfigurasi',
@@ -1502,7 +1499,10 @@ async function createStandaloneSheetsDocument(
   request: SheetsAiHostDocumentRequest,
 ): Promise<WorkbookCreateDocumentResult> {
   if (request.type === 'docx') {
-    return { ok: false, error: 'Creating DOCX files requires the ThreadnoteOffice shell or Docs app.' }
+    return {
+      ok: false,
+      error: 'Creating DOCX files requires the ThreadnoteOffice shell or Docs app.',
+    }
   }
   const title = sanitizeGeneratedFileBase(request.title)
   try {
@@ -4126,7 +4126,7 @@ async function applyMainProcessProxy(): Promise<void> {
   const setDispatcher = async (proxyUrl: string) => {
     // spawned gsk CLI children do their own fetch and never see the
     // dispatcher below — forward the proxy to them via env
-      try {
+    try {
       const { ProxyAgent, setGlobalDispatcher } = await import('undici')
       setGlobalDispatcher(new ProxyAgent(proxyUrl))
       // strip user:pass credentials before logging

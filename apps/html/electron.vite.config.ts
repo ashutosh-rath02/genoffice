@@ -4,10 +4,14 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 export default defineConfig({
   // @threadnote/i18n and @threadnote/electron-utils ship as TS source — must be bundled
   main: {
-    plugins: [externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   preload: {
-    plugins: [externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   renderer: {
     plugins: [react()],

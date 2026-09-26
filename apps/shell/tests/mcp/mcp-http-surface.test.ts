@@ -541,7 +541,7 @@ describe('MCP surface over Streamable HTTP (/mcp)', () => {
       result?: { content?: Array<{ text?: string }> }
     }
     const infoText = (callBody.result?.content ?? []).map((c) => c.text ?? '').join('')
-      expect(infoText).toContain('Threadnote Office')
+    expect(infoText).toContain('Threadnote Office')
     console.log('[tools/call get_app_info] ok,', infoText.length, 'chars')
 
     // a bad session id is refused, not silently accepted

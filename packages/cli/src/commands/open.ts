@@ -43,7 +43,8 @@ export const openCommand: CommandDef = {
     let endpoint = controlEndpoint(ctx.env)
     if (!endpoint) {
       const launch = await spawnApp(path, ctx)
-      if (!target) return { summary: `opening ${path} in ThreadnoteOffice`, detail: { app: launch } }
+      if (!target)
+        return { summary: `opening ${path} in ThreadnoteOffice`, detail: { app: launch } }
       endpoint = await waitForControlEndpoint(ctx.env, APP_START_TIMEOUT_MS)
       if (!endpoint) {
         throw new CliError(
@@ -74,7 +75,9 @@ export const openCommand: CommandDef = {
 async function spawnApp(path: string, ctx: CommandContext): Promise<string> {
   const launch = appLaunch(ctx.env)
   if (!launch) {
-    throw new CliError(EXIT.app, 'ThreadnoteOffice app not found', { hint: 'set THREADNOTE_OFFICE_APP_BIN' })
+    throw new CliError(EXIT.app, 'ThreadnoteOffice app not found', {
+      hint: 'set THREADNOTE_OFFICE_APP_BIN',
+    })
   }
   const env = { ...ctx.env }
   delete env.ELECTRON_RUN_AS_NODE

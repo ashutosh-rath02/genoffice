@@ -249,7 +249,8 @@ export const es = {
   appSettingsChecking: 'Comprobando…',
   appSettingsLoggedIn: 'Sesión iniciada',
   appSettingsLoggedInEmail: 'Sesión iniciada: {email}',
-  appSettingsLoggedOut: 'Sesión no iniciada (las funciones de IA requieren una cuenta de Threadnote)',
+  appSettingsLoggedOut:
+    'Sesión no iniciada (las funciones de IA requieren una cuenta de Threadnote)',
   appSettingsLoginPending: 'Esperando el inicio de sesión en el navegador…',
   appSettingsLogin: 'Iniciar sesión en Threadnote',
   appSettingsModel: 'Modelo',

@@ -270,11 +270,11 @@ MCP klientem.
 
 ### Instalace skillu
 
-| Jak                                    | Co se stane                                                                                                                                                                                |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Nastavení → Integrace** v aplikaci   | Vypíše agenty nalezené na tomto počítači; jedním kliknutím zapíše skill do každého, který vyberete. Když nové vydání ThreadnoteOffice přinese novější skill, objeví se tlačítko **Aktualizovat**. |
-| **Stáhnout jako zip** na téže stránce  | Rozložení, které claude.ai, desktopové aplikace Claude a další asistenti přijímají jako nahraný skill.                                                                                     |
-| `install the bundled Threadnote Office skill from Settings` | Nainstaluje z tohoto repozitáře do jakéhokoli agenta podporujícího skilly.                                                                                                                 |
+| Jak                                                         | Co se stane                                                                                                                                                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nastavení → Integrace** v aplikaci                        | Vypíše agenty nalezené na tomto počítači; jedním kliknutím zapíše skill do každého, který vyberete. Když nové vydání ThreadnoteOffice přinese novější skill, objeví se tlačítko **Aktualizovat**. |
+| **Stáhnout jako zip** na téže stránce                       | Rozložení, které claude.ai, desktopové aplikace Claude a další asistenti přijímají jako nahraný skill.                                                                                            |
+| `install the bundled Threadnote Office skill from Settings` | Nainstaluje z tohoto repozitáře do jakéhokoli agenta podporujícího skilly.                                                                                                                        |
 
 Pak začněte nový chat a požádejte o dokument. Skill agenta naučí, kdy sáhnout
 po `threadnoteoffice`, jak si soubor přečíst před úpravou a jak zkontrolovat vlastní
@@ -331,10 +331,10 @@ pro asistenty, kteří neumí spustit terminál nebo kterým byste ho raději
 nedávali. Vedou k tomu dvě cesty, obě ukázané s připravenými fragmenty ke
 zkopírování v **Nastavení → Integrace → MCP**:
 
-| Cesta                                | Co to je                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Cesta                                       | Co to je                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **A · `threadnoteoffice mcp`** (doporučeno) | stdio server, který si asistent spustí sám; ThreadnoteOffice nemusí být otevřené. Jeden nástroj na příkaz (`info`, `convert`, `create_docx`, `create_xlsx`, `create_pptx`, `create_pdf`, `docs_read` / `docs_apply` / `docs_check`, `sheet_*`, `slides_*`, `render`, `guide`, `search`, `image`, `media`, `open`) plus fázovaný postup sestavování prezentace `deck_start` → `deck_page` → `deck_build` → `deck_replace`. Operace, specifikace a Markdown se předávají přímo v argumentech, takže funguje i klient bez souborového systému. |
-| **B · Lokální HTTP server**          | Běží uvnitř aplikace ThreadnoteOffice na `http://127.0.0.1:3093/mcp` (Streamable HTTP, se starším SSE). Jeho nástroje ovládají viditelnou záložku editoru Word: `create_session`, `insert_content`, `replace_blocks`, `apply_ops`, `read_document`, `save_session` — a vy sledujete, jak dokument vzniká. Ve výchozím stavu vypnutý; zapíná se ve stejném panelu nastavení.                                                                                                                                                                 |
+| **B · Lokální HTTP server**                 | Běží uvnitř aplikace ThreadnoteOffice na `http://127.0.0.1:3093/mcp` (Streamable HTTP, se starším SSE). Jeho nástroje ovládají viditelnou záložku editoru Word: `create_session`, `insert_content`, `replace_blocks`, `apply_ops`, `read_document`, `save_session` — a vy sledujete, jak dokument vzniká. Ve výchozím stavu vypnutý; zapíná se ve stejném panelu nastavení.                                                                                                                                                                 |
 
 ```bash
 # Claude Code
@@ -384,8 +384,8 @@ poskytovateli nastavenému v ThreadnoteOffice.
 
 ## Stažení
 
-| Platforma                            | Požadavky                                             | Stažení                                                                                        |
-| ------------------------------------ | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Platforma                            | Požadavky                                             | Stažení                                                                             |
+| ------------------------------------ | ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | **macOS** — Apple Silicon (arm64)    | macOS 11+                                             | [Nejnovější `.dmg` (arm64)](https://github.com/ashutosh-rath02/threadnote)          |
 | **macOS** — Intel (x64)              | macOS 11+                                             | [Nejnovější `.dmg` (x64)](https://github.com/ashutosh-rath02/threadnote)            |
 | **Windows** (x64, většina PC)        | Windows 10+, Intel/AMD                                | [Nejnovější instalátor `-x64.exe`](https://github.com/ashutosh-rath02/threadnote)   |

@@ -148,7 +148,9 @@ describe('threadnoteoffice skill', () => {
     const settings = JSON.parse(
       readFileSync(join(m.env.THREADNOTE_OFFICE_USER_DATA, 'app-settings.json'), 'utf-8'),
     )
-    expect(Object.keys(settings.agentSkillInstalls)).toEqual([join(dir, 'threadnoteoffice', 'SKILL.md')])
+    expect(Object.keys(settings.agentSkillInstalls)).toEqual([
+      join(dir, 'threadnoteoffice', 'SKILL.md'),
+    ])
     const none = await run(['skill', 'install', 'all', '--json'], { env: m.env })
     expect(none.code).toBe(1)
   })

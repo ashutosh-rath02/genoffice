@@ -65,8 +65,7 @@ export const ru = {
   aiOverloadedError: 'Сервис ИИ сейчас перегружен — повторите попытку чуть позже',
   aiNetworkError:
     'Проблема с сетью: не удалось подключиться к сервису ИИ. Проверьте подключение и повторите попытку',
-  aiCreditsExhausted:
-    'Кредиты AI исчерпаны',
+  aiCreditsExhausted: 'Кредиты AI исчерпаны',
   aiToolWorkbookContext: 'Чтение сведений о книге',
   aiToolReadRange: 'Чтение диапазона',
   aiToolReadRangeOf: 'Чтение диапазона {range}',

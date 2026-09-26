@@ -95,7 +95,11 @@ describe('validateHeadlessPaths', () => {
       request('/docs/a.docx', '/gone/a.pdf'),
       fsWith(['/docs/a.docx']),
     )
-    expect(result).toMatchObject({ ok: false, code: 1, message: expect.stringContaining(resolve('/gone')) })
+    expect(result).toMatchObject({
+      ok: false,
+      code: 1,
+      message: expect.stringContaining(resolve('/gone')),
+    })
   })
 })
 
@@ -108,7 +112,11 @@ describe('runHeadlessExport', () => {
       fsWith(['/decks/a.pptx', '/out', '/out/a.pdf']),
     )
     expect(calls).toEqual([`slides:${resolve('/decks/a.pptx')}->${resolve('/out/a.pdf')}:pdf`])
-    expect(outcome).toEqual({ ok: true, input: resolve('/decks/a.pptx'), outPath: resolve('/out/a.pdf') })
+    expect(outcome).toEqual({
+      ok: true,
+      input: resolve('/decks/a.pptx'),
+      outPath: resolve('/out/a.pdf'),
+    })
   })
 
   it.each([

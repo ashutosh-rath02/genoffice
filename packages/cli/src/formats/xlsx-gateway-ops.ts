@@ -246,7 +246,8 @@ export async function buildGatewayPayloads(input: GatewayBuildInput): Promise<Ga
       { failures: [classifyOpError(index, op, message)] },
       {
         reason: 'op_rejected',
-        suggestion: 'fix the op against `threadnoteoffice guide sheets`, then resend the whole batch',
+        suggestion:
+          'fix the op against `threadnoteoffice guide sheets`, then resend the whole batch',
       },
     )
   }
@@ -483,7 +484,11 @@ export async function buildGatewayPayloads(input: GatewayBuildInput): Promise<Ga
           )
         }
         if (op.seriesData !== undefined) {
-          reject(i, op.op, 'seriesData (repointing a series at new cells) needs the ThreadnoteOffice app')
+          reject(
+            i,
+            op.op,
+            'seriesData (repointing a series at new cells) needs the ThreadnoteOffice app',
+          )
         }
         const edit: Record<string, unknown> = { chartPath: op.chartPath }
         for (const k of [

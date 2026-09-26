@@ -8,7 +8,8 @@ export const strings = {
     navRecent: '最近',
     navStarred: '收藏',
     navCloud: 'Threadnote Projects',
-    cloudSubtitle: '在网页端用 Threadnote AI 创建的项目。编辑在浏览器中继续——点击任意项目即可打开。',
+    cloudSubtitle:
+      '在网页端用 Threadnote AI 创建的项目。编辑在浏览器中继续——点击任意项目即可打开。',
     cloudSearchPlaceholder: '搜索 {n} 个项目…',
     cloudNoResults: '没有匹配的项目。',
     cloudGroupThisWeek: '本周',
@@ -338,7 +339,8 @@ export const strings = {
     starOnGitHub: '去 GitHub 点 Star',
     starPromptTitle: '喜欢 Threadnote Office 吗？',
     starPromptTitleN: '你已经用 Threadnote Office 打开了 {n} 个文档',
-    starPromptBody: 'Threadnote Office 是免费开源软件。到 GitHub 给我们一个 Star，是对团队最好的支持。',
+    starPromptBody:
+      'Threadnote Office 是免费开源软件。到 GitHub 给我们一个 Star，是对团队最好的支持。',
     starPromptGo: '去点 Star',
     starPromptDone: '已经点过了',
     starPromptLater: '以后再说',
@@ -362,7 +364,8 @@ export const strings = {
     onbSubtitle1: '第一个开源的 AI 原生 Office 套件',
     onbBody1: '创建文档、制作表格、生成演示、审阅 PDF。AI 深度融入每个环节。',
     onbTitle2: '这只是一个开始',
-    onbBody2: 'Threadnote Office 目前处于 alpha 阶段。欢迎加入 Threadnote Community 群聊，分享反馈，一起塑造它的未来。',
+    onbBody2:
+      'Threadnote Office 目前处于 alpha 阶段。欢迎加入 Threadnote Community 群聊，分享反馈，一起塑造它的未来。',
     onbCredits: '活跃贡献者可获得 **1,000+ Threadnote 积分**',
     onbJoinGenTeam: '加入 Threadnote Community',
     onbSkip: '跳过',
@@ -695,7 +698,8 @@ export const strings = {
     setAiMaxTokensDesc:
       'Output budget for one turn. Reasoning models spend part of it thinking, so an answer can come back empty once the budget runs out; raise this value if that happens.',
     setSecAiMedia: 'AI Media & Search',
-    setAiMediaThreadnoteHint: 'Image generation and image/video analysis use your Threadnote sign-in.',
+    setAiMediaThreadnoteHint:
+      'Image generation and image/video analysis use your Threadnote sign-in.',
     setAiImageModel: 'Image model',
     setAiAnalysisModel: 'Analysis model',
     setAiSearchThreadnoteHint:
@@ -994,7 +998,8 @@ export const strings = {
     intgOtherDesc:
       '次の 3 つの方法からどれか 1 つを選んでください。どれも同じスキルをインストールするので、複数行う必要はありません。',
     intgOtherFolderTitle: 'SKILL.md フォルダーを読むアシスタント全般',
-    intgOtherFolderDesc: 'その skills フォルダーを選ぶと、Threadnote Office がファイルを書き込みます。',
+    intgOtherFolderDesc:
+      'その skills フォルダーを選ぶと、Threadnote Office がファイルを書き込みます。',
     intgOtherZipTitle: 'ファイルをアシスタントに渡す',
     intgOtherZipDesc: 'スキルを zip で保存し、アシスタントにインストールを頼みます。',
     intgOtherNpxTitle: 'skills コマンドで入れる（Node.js が必要）',
@@ -1449,7 +1454,8 @@ export const strings = {
     intgCopied: '복사됨',
     intgCliEphemeral: '먼저 Threadnote Office를 응용 프로그램 폴더로 옮긴 뒤 명령줄을 사용하세요.',
     intgCopyPath: '경로 복사',
-    intgCliNeedsUpdate: '이 스킬은 명령줄 {v} 이상이 필요합니다. Threadnote Office를 업데이트하세요.',
+    intgCliNeedsUpdate:
+      '이 스킬은 명령줄 {v} 이상이 필요합니다. Threadnote Office를 업데이트하세요.',
     intgLoading: '확인 중…',
     intgUpdateDue: '스킬 업데이트 가능',
     setSecAiModel: 'AI 모델',
@@ -1809,7 +1815,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Tourne dans Threadnote Office ; l’assistant se connecte à une URL et vous voyez le document se construire pas à pas dans l’éditeur Word. Threadnote Office doit rester ouvert ; documents Word uniquement pour l’instant.',
     intgMcpHttpAdvanced: 'Avancé : autres adresses et journal',
-    intgMcpTryNote: 'L’assistant appelle Threadnote Office via MCP ; vous ne tapez jamais de commande.',
+    intgMcpTryNote:
+      'L’assistant appelle Threadnote Office via MCP ; vous ne tapez jamais de commande.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Exécutez ceci une fois dans un terminal :',
     intgMcpOtherTitle: 'Cursor, Claude Desktop ou tout autre assistant compatible MCP',
@@ -2215,7 +2222,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Läuft in Threadnote Office; der Assistent verbindet sich über eine URL, und Sie sehen im Word-Editor zu, wie das Dokument Schritt für Schritt entsteht. Threadnote Office muss geöffnet bleiben; derzeit nur Word-Dokumente.',
     intgMcpHttpAdvanced: 'Erweitert: weitere Adressen und Protokoll',
-    intgMcpTryNote: 'Der Assistent ruft Threadnote Office über MCP auf; Sie tippen nie einen Befehl.',
+    intgMcpTryNote:
+      'Der Assistent ruft Threadnote Office über MCP auf; Sie tippen nie einen Befehl.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Einmal im Terminal ausführen:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop oder ein anderer MCP-fähiger Assistent',
@@ -2617,7 +2625,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Se ejecuta dentro de Threadnote Office; el asistente se conecta a una URL y puedes ver cómo construye el documento paso a paso en el editor de Word. Threadnote Office debe permanecer abierto; por ahora solo documentos Word.',
     intgMcpHttpAdvanced: 'Avanzado: otras direcciones y registro',
-    intgMcpTryNote: 'El asistente llama a Threadnote Office a través de MCP; nunca escribes un comando.',
+    intgMcpTryNote:
+      'El asistente llama a Threadnote Office a través de MCP; nunca escribes un comando.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Ejecuta esto una vez en una terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop o cualquier otro asistente compatible con MCP',
@@ -2652,7 +2661,8 @@ export const strings = {
     intgSaveZipTitle: 'Guardar skill',
     intgSavedTo: 'Guardado en {path}',
     intgCopied: 'Copiado',
-    intgCliEphemeral: 'Arrastra primero Threadnote Office a Aplicaciones y luego usa la línea de comandos.',
+    intgCliEphemeral:
+      'Arrastra primero Threadnote Office a Aplicaciones y luego usa la línea de comandos.',
     intgCopyPath: 'Copiar ruta',
     intgCliNeedsUpdate:
       'Este skill necesita la línea de comandos {v} o superior; actualiza Threadnote Office.',
@@ -2893,7 +2903,8 @@ export const strings = {
     loginOpenShort: 'เปิดหน้าเข้าสู่ระบบด้วยตนเอง',
     loginCopyUrl: 'คัดลอกลิงก์เข้าสู่ระบบ',
     loginCopied: 'คัดลอกแล้ว',
-    loginNetworkError: 'ไม่สามารถเชื่อมต่อ Threadnote ได้ โปรดตรวจสอบเครือข่ายหรือการตั้งค่าพร็อกซี',
+    loginNetworkError:
+      'ไม่สามารถเชื่อมต่อ Threadnote ได้ โปรดตรวจสอบเครือข่ายหรือการตั้งค่าพร็อกซี',
     loginExpired: 'การอนุญาตหมดอายุ — คลิกเพื่อลองอีกครั้ง',
     loginFailed: 'การลงชื่อเข้าใช้ล้มเหลว — คลิกเพื่อลองอีกครั้ง',
     loggingOut: 'กำลังออกจากระบบ…',
@@ -3397,7 +3408,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Berjalan di dalam Threadnote Office; asisten terhubung lewat URL dan Anda bisa melihat dokumen dibangun langkah demi langkah di editor Word. Threadnote Office harus tetap terbuka; untuk saat ini hanya dokumen Word.',
     intgMcpHttpAdvanced: 'Lanjutan: alamat lain dan log',
-    intgMcpTryNote: 'Asisten memanggil Threadnote Office melalui MCP; Anda tidak pernah mengetik perintah.',
+    intgMcpTryNote:
+      'Asisten memanggil Threadnote Office melalui MCP; Anda tidak pernah mengetik perintah.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Jalankan ini sekali di terminal:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop, atau asisten lain yang mendukung MCP',
@@ -3789,7 +3801,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Работает внутри Threadnote Office; ассистент подключается по URL, и вы видите, как документ шаг за шагом собирается в редакторе Word. Threadnote Office должен оставаться открытым; пока только документы Word.',
     intgMcpHttpAdvanced: 'Дополнительно: другие адреса и журнал',
-    intgMcpTryNote: 'Ассистент обращается к Threadnote Office через MCP; вам не нужно вводить команды.',
+    intgMcpTryNote:
+      'Ассистент обращается к Threadnote Office через MCP; вам не нужно вводить команды.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Выполните один раз в терминале:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop или другой ассистент с поддержкой MCP',
@@ -3827,7 +3840,8 @@ export const strings = {
     intgCliEphemeral:
       'Сначала перетащите Threadnote Office в «Программы», затем используйте командную строку.',
     intgCopyPath: 'Копировать путь',
-    intgCliNeedsUpdate: 'Этому скиллу нужна командная строка {v} или новее; обновите Threadnote Office.',
+    intgCliNeedsUpdate:
+      'Этому скиллу нужна командная строка {v} или новее; обновите Threadnote Office.',
     intgLoading: 'Проверка…',
     intgUpdateDue: 'Доступно обновление скилла',
     setSecAiModel: 'Модель ИИ',
@@ -4144,7 +4158,8 @@ export const strings = {
     intgStep1Title: 'ثبّت المهارة في مساعدك',
     intgStep1Desc:
       'تُعرض فقط المساعدات الموجودة على هذا الجهاز. ثبّتها في المساعد الذي تستخدمه فعلاً؛ لا حاجة لتثبيتها في الجميع.',
-    intgStep1Update: 'عندما يجلب تحديث Threadnote Office مهارة أحدث، يظهر زر «تحديث» بجوار ذلك المساعد.',
+    intgStep1Update:
+      'عندما يجلب تحديث Threadnote Office مهارة أحدث، يظهر زر «تحديث» بجوار ذلك المساعد.',
     intgSkillVersion: 'المهارة {v}',
     intgStateMissing: 'المهارة غير مثبّتة',
     intgStateInstalled: 'المهارة {v} مثبّتة · جاهزة في محادثتك التالية',
@@ -4955,7 +4970,8 @@ export const strings = {
     intgMcpHttpDesc:
       'Gira dentro Threadnote Office; l’assistente si collega a un URL e puoi vedere il documento prendere forma passo dopo passo nell’editor Word. Threadnote Office deve restare aperto; per ora solo documenti Word.',
     intgMcpHttpAdvanced: 'Avanzato: altri indirizzi e registro',
-    intgMcpTryNote: 'L’assistente richiama Threadnote Office tramite MCP; non digiti mai un comando.',
+    intgMcpTryNote:
+      'L’assistente richiama Threadnote Office tramite MCP; non digiti mai un comando.',
     intgMcpClaudeTitle: 'Claude Code',
     intgMcpClaudeDesc: 'Esegui questo una volta nel terminale:',
     intgMcpOtherTitle: 'Cursor, Claude Desktop o qualsiasi altro assistente compatibile con MCP',
@@ -4990,7 +5006,8 @@ export const strings = {
     intgSaveZipTitle: 'Salva skill',
     intgSavedTo: 'Salvato in {path}',
     intgCopied: 'Copiato',
-    intgCliEphemeral: 'Trascina prima Threadnote Office in Applicazioni, poi usa la riga di comando.',
+    intgCliEphemeral:
+      'Trascina prima Threadnote Office in Applicazioni, poi usa la riga di comando.',
     intgCopyPath: 'Copia percorso',
     intgCliNeedsUpdate:
       'Questo skill richiede la riga di comando {v} o successiva; aggiorna Threadnote Office.',
@@ -5326,7 +5343,8 @@ export const strings = {
     intgExample1: 'Zamień ~/Downloads/report.md na dokument Word',
     intgExample2: 'Zrób prezentację z 6 slajdów o naszych wynikach za III kwartał',
     intgExample3: 'Przekonwertuj budget.xlsx do PDF i otwórz w Threadnote Office',
-    intgStep2Note: 'Asystent sam uruchamia wiersz poleceń threadnoteoffice; nigdy nie musisz go wpisywać.',
+    intgStep2Note:
+      'Asystent sam uruchamia wiersz poleceń threadnoteoffice; nigdy nie musisz go wpisywać.',
     intgCliPartTitle: 'CLI · wiersz poleceń + skill',
     intgCliPartDesc:
       'Dla asystentów, które potrafią uruchamiać polecenia terminala (Claude Code, Codex, Cursor i inne). Po zainstalowaniu skilla asystent sam wywołuje wiersz poleceń threadnoteoffice, aby tworzyć, konwertować, czytać i edytować pliki; nigdy nie wpisujesz polecenia.',
@@ -5375,9 +5393,11 @@ export const strings = {
     intgSaveZipTitle: 'Zapisz skill',
     intgSavedTo: 'Zapisano w {path}',
     intgCopied: 'Skopiowano',
-    intgCliEphemeral: 'Najpierw przenieś Threadnote Office do Aplikacji, potem użyj wiersza poleceń.',
+    intgCliEphemeral:
+      'Najpierw przenieś Threadnote Office do Aplikacji, potem użyj wiersza poleceń.',
     intgCopyPath: 'Kopiuj ścieżkę',
-    intgCliNeedsUpdate: 'Ten skill wymaga wiersza poleceń {v} lub nowszego; zaktualizuj Threadnote Office.',
+    intgCliNeedsUpdate:
+      'Ten skill wymaga wiersza poleceń {v} lub nowszego; zaktualizuj Threadnote Office.',
     intgLoading: 'Sprawdzanie…',
     intgUpdateDue: 'Dostępna aktualizacja skilla',
     setSecAiModel: 'Model AI',
@@ -5738,7 +5758,8 @@ export const strings = {
     intgSaveZipTitle: 'Uložit skill',
     intgSavedTo: 'Uloženo do {path}',
     intgCopied: 'Zkopírováno',
-    intgCliEphemeral: 'Nejprve přetáhněte Threadnote Office do Aplikací a poté použijte příkazový řádek.',
+    intgCliEphemeral:
+      'Nejprve přetáhněte Threadnote Office do Aplikací a poté použijte příkazový řádek.',
     intgCopyPath: 'Kopírovat cestu',
     intgCliNeedsUpdate:
       'Tento skill vyžaduje příkazový řádek {v} nebo novější; aktualizujte Threadnote Office.',
@@ -6146,9 +6167,11 @@ export const strings = {
     intgSaveZipTitle: 'Skill opslaan',
     intgSavedTo: 'Opgeslagen in {path}',
     intgCopied: 'Gekopieerd',
-    intgCliEphemeral: "Sleep Threadnote Office eerst naar Programma's en gebruik daarna de opdrachtregel.",
+    intgCliEphemeral:
+      "Sleep Threadnote Office eerst naar Programma's en gebruik daarna de opdrachtregel.",
     intgCopyPath: 'Pad kopiëren',
-    intgCliNeedsUpdate: 'Deze skill vereist opdrachtregel {v} of nieuwer; werk Threadnote Office bij.',
+    intgCliNeedsUpdate:
+      'Deze skill vereist opdrachtregel {v} of nieuwer; werk Threadnote Office bij.',
     intgLoading: 'Controleren…',
     intgUpdateDue: 'Skill-update beschikbaar',
     setSecAiModel: 'AI-model',
@@ -6469,7 +6492,8 @@ export const strings = {
     intgOtherDesc:
       'Pilih satu sahaja daripada tiga cara ini. Semuanya memasang skill yang sama, jadi tidak perlu lebih daripada satu.',
     intgOtherFolderTitle: 'Mana-mana pembantu yang membaca folder SKILL.md',
-    intgOtherFolderDesc: 'Pilih folder skills pembantu itu dan Threadnote Office menulis fail di sana.',
+    intgOtherFolderDesc:
+      'Pilih folder skills pembantu itu dan Threadnote Office menulis fail di sana.',
     intgOtherZipTitle: 'Serahkan fail kepada pembantu',
     intgOtherZipDesc: 'Simpan skill sebagai zip, kemudian minta pembantu memasangnya.',
     intgOtherNpxTitle: 'Dengan arahan skills (perlukan Node.js)',
@@ -6534,7 +6558,8 @@ export const strings = {
     intgSaveZipTitle: 'Simpan skill',
     intgSavedTo: 'Disimpan ke {path}',
     intgCopied: 'Disalin',
-    intgCliEphemeral: 'Seret Threadnote Office ke Applications dahulu, kemudian gunakan baris arahan.',
+    intgCliEphemeral:
+      'Seret Threadnote Office ke Applications dahulu, kemudian gunakan baris arahan.',
     intgCopyPath: 'Salin laluan',
     intgCliNeedsUpdate:
       'Skill ini memerlukan baris arahan {v} atau lebih baharu; kemas kini Threadnote Office.',
@@ -6844,7 +6869,8 @@ export const strings = {
     intgStep1Title: 'התקינו את ה-skill בעוזר שלכם',
     intgStep1Desc:
       'מוצגים רק עוזרים שנמצאו במחשב הזה. התקינו בזה שבו אתם משתמשים באמת; אין צורך בכולם.',
-    intgStep1Update: 'כשעדכון של Threadnote Office מביא skill חדש יותר, ליד אותו עוזר יופיע כפתור עדכון.',
+    intgStep1Update:
+      'כשעדכון של Threadnote Office מביא skill חדש יותר, ליד אותו עוזר יופיע כפתור עדכון.',
     intgSkillVersion: 'skill {v}',
     intgStateMissing: 'ה-skill לא מותקן',
     intgStateInstalled: 'skill {v} מותקן · מוכן בשיחה הבאה',
@@ -6965,7 +6991,8 @@ export const strings = {
     starOnGitHub: 'תנו כוכב ב-GitHub',
     starPromptTitle: 'נהנים מ-Threadnote Office?',
     starPromptTitleN: 'פתחת {n} מסמכים עם Threadnote Office',
-    starPromptBody: 'Threadnote Office חינמי ובקוד פתוח. כוכב ב-GitHub הוא התמיכה הטובה ביותר בצוות.',
+    starPromptBody:
+      'Threadnote Office חינמי ובקוד פתוח. כוכב ב-GitHub הוא התמיכה הטובה ביותר בצוות.',
     starPromptGo: 'לתת כוכב',
     starPromptDone: 'כבר נתתי',
     starPromptLater: 'אחר כך',
@@ -7242,7 +7269,8 @@ export const strings = {
     intgExample1: '~/Downloads/report.md को Word दस्तावेज़ बना दो',
     intgExample2: 'हमारे Q3 नतीजों पर 6 स्लाइड का प्रेज़ेंटेशन बनाओ',
     intgExample3: 'budget.xlsx को PDF में बदलो और Threadnote Office में खोलो',
-    intgStep2Note: 'threadnoteoffice कमांड लाइन असिस्टेंट खुद चलाता है; आपको कभी टाइप नहीं करना पड़ता।',
+    intgStep2Note:
+      'threadnoteoffice कमांड लाइन असिस्टेंट खुद चलाता है; आपको कभी टाइप नहीं करना पड़ता।',
     intgCliPartTitle: 'CLI · कमांड लाइन + skill',
     intgCliPartDesc:
       'उन सहायकों के लिए जो टर्मिनल कमांड चला सकते हैं (Claude Code, Codex, Cursor आदि)। skill इंस्टॉल होने के बाद सहायक फ़ाइलें बनाने, बदलने, पढ़ने और संपादित करने के लिए खुद threadnoteoffice कमांड लाइन चलाता है; आपको कोई कमांड टाइप नहीं करना पड़ता।',
@@ -7292,7 +7320,8 @@ export const strings = {
     intgSaveZipTitle: 'skill सहेजें',
     intgSavedTo: '{path} में सहेजा गया',
     intgCopied: 'कॉपी हो गया',
-    intgCliEphemeral: 'पहले Threadnote Office को Applications में खींचें, फिर कमांड लाइन का उपयोग करें।',
+    intgCliEphemeral:
+      'पहले Threadnote Office को Applications में खींचें, फिर कमांड लाइन का उपयोग करें।',
     intgCopyPath: 'पथ कॉपी करें',
     intgCliNeedsUpdate: 'इस skill को कमांड लाइन {v} या नया चाहिए; Threadnote Office अपडेट करें।',
     intgLoading: 'जाँच हो रही है…',
@@ -7391,7 +7420,8 @@ export const strings = {
     navRecent: '最近',
     navStarred: '收藏',
     navCloud: 'Threadnote Projects',
-    cloudSubtitle: '在網頁端用 Threadnote AI 建立的專案。編輯在瀏覽器中繼續——點擊任意專案即可開啟。',
+    cloudSubtitle:
+      '在網頁端用 Threadnote AI 建立的專案。編輯在瀏覽器中繼續——點擊任意專案即可開啟。',
     cloudSearchPlaceholder: '搜尋 {n} 個專案…',
     cloudNoResults: '沒有符合的專案。',
     cloudGroupThisWeek: '本週',
@@ -7716,7 +7746,8 @@ export const strings = {
     starOnGitHub: '到 GitHub 給我們一顆星',
     starPromptTitle: '喜歡 Threadnote Office 嗎？',
     starPromptTitleN: '你已經用 Threadnote Office 開啟了 {n} 個文件',
-    starPromptBody: 'Threadnote Office 是免費的開源軟體。到 GitHub 給我們一顆星，是對團隊最好的支持。',
+    starPromptBody:
+      'Threadnote Office 是免費的開源軟體。到 GitHub 給我們一顆星，是對團隊最好的支持。',
     starPromptGo: '去給星星',
     starPromptDone: '已經給過了',
     starPromptLater: '以後再說',
@@ -7738,7 +7769,8 @@ export const strings = {
     onbSubtitle1: '第一個開源的 AI 原生 Office 套件',
     onbBody1: '建立文件、製作試算表、產生簡報、審閱 PDF。AI 深度融入每個環節。',
     onbTitle2: '這只是一個開始',
-    onbBody2: 'Threadnote Office 目前仍在 alpha 階段。歡迎加入 Threadnote Community 群聊，分享回饋，一起打造它的未來。',
+    onbBody2:
+      'Threadnote Office 目前仍在 alpha 階段。歡迎加入 Threadnote Community 群聊，分享回饋，一起打造它的未來。',
     onbCredits: '活躍貢獻者可獲得 **1,000+ Threadnote 點數**',
     onbJoinGenTeam: '加入 Threadnote Community',
     onbSkip: '略過',

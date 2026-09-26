@@ -54,7 +54,10 @@ export function mcpLaunch(cli: { status: string; launcherDir: string }): McpLaun
       env: { ELECTRON_RUN_AS_NODE: '1' },
     }
   }
-  return { command: cli.status === 'present' ? 'threadnoteoffice' : `${dir}/threadnoteoffice`, args: ['mcp'] }
+  return {
+    command: cli.status === 'present' ? 'threadnoteoffice' : `${dir}/threadnoteoffice`,
+    args: ['mcp'],
+  }
 }
 
 const shellWord = (w: string) => (/\s/.test(w) ? `"${w}"` : w)

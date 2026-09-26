@@ -130,7 +130,9 @@ describe('cli help/registry/readme/skill sync', () => {
     const missing = names.filter((n) => !global.includes(n))
     expect(missing, `threadnoteoffice help is missing commands: ${missing.join(', ')}`).toEqual([])
     for (const flag of ['--json', '--help', '--version']) {
-      expect(global.includes(flag), `threadnoteoffice help is missing global flag ${flag}`).toBe(true)
+      expect(global.includes(flag), `threadnoteoffice help is missing global flag ${flag}`).toBe(
+        true,
+      )
     }
   })
 

@@ -121,7 +121,9 @@ function installedAppBinaries(env: NodeJS.ProcessEnv): string[] {
       ]
     case 'win32':
       return [
-        env.LOCALAPPDATA ? join(env.LOCALAPPDATA, 'Programs', 'ThreadnoteOffice', 'ThreadnoteOffice.exe') : '',
+        env.LOCALAPPDATA
+          ? join(env.LOCALAPPDATA, 'Programs', 'ThreadnoteOffice', 'ThreadnoteOffice.exe')
+          : '',
         env.ProgramFiles ? join(env.ProgramFiles, 'ThreadnoteOffice', 'ThreadnoteOffice.exe') : '',
       ].filter(Boolean)
     default:

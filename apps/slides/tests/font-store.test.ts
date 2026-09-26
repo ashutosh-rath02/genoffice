@@ -75,7 +75,9 @@ describe('font catalog', () => {
       }),
     ).toBe(fontCdnBaseUrl)
     expect(
-      extractFontCdnBaseUrl({ threadnoteofficeFontCdn: { baseUrl: 'http://fonts.example.test/v1' } }),
+      extractFontCdnBaseUrl({
+        threadnoteofficeFontCdn: { baseUrl: 'http://fonts.example.test/v1' },
+      }),
     ).toBeNull()
     expect(
       extractFontCdnBaseUrl({

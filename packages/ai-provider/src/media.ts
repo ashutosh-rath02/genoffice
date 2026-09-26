@@ -207,18 +207,21 @@ export function resolveAiMediaSettings(
     }
   }
   const legacy = (stored.provider as string) === 'genspark' ? 'none' : stored.provider
-  const analysisProvider = (stored.analysisProvider as string) === 'genspark'
-    ? 'none'
-    : (stored.analysisProvider ?? legacy ?? defaults.analysisProvider)
-  return {
-    imageProvider: (stored.imageProvider as string) === 'genspark'
+  const analysisProvider =
+    (stored.analysisProvider as string) === 'genspark'
       ? 'none'
-      : (stored.imageProvider ?? legacy ?? defaults.imageProvider),
+      : (stored.analysisProvider ?? legacy ?? defaults.analysisProvider)
+  return {
+    imageProvider:
+      (stored.imageProvider as string) === 'genspark'
+        ? 'none'
+        : (stored.imageProvider ?? legacy ?? defaults.imageProvider),
     analysisProvider,
     // a pre-split file used one vendor for all media analysis
-    videoAnalysisProvider: (stored.videoAnalysisProvider as string) === 'genspark'
-      ? 'none'
-      : (stored.videoAnalysisProvider ?? analysisProvider),
+    videoAnalysisProvider:
+      (stored.videoAnalysisProvider as string) === 'genspark'
+        ? 'none'
+        : (stored.videoAnalysisProvider ?? analysisProvider),
     providers,
   }
 }

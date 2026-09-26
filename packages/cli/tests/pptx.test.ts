@@ -39,7 +39,9 @@ describe('threadnoteoffice create/slides (pptx ops)', () => {
     expect(created.code).toBe(0)
     expect(created.json().detail).toMatchObject({ applied: true, ops: 4 })
     const zip = await JSZip.loadAsync(readFileSync(out))
-    expect(await zip.file('ppt/slides/slide1.xml')!.async('string')).toContain('Hello threadnoteoffice')
+    expect(await zip.file('ppt/slides/slide1.xml')!.async('string')).toContain(
+      'Hello threadnoteoffice',
+    )
     expect(zip.file('ppt/slides/slide2.xml')).not.toBeNull()
 
     const read = await run(['slides', 'read', out, '--json'])

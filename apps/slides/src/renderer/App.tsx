@@ -3097,7 +3097,9 @@ export function App() {
 
   // threadnoteoffice CLI (`open --slide/--el`, `selection`): the shell evaluates this hook
   useEffect(() => {
-    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (req: ControlRequest) =>
+    ;(window as unknown as Record<string, unknown>).__threadnoteofficeControl = (
+      req: ControlRequest,
+    ) =>
       handleSlidesControl(req, {
         slides,
         path,

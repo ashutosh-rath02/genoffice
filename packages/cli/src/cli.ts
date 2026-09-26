@@ -99,7 +99,9 @@ export async function runCli(argv: readonly string[], opts: RunOptions = {}): Pr
   }
 
   if (flagBool(args, 'version')) {
-    io.stdout(json ? JSON.stringify({ status: 'ok', version: VERSION }) : `threadnoteoffice ${VERSION}`)
+    io.stdout(
+      json ? JSON.stringify({ status: 'ok', version: VERSION }) : `threadnoteoffice ${VERSION}`,
+    )
     return EXIT.ok
   }
   if (name === null || (name === 'help' && args.positionals.length === 0)) {

@@ -8,14 +8,19 @@ import { CliError, EXIT } from '../result'
 export function launcherPath(): string | null {
   const packaged = packagedResourcesDir()
   if (packaged)
-    return join(packaged, 'cli', process.platform === 'win32' ? 'threadnoteoffice.cmd' : 'threadnoteoffice')
+    return join(
+      packaged,
+      'cli',
+      process.platform === 'win32' ? 'threadnoteoffice.cmd' : 'threadnoteoffice',
+    )
   const root = repoRoot()
   return root ? join(root, 'packages', 'cli', 'bin', 'threadnoteoffice') : null
 }
 
 export const installCommand: CommandDef = {
   name: 'install-cli',
-  summary: 'Put threadnoteoffice on the PATH (symlink into /usr/local/bin, or the user PATH on Windows).',
+  summary:
+    'Put threadnoteoffice on the PATH (symlink into /usr/local/bin, or the user PATH on Windows).',
   usage: 'install-cli',
   async run() {
     const launcher = launcherPath()

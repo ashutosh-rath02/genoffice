@@ -422,7 +422,9 @@ describe('generation flow tools', () => {
     const r = await core.executeTool(call('plan_page', proposal))
     expect(r.mutated).toBe(true)
     expect(r.output).toContain('now pinned')
-    expect(doc.text).toMatch(/<head>\n<meta name="threadnoteoffice:brief"[^>]*><title>Report<\/title>/)
+    expect(doc.text).toMatch(
+      /<head>\n<meta name="threadnoteoffice:brief"[^>]*><title>Report<\/title>/,
+    )
     expect(doc.text.replace(/\n<meta name="threadnoteoffice:brief"[^>]*>/, '')).toBe(DOC)
     const again = await core.executeTool(call('plan_page', proposal))
     expect(again.mutated).toBeFalsy()

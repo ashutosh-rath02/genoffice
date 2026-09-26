@@ -113,8 +113,7 @@ export const en = {
   aiOverloadedError: 'The AI service is busy right now — please try again in a moment',
   aiNetworkError:
     'Network problem: could not reach the AI service. Check your connection and try again',
-  aiCreditsExhausted:
-    'Your AI credits have run out',
+  aiCreditsExhausted: 'Your AI credits have run out',
   aiSumReadAttachment: 'Read attachment',
   aiSumImageAttachment: 'Image attachment {name}',
   aiSumRead: 'Read {name}',

@@ -115,8 +115,7 @@ export const cs = {
   aiOverloadedError: 'Služba AI je právě zaneprázdněna – zkuste to prosím za chvíli znovu',
   aiNetworkError:
     'Problém se sítí: nepodařilo se připojit ke službě AI. Zkontrolujte připojení a zkuste to znovu',
-  aiCreditsExhausted:
-    'Vaše kredity AI byly vyčerpány',
+  aiCreditsExhausted: 'Vaše kredity AI byly vyčerpány',
   aiSumReadAttachment: 'Přečtena příloha',
   aiSumImageAttachment: 'Obrázková příloha {name}',
   aiSumRead: 'Přečteno {name}',

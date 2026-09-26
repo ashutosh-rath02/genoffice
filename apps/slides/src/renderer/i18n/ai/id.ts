@@ -114,8 +114,7 @@ export const id = {
   aiErrOverloaded: 'Layanan AI sedang sibuk — silakan coba lagi sebentar lagi',
   aiErrNetwork:
     'Masalah jaringan: tidak dapat terhubung ke layanan AI. Periksa koneksi Anda lalu coba lagi',
-  aiCreditsExhausted:
-    'Kredit AI Anda telah habis',
+  aiCreditsExhausted: 'Kredit AI Anda telah habis',
   aiErrRequestFailed: 'Gagal mengirim permintaan: {msg}',
   aiErrGenerateFailed: 'Pembuatan gagal',
   aiErrRegenFailed: 'Gagal membuat ulang halaman',

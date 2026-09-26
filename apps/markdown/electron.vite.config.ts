@@ -21,11 +21,15 @@ const TIPTAP_DEDUPE = [
 export default defineConfig({
   // @threadnote/i18n and @threadnote/electron-utils ship as TS source — must be bundled
   main: {
-    plugins: [externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   preload: {
     // same bundling requirement as main (see comment above)
-    plugins: [externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   renderer: {
     plugins: [react()],

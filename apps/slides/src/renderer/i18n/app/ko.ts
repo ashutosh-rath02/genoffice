@@ -235,7 +235,8 @@ export const ko = {
   appSettingsChecking: '확인 중…',
   appSettingsLoggedIn: '로그인됨',
   appSettingsLoggedInEmail: '로그인됨: {email}',
-  appSettingsLoggedOut: '로그인되지 않음(AI 기능을 사용하려면 Threadnote 계정으로 로그인해야 합니다)',
+  appSettingsLoggedOut:
+    '로그인되지 않음(AI 기능을 사용하려면 Threadnote 계정으로 로그인해야 합니다)',
   appSettingsLoginPending: '브라우저 로그인을 기다리는 중…',
   appSettingsLogin: 'Threadnote 로그인',
   appSettingsModel: '모델',

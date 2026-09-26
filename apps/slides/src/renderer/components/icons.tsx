@@ -2147,9 +2147,21 @@ export function IconAiImage(props: IconProps) {
 /** Threadnote book mark, shared by the AI panel and Office ribbons. */
 export function ThreadnoteMark({ size = 30 }: { size?: number }) {
   return (
-    <svg className="threadnote-mark" width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden>
+    <svg
+      className="threadnote-mark"
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      fill="none"
+      aria-hidden
+    >
       <rect x="2" y="2" width="28" height="28" rx="7" stroke="currentColor" strokeWidth="2" />
-      <path d="M7 9.5c3.1-.8 6.3-.4 9 1.3v13c-2.7-1.7-5.9-2.1-9-1.3v-13Zm18 0c-3.1-.8-6.3-.4-9 1.3v13c2.7-1.7 5.9-2.1 9-1.3v-13Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+      <path
+        d="M7 9.5c3.1-.8 6.3-.4 9 1.3v13c-2.7-1.7-5.9-2.1-9-1.3v-13Zm18 0c-3.1-.8-6.3-.4-9 1.3v13c2.7-1.7 5.9-2.1 9-1.3v-13Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
       <path d="M16 10.8v13" stroke="currentColor" strokeWidth="1.7" />
     </svg>
   )

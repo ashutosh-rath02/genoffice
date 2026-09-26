@@ -83,7 +83,9 @@ describe('fontAttrsFromFamilyChain', () => {
 
   it('skips internal ThreadnoteOffice aliases even at the chain head', () => {
     expect(
-      fontAttrsFromFamilyChain("'ThreadnoteOffice Songti SC','STSong','SimSun','Noto Serif CJK SC',serif"),
+      fontAttrsFromFamilyChain(
+        "'ThreadnoteOffice Songti SC','STSong','SimSun','Noto Serif CJK SC',serif",
+      ),
     ).toEqual({ font: 'STSong' })
   })
 
@@ -93,7 +95,9 @@ describe('fontAttrsFromFamilyChain', () => {
       fontAscii: 'SomeCustomFont',
     })
     expect(
-      fontAttrsFromFamilyChain("'PT Serif Custom','Noto Serif CJK GO','ThreadnoteOffice PUA Blank',serif"),
+      fontAttrsFromFamilyChain(
+        "'PT Serif Custom','Noto Serif CJK GO','ThreadnoteOffice PUA Blank',serif",
+      ),
     ).toEqual({ font: 'PT Serif Custom', fontAscii: 'PT Serif Custom' })
   })
 

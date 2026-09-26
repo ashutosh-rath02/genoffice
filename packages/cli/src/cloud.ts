@@ -9,7 +9,9 @@ import { threadnoteofficeUserDataDir } from './gui'
  * has to locate without Electron.
  */
 export function aiSettingsPath(env: NodeJS.ProcessEnv): string {
-  return env.THREADNOTE_OFFICE_AI_SETTINGS || join(threadnoteofficeUserDataDir(env), 'ai-settings.json')
+  return (
+    env.THREADNOTE_OFFICE_AI_SETTINGS || join(threadnoteofficeUserDataDir(env), 'ai-settings.json')
+  )
 }
 
 /** First http(s) proxy in the usual environment variables, as the app's main process reads them. */

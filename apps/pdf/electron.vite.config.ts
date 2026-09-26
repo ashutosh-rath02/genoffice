@@ -27,7 +27,9 @@ export default defineConfig({
   },
   preload: {
     // i18n and electron-utils ship as TS source — must be bundled, not left external
-    plugins: [externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] })],
+    plugins: [
+      externalizeDepsPlugin({ exclude: ['@threadnote/i18n', '@threadnote/electron-utils'] }),
+    ],
   },
   renderer: {
     plugins: [

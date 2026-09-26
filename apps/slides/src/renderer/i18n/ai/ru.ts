@@ -114,8 +114,7 @@ export const ru = {
   aiErrOverloaded: 'Сервис ИИ сейчас перегружен — повторите попытку чуть позже',
   aiErrNetwork:
     'Проблема с сетью: не удалось подключиться к сервису ИИ. Проверьте подключение и повторите попытку',
-  aiCreditsExhausted:
-    'Кредиты AI исчерпаны',
+  aiCreditsExhausted: 'Кредиты AI исчерпаны',
   aiErrRequestFailed: 'Не удалось отправить запрос: {msg}',
   aiErrGenerateFailed: 'Сбой генерации',
   aiErrRegenFailed: 'Не удалось переделать слайд',

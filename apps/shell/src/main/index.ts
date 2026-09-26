@@ -330,7 +330,8 @@ import { isUpdateChannel, type UpdateChannel } from '../shared/update-api'
 if (!app.isPackaged)
   app.setPath(
     'userData',
-    process.env.THREADNOTE_OFFICE_USER_DATA ?? join(app.getPath('appData'), 'Threadnote Office Dev'),
+    process.env.THREADNOTE_OFFICE_USER_DATA ??
+      join(app.getPath('appData'), 'Threadnote Office Dev'),
   )
 
 /**
@@ -597,7 +598,6 @@ const GENTEAM_URL = 'https://threadnote.ashutosh123rath.workers.dev'
 
 // Threadnote credit-usage page opened from the account menu's credits row.
 // Kept main-side so the renderer never supplies the URL.
-
 
 // ---- "star us on GitHub" prompt (see star-prompt.ts for the rules) ----
 
@@ -3886,7 +3886,10 @@ function registerHomeIpc(): void {
       const displaced: string[] = []
       const result = movePathsInto(sources, targetDir, conflictPolicy, folderErrors(), {
         replaceExisting: (path) => {
-          const parked = join(dirname(path), `.threadnoteoffice-replaced-${Date.now()}-${basename(path)}`)
+          const parked = join(
+            dirname(path),
+            `.threadnoteoffice-replaced-${Date.now()}-${basename(path)}`,
+          )
           const files = isDir(path) ? trackedFilesUnder(path) : [path]
           renameSync(path, parked)
           return {
@@ -3972,7 +3975,8 @@ function registerHomeIpc(): void {
     const docOpens = state.docOpens ?? 0
     // dev preview of the card without waiting out the value thresholds
     // (same pattern as THREADNOTE_OFFICE_FAKE_UPDATE); nothing is recorded
-    if (!app.isPackaged && process.env.THREADNOTE_OFFICE_FORCE_STAR_PROMPT) return { show: true, docOpens }
+    if (!app.isPackaged && process.env.THREADNOTE_OFFICE_FORCE_STAR_PROMPT)
+      return { show: true, docOpens }
     const grant = (): StarPromptShow => {
       writeStarPrompt(withShown(state, now))
       starPromptSessionGrant = { show: true, docOpens }
@@ -5051,8 +5055,14 @@ function revealShellWindow(): void {
 function openThreadnoteLink(url: string): void {
   revealShellWindow()
   void openThreadnoteUrl(url, routeDocumentPath).catch((cause: unknown) => {
-    const message = cause instanceof Error ? cause.message : 'Could not open this Threadnote document.'
-    void dialog.showMessageBox({ type: 'error', title: 'Threadnote could not open the document', message, buttons: ['Close'] })
+    const message =
+      cause instanceof Error ? cause.message : 'Could not open this Threadnote document.'
+    void dialog.showMessageBox({
+      type: 'error',
+      title: 'Threadnote could not open the document',
+      message,
+      buttons: ['Close'],
+    })
   })
 }
 

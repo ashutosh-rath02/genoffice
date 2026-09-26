@@ -118,8 +118,7 @@ export const it = {
   aiOverloadedError: 'Il servizio IA è momentaneamente sovraccarico — riprova tra poco',
   aiNetworkError:
     'Problema di rete: impossibile raggiungere il servizio IA. Controlla la connessione e riprova',
-  aiCreditsExhausted:
-    'I tuoi crediti AI sono esauriti',
+  aiCreditsExhausted: 'I tuoi crediti AI sono esauriti',
   aiSumReadAttachment: 'Lettura allegato',
   aiSumImageAttachment: 'Immagine allegata {name}',
   aiSumRead: 'Lettura di {name}',

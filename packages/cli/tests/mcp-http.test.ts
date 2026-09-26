@@ -38,7 +38,11 @@ describe('threadnoteoffice mcp --http', () => {
       host: '127.0.0.1',
       token: TOKEN,
       cwd: dir,
-      env: { ...process.env, THREADNOTE_OFFICE_AUDIT_LOG: 'off', THREADNOTE_OFFICE_ALLOWED_ROOTS: '' },
+      env: {
+        ...process.env,
+        THREADNOTE_OFFICE_AUDIT_LOG: 'off',
+        THREADNOTE_OFFICE_ALLOWED_ROOTS: '',
+      },
       log: () => {},
       registry,
     })
@@ -205,7 +209,11 @@ describe('http mode with THREADNOTE_OFFICE_ALLOWED_ROOTS set', () => {
     const handle = await startHttp({
       port: 0,
       cwd: roots,
-      env: { ...process.env, THREADNOTE_OFFICE_AUDIT_LOG: 'off', THREADNOTE_OFFICE_ALLOWED_ROOTS: roots },
+      env: {
+        ...process.env,
+        THREADNOTE_OFFICE_AUDIT_LOG: 'off',
+        THREADNOTE_OFFICE_ALLOWED_ROOTS: roots,
+      },
       log: () => {},
       registry,
     })
