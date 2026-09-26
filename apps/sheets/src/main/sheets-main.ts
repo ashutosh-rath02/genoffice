@@ -3278,7 +3278,7 @@ export function registerSheetsAiIpc(): void {
     sessionFor(event)
     const request = aiChatRequestSchema.parse(input)
     const provider = request.settings.provider as AiProviderId
-    let config = request.settings.providers[provider]
+    const config = request.settings.providers[provider]
     if (!config || (provider !== 'codex' && !config.apiKey)) {
       return {
         ok: false,
@@ -3306,7 +3306,7 @@ export function registerSheetsAiIpc(): void {
     const tools = request.tools ?? []
     const maxTokens = request.maxTokens ?? maxOutputTokensOf(request.settings)
     const provider = request.settings.provider as AiProviderId
-    let config = request.settings.providers[provider]
+    const config = request.settings.providers[provider]
     // Threadnote's key never enters the settings file; it is read from the gsk
     // login state per request
     const send = (chunk: AiStreamChunk) => {

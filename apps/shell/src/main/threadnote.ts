@@ -283,7 +283,7 @@ export function startThreadnoteBridge(openPath: (path: string) => boolean): void
   if (localBridge) return
   localBridge = createServer((request, response) => {
     const origin = String(request.headers.origin || '')
-    let allowed = false
+    let allowed: boolean
     try {
       const configured = new URL(readAuth().baseUrl).origin
       allowed =

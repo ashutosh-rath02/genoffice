@@ -148,7 +148,7 @@ export interface GenerateImageToolOp {
 export async function generateImageTool(
   settingsPath: string,
   op: GenerateImageToolOp,
-  options: MediaToolOptions = {},
+  _options: MediaToolOptions = {},
 ): Promise<{ url?: string; error?: string }> {
   const prompt = String(op.prompt ?? '').trim()
   if (!prompt) return { error: 'prompt must not be empty' }
@@ -174,7 +174,7 @@ export async function generateImageTool(
 export async function analyzeMediaTool(
   settingsPath: string,
   op: { mediaUrls: string[]; requirements: string },
-  options: MediaToolOptions = {},
+  _options: MediaToolOptions = {},
 ): Promise<{ text?: string; error?: string }> {
   const mediaUrls = (op.mediaUrls ?? []).map(String).filter(Boolean)
   const requirements = String(op.requirements ?? '').trim()
