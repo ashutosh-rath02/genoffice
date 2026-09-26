@@ -13,6 +13,15 @@ export function AppFrame({ initialOnboardingSeen }: AppFrameProps) {
   const [homeActive, setHomeActive] = useState(true)
   const [showOnboarding, setShowOnboarding] = useState(!initialOnboardingSeen)
   const [starPromptDocOpens, setStarPromptDocOpens] = useState<number | null>(null)
+  const [threadnoteAvailable, setThreadnoteAvailable] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    void window.threadnoteOffice.status().then((status) => {
+      if (active) setThreadnoteAvailable(status.available)
+    }).catch(() => {})
+    return () => { active = false }
+  }, [])
 
   useEffect(() => {
     const applyTabs = (tabs: Awaited<ReturnType<typeof window.aiOfficeTabs.list>>) => {
@@ -50,11 +59,11 @@ export function AppFrame({ initialOnboardingSeen }: AppFrameProps) {
 
   return (
     <div className="app-frame">
-      <TabBar />
+      <TabBar threadnoteAvailable={threadnoteAvailable} />
       {/* docs/sheets tabs render as WebContentsView children of this window, positioned
        * by the main process to cover this area — only Home paints its own content here. */}
       <div className="app-frame-content" style={{ visibility: homeActive ? 'visible' : 'hidden' }}>
-        <Home />
+        <Home threadnoteAvailable={threadnoteAvailable} />
       </div>
       {/* editor WebContentsViews paint above ALL shell DOM, so the overlay only
        * renders while the home tab is active — it comes back when home does */}

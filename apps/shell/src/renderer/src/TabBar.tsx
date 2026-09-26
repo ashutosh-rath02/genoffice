@@ -126,7 +126,7 @@ const KIND_ICON: Record<TabSummary['kind'], ReactElement> = {
   html: <HtmlIcon />,
 }
 
-export function TabBar() {
+export function TabBar({ threadnoteAvailable }: { threadnoteAvailable: boolean }) {
   const { t } = useI18n()
   const [tabs, setTabs] = useState<TabSummary[]>([])
   const stripRef = useRef<HTMLDivElement>(null)
@@ -414,7 +414,7 @@ export function TabBar() {
           </svg>
         </button>
       </div>
-      {activeDocument && (
+      {threadnoteAvailable && activeDocument && (
         <button
           className="tab-share-btn"
           title="Share this document through Threadnote"

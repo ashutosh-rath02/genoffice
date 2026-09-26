@@ -827,7 +827,7 @@ function DropToOpenOverlay(): ReactElement | null {
 
 function ThreadnoteView() {
   const { t } = useI18n()
-  const [baseUrl, setBaseUrl] = useState('http://localhost:5173')
+  const [baseUrl, setBaseUrl] = useState('https://threadnote.ashutosh123rath.workers.dev')
   const [connected, setConnected] = useState(false)
   const [pairing, setPairing] = useState<ThreadnotePairing | null>(null)
   const [projects, setProjects] = useState<ThreadnoteProject[]>([])
@@ -932,7 +932,7 @@ function ThreadnoteView() {
   )
 }
 
-export function Home() {
+export function Home({ threadnoteAvailable }: { threadnoteAvailable: boolean }) {
   const i18n = useI18n()
   const { t, lang } = i18n
   // ── Paged list state (rows loaded for the current view + filter) ──
@@ -2781,7 +2781,7 @@ export function Home() {
             <span className="nav-label">{t('navStarred')}</span>
             <span className="nav-count">{navCounts.starred}</span>
           </button>
-          <button className={`nav-item${threadnoteMode ? ' active' : ''}`} onClick={() => {
+          {threadnoteAvailable && <button className={`nav-item${threadnoteMode ? ' active' : ''}`} onClick={() => {
             setThreadnoteMode(true)
                     setSelectedFolder(null)
             setSelected(new Set())
@@ -2789,7 +2789,7 @@ export function Home() {
           }}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3.5h10v9H3zM5.5 1.8v3.4M10.5 1.8v3.4M5.5 8h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
             <span className="nav-label">Threadnote</span>
-          </button>
+          </button>}
         </nav>
         <div className="sidebar-divider" />
         {renderFolderPanel()}

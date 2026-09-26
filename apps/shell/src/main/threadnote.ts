@@ -27,6 +27,7 @@ interface ManagedFile {
 
 const managedFiles = new Map<string, ManagedFile>()
 let localBridge: Server | null = null
+const DEFAULT_THREADNOTE_URL = 'https://threadnote.ashutosh123rath.workers.dev'
 
 function authPath(): string {
   return join(app.getPath('userData'), 'threadnote-auth.json')
@@ -46,7 +47,21 @@ function readAuth(): StoredAuth {
     const data = JSON.parse(readFileSync(authPath(), 'utf8')) as StoredAuth
     return { baseUrl: normalizeBaseUrl(data.baseUrl), token: data.token }
   } catch {
-    return { baseUrl: 'http://localhost:5173' }
+    return { baseUrl: DEFAULT_THREADNOTE_URL }
+  }
+}
+
+async function officeAvailable(baseUrl: string): Promise<boolean> {
+  try {
+    const response = await fetch(baseUrl + '/api/desktop/capabilities', {
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(5_000),
+    })
+    if (!response.ok) return false
+    const data = (await response.json()) as { office?: unknown }
+    return data.office === true
+  } catch {
+    return false
   }
 }
 
@@ -241,12 +256,13 @@ export function startThreadnoteBridge(openPath: (path: string) => boolean): void
 }
 
 export function registerThreadnoteIpc(openPath: (path: string) => boolean, activePath: () => string | undefined): void {
-  ipcMain.handle(THREADNOTE_CHANNELS.status, (): ThreadnoteStatus => {
+  ipcMain.handle(THREADNOTE_CHANNELS.status, async (): Promise<ThreadnoteStatus> => {
     const auth = readAuth()
-    return { connected: Boolean(decodedToken(auth)), baseUrl: auth.baseUrl }
+    return { connected: Boolean(decodedToken(auth)), baseUrl: auth.baseUrl, available: await officeAvailable(auth.baseUrl) }
   })
   ipcMain.handle(THREADNOTE_CHANNELS.startPairing, async (_event, rawBaseUrl: unknown) => {
     const baseUrl = normalizeBaseUrl(rawBaseUrl)
+    if (!await officeAvailable(baseUrl)) throw new Error('Threadnote Office sharing is not available on this server yet.')
     const pairing = await api<ThreadnotePairing>(baseUrl, '/api/desktop/pairings', {
       method: 'POST',
     })
@@ -294,6 +310,7 @@ export function registerThreadnoteIpc(openPath: (path: string) => boolean, activ
       const filePath = activePath()
       if (!filePath || !existsSync(filePath)) throw new Error('Save this document before sharing it.')
       const auth = authenticated()
+      if (!await officeAvailable(auth.baseUrl)) throw new Error('Threadnote Office sharing is not available on this server yet.')
       const projects = await api<ThreadnoteProject[]>(auth.baseUrl, '/api/projects', {}, auth.token)
       const writable = projects.filter((project) => project.capability !== 'viewer')
       if (writable.length === 0) throw new Error('You do not have a Threadnote project that accepts uploads.')

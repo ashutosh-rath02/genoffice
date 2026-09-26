@@ -22,6 +22,7 @@ export interface ThreadnoteFile {
 export interface ThreadnoteStatus {
   connected: boolean
   baseUrl: string
+  available: boolean
 }
 
 export interface ThreadnotePairing {
