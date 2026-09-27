@@ -3093,6 +3093,15 @@ function openGeneratedDocument(filePath: string): boolean {
   return openDocumentPath(filePath)
 }
 
+function routeSharedFilePath(filePath: string): boolean {
+  if (
+    ![DOCX_RE, XLSX_RE, PPTX_RE, PDF_RE, MD_RE, HTML_RE].some((pattern) => pattern.test(filePath))
+  ) {
+    return false
+  }
+  return routeDocumentPath(filePath)
+}
+
 function routeDocumentPath(filePath: string): boolean {
   if (!existsSync(filePath)) return false
   // a detached editor window already shows this file — focus it, never a second copy
@@ -5052,7 +5061,7 @@ function revealShellWindow(): void {
 
 function openThreadnoteLink(url: string): void {
   revealShellWindow()
-  void openThreadnoteUrl(url, routeDocumentPath).catch((cause: unknown) => {
+  void openThreadnoteUrl(url, routeSharedFilePath).catch((cause: unknown) => {
     const message =
       cause instanceof Error ? cause.message : 'Could not open this Threadnote document.'
     void dialog.showMessageBox({
@@ -5105,7 +5114,7 @@ registerProjectIpc()
 registerDocsIpc()
 registerHomeIpc()
 registerThreadnoteIpc(
-  routeDocumentPath,
+  routeSharedFilePath,
   () => tabManager?.list().find((tab) => tab.active)?.filePath,
 )
 registerIntegrationsIpc({
@@ -5354,7 +5363,7 @@ app.whenReady().then(async () => {
     console.error('[mcp] failed to start on boot:', error)
   })
   createShellWindow()
-  startThreadnoteBridge(routeDocumentPath)
+  startThreadnoteBridge(routeSharedFilePath)
   // deferred to ready: labels need currentLang(), which reads app.getLocale()
   installBackToHomeItems()
   installDockMenu()

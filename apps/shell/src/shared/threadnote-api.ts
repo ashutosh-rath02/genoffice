@@ -10,7 +10,7 @@ export interface ThreadnoteFile {
   id: string
   projectId: string
   name: string
-  kind: 'docx' | 'xlsx' | 'pptx' | 'pdf'
+  kind: string
   size: number
   version: number
   checksum: string
@@ -42,6 +42,7 @@ export interface ThreadnoteApi {
   files(projectId?: string): Promise<ThreadnoteFile[]>
   openFile(fileId: string): Promise<void>
   shareCurrentFile(): Promise<ThreadnoteFile | null>
+  shareLocalFile(): Promise<ThreadnoteFile | null>
 }
 
 export const THREADNOTE_CHANNELS = {
@@ -53,4 +54,5 @@ export const THREADNOTE_CHANNELS = {
   files: 'threadnote:files',
   openFile: 'threadnote:open-file',
   shareCurrentFile: 'threadnote:share-current-file',
+  shareLocalFile: 'threadnote:share-local-file',
 } as const

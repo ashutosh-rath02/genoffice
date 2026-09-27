@@ -1,6 +1,8 @@
 import { app, BrowserWindow, dialog, ipcMain, safeStorage, shell } from 'electron'
 import { existsSync, mkdirSync, readFileSync, unwatchFile, watchFile, writeFileSync } from 'node:fs'
 import { basename, join } from 'node:path'
+import { saveOfficeDownload } from './threadnote-download'
+import { readThreadnoteFileLink, writeThreadnoteFileLink } from './threadnote-links'
 import { createServer, type Server } from 'node:http'
 import { createHash } from 'node:crypto'
 import type {
@@ -18,6 +20,8 @@ interface StoredAuth {
 
 interface ManagedFile {
   fileId: string
+  projectId: string
+  baseUrl: string
   version: number
   checksum: string
   saving: boolean
@@ -96,7 +100,7 @@ async function api<T>(
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...init.headers,
     },
-    signal: AbortSignal.timeout(15_000),
+    signal: init.signal ?? AbortSignal.timeout(init.body ? 60_000 : 15_000),
   })
   const body = (await result.json().catch(() => ({}))) as { error?: string }
   if (!result.ok) throw new Error(body.error || `Threadnote request failed (${result.status}).`)
@@ -179,14 +183,32 @@ const input=document.querySelector('input'),buttons=[...document.querySelectorAl
 
 function trackManagedFile(filePath: string, file: ThreadnoteFile): void {
   unwatchFile(filePath)
+  const previous = managedFiles.get(filePath)
+  if (previous?.timer) clearTimeout(previous.timer)
   const managed: ManagedFile = {
     fileId: file.id,
+    projectId: file.projectId,
+    baseUrl: readAuth().baseUrl,
     version: file.version,
     checksum: file.checksum,
     saving: false,
     pending: false,
   }
   managedFiles.set(filePath, managed)
+  const persist = () => {
+    try {
+      writeThreadnoteFileLink(
+        app.getPath('userData'),
+        managed.baseUrl,
+        filePath,
+        managed.projectId,
+        { fileId: managed.fileId, version: managed.version, checksum: managed.checksum },
+      )
+    } catch (cause) {
+      console.warn('[threadnote] could not remember a shared file:', cause)
+    }
+  }
+  persist()
   const save = async () => {
     if (managed.saving) {
       managed.pending = true
@@ -212,6 +234,7 @@ function trackManagedFile(filePath: string, file: ThreadnoteFile): void {
       )
       managed.version = updated.version
       managed.checksum = updated.checksum
+      persist()
     } catch (cause) {
       const message =
         cause instanceof Error ? cause.message : 'Could not sync this document to Threadnote.'
@@ -238,6 +261,9 @@ function trackManagedFile(filePath: string, file: ThreadnoteFile): void {
 }
 
 async function openManagedFile(fileId: string, openPath: (path: string) => boolean): Promise<void> {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(fileId)) {
+    throw new Error('Invalid Threadnote file.')
+  }
   const auth = authenticated()
   const details = await api<ThreadnoteFile>(
     auth.baseUrl,
@@ -258,12 +284,25 @@ async function openManagedFile(fileId: string, openPath: (path: string) => boole
       '<>:"/\\|?*'.includes(character) || character.charCodeAt(0) < 32 ? '-' : character,
     )
     .join('')
-  const dir = join(app.getPath('userData'), 'threadnote-files', fileId)
-  const target = join(dir, safeName)
-  mkdirSync(dir, { recursive: true })
+  const target = saveOfficeDownload(
+    app.getPath('userData'),
+    fileId,
+    details.version,
+    safeName,
+    Buffer.from(await response.arrayBuffer()),
+    details.checksum,
+  )
   unwatchFile(target)
-  writeFileSync(target, Buffer.from(await response.arrayBuffer()))
-  if (!existsSync(target) || !openPath(target)) throw new Error('This file type cannot be opened.')
+  if (!openPath(target)) {
+    await dialog.showMessageBox({
+      type: 'info',
+      title: 'File downloaded from Threadnote',
+      message: `${details.name} is saved on this computer.`,
+      detail: target,
+      buttons: ['Done'],
+    })
+    return
+  }
   trackManagedFile(target, details)
 }
 
@@ -361,7 +400,14 @@ export function registerThreadnoteIpc(
     }
     return result.status
   })
-  ipcMain.handle(THREADNOTE_CHANNELS.disconnect, () => writeAuth({ baseUrl: readAuth().baseUrl }))
+  ipcMain.handle(THREADNOTE_CHANNELS.disconnect, () => {
+    for (const [filePath, managed] of managedFiles) {
+      unwatchFile(filePath)
+      if (managed.timer) clearTimeout(managed.timer)
+    }
+    managedFiles.clear()
+    writeAuth({ baseUrl: readAuth().baseUrl })
+  })
   ipcMain.handle(THREADNOTE_CHANNELS.projects, async (): Promise<ThreadnoteProject[]> => {
     const auth = authenticated()
     return api(auth.baseUrl, '/api/projects', {}, auth.token)
@@ -381,9 +427,8 @@ export function registerThreadnoteIpc(
     if (typeof fileId !== 'string' || !fileId) throw new Error('Invalid Threadnote file.')
     await openManagedFile(fileId, openPath)
   })
-  ipcMain.handle(THREADNOTE_CHANNELS.shareCurrentFile, async (): Promise<ThreadnoteFile | null> => {
+  const shareFilePath = async (filePath: string | undefined): Promise<ThreadnoteFile | null> => {
     try {
-      const filePath = activePath()
       if (!filePath || !existsSync(filePath))
         throw new Error('Save this document before sharing it.')
       const auth = authenticated()
@@ -397,12 +442,28 @@ export function registerThreadnoteIpc(
       if (!project) return null
       const form = new FormData()
       form.append('file', new Blob([readFileSync(filePath)]), basename(filePath))
-      const shared = await api<ThreadnoteFile>(
-        auth.baseUrl,
-        `/api/projects/${encodeURIComponent(project.id)}/office-files`,
-        { method: 'POST', body: form },
-        auth.token,
-      )
+      const linked =
+        managedFiles.get(filePath)?.projectId === project.id &&
+        managedFiles.get(filePath)?.baseUrl === auth.baseUrl
+          ? managedFiles.get(filePath)
+          : readThreadnoteFileLink(app.getPath('userData'), auth.baseUrl, filePath, project.id)
+      const shared = linked
+        ? await api<ThreadnoteFile>(
+            auth.baseUrl,
+            `/api/office-files/${encodeURIComponent(linked.fileId)}/content`,
+            {
+              method: 'PUT',
+              headers: { 'X-Threadnote-Base-Version': String(linked.version) },
+              body: form,
+            },
+            auth.token,
+          )
+        : await api<ThreadnoteFile>(
+            auth.baseUrl,
+            `/api/projects/${encodeURIComponent(project.id)}/office-files`,
+            { method: 'POST', body: form },
+            auth.token,
+          )
       trackManagedFile(filePath, shared)
       await dialog.showMessageBox({
         type: 'info',
@@ -422,5 +483,11 @@ export function registerThreadnoteIpc(
       })
       throw cause
     }
+  }
+  ipcMain.handle(THREADNOTE_CHANNELS.shareCurrentFile, () => shareFilePath(activePath()))
+  ipcMain.handle(THREADNOTE_CHANNELS.shareLocalFile, async () => {
+    const selection = await dialog.showOpenDialog({ properties: ['openFile'] })
+    if (selection.canceled) return null
+    return shareFilePath(selection.filePaths[0])
   })
 }

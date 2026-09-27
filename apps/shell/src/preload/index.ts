@@ -522,6 +522,8 @@ const threadnoteApi: ThreadnoteApi = {
   openFile: (fileId) => ipcRenderer.invoke(THREADNOTE_CHANNELS.openFile, fileId),
   shareCurrentFile: () =>
     ipcRenderer.invoke(THREADNOTE_CHANNELS.shareCurrentFile) as Promise<ThreadnoteFile | null>,
+  shareLocalFile: () =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.shareLocalFile) as Promise<ThreadnoteFile | null>,
 }
 contextBridge.exposeInMainWorld('threadnoteOffice', threadnoteApi)
 

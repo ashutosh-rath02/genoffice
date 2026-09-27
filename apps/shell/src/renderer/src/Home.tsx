@@ -915,6 +915,19 @@ function ThreadnoteView() {
     }
   }
 
+  const shareLocalFile = async () => {
+    setBusy(true)
+    setError('')
+    try {
+      const shared = await window.threadnoteOffice.shareLocalFile()
+      if (shared) await loadProjects(shared.projectId)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : t('cloudError'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const selectProject = async (next: string) => {
     setProjectId(next)
     setBusy(true)
@@ -982,6 +995,13 @@ function ThreadnoteView() {
             Files are filtered by your selected Discord server and project permissions.
           </p>
           <div className="cloud-controls">
+            <button
+              className="btn btn-primary"
+              disabled={busy}
+              onClick={() => void shareLocalFile()}
+            >
+              Share a file
+            </button>
             <select
               className="threadnote-project"
               value={projectId}

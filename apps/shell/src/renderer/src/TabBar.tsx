@@ -224,7 +224,7 @@ export function TabBar({ threadnoteAvailable }: { threadnoteAvailable: boolean }
 
   // keep the active tab in view — new tabs open at the far end of the strip
   const activeId = tabs.find((tab) => tab.active)?.id
-  const activeDocument = tabs.find((tab) => tab.active && tab.kind !== 'home')
+  const activeDocument = tabs.find((tab) => tab.active && tab.kind !== 'home' && tab.filePath)
   useEffect(() => {
     // pointer-down activation runs while the user is pressing that tab — it is
     // already visible, and scrolling the strip mid-press would invalidate the
