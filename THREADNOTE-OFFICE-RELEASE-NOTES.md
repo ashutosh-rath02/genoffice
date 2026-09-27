@@ -1,6 +1,6 @@
-# Threadnote Office preview — 27 September 2026
+# Threadnote Office 0.10.0 — Windows release (27 September 2026)
 
-This preview is for teammates using Threadnote with Discord. The desktop app keeps local Office editing available and connects to the same Threadnote account used in the browser. This build is for Windows x64.
+This release is for teammates using Threadnote with Discord. The desktop app keeps local Office editing available and connects to the same Threadnote account used in the browser. This build is for Windows x64.
 
 Installer: `Threadnote Office Setup 0.10.0.exe`
 
@@ -17,12 +17,12 @@ SHA-256: `B91445B709B4197396D908F5D0428BEC647D8334B210051D22770513571D6E95`
 - See your authored Markdown documents and personal files in **My Docs**, and files shared directly with you in **Shared with me**.
 - Browse recent local files without separate entries for Threadnote's cached server versions.
 
-## Preview limits
+## Known limitations
 
 - Personal files opened from **My Docs** or **Shared with me** are local copies. Editing those copies does not update the server. The app warns before opening them; use the Threadnote web app to manage or share personal files.
 - Office does not yet provide the web app's Tasks, Activity, discussions, archive, or personal-file sharing controls.
 - AI tools require a separately configured provider; none is included with this installer.
-- Automatic updates are not configured for this preview. Install a newer build manually when one is provided.
+- Automatic updates are not configured for this release. Install a newer build manually when one is provided.
 - The Windows installer is unsigned and may show an unknown-publisher prompt.
 - Threadnote library and sharing require an internet connection and access to a Discord server where Threadnote is installed. Local editors still work without the connection.
 
