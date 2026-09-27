@@ -143,7 +143,7 @@ jobs:
       # pptx-engine's OOXML schema gate validates saved decks with xmllint
       # (tools/ooxml-validate); the runner image is not guaranteed to have it.
       - name: Install xmllint
-        run: sudo apt-get install -y --no-install-recommends libxml2-utils
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libxml2-utils
 
       - name: Test
         run: npm test
@@ -152,8 +152,8 @@ jobs:
       # leave every untouched package entry byte-identical (fails closed otherwise).
       - name: Sheets compatibility gate
         run: |
-          npm run fixtures -w @genoffice/sheets
-          npm run compat -w @genoffice/sheets
+          npm run fixtures -w @threadnote/sheets
+          npm run compat -w @threadnote/sheets
 
   e2e:
     # 22.04, not -latest: 24.04's AppArmor hardening blocks Electron renderer
@@ -199,7 +199,7 @@ jobs:
         run: npm run build:all
 
       - name: Generate sheets fixtures
-        run: npm run fixtures -w @genoffice/sheets
+        run: npm run fixtures -w @threadnote/sheets
 
       # Newer Ubuntu kernels ship an AppArmor policy that blocks unprivileged
       # user namespaces, which kills the Chromium zygote even with --no-sandbox

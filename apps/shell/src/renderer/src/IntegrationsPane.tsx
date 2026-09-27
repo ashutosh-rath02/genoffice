@@ -9,7 +9,7 @@ import type {
 } from '../../shared/integrations-api'
 
 // ── Settings → Integrations ─────────────────────────────────
-// Installs the bundled `genoffice` skill into the coding agents found on this
+// Installs the bundled `threadnoteoffice` skill into the coding agents found on this
 // machine. Every write starts with a click and shows the absolute path first,
 // because the app does not see the shell's CODEX_HOME-style overrides and the
 // user has to be able to spot a wrong target.
@@ -27,8 +27,6 @@ interface Pending {
   agentId?: AgentId
 }
 
-export const NPX_INSTALL_COMMAND = 'npx skills add genspark-ai/genoffice'
-
 /** some detected assistant holds an older copy of the skill than the bundled one */
 export const skillUpdateDue = (s: IntegrationsStatus): boolean =>
   s.agents.some((a) => a.state.older === true)
@@ -42,21 +40,24 @@ export interface McpLaunch {
 }
 
 /**
- * How an MCP client starts `genoffice mcp`. Clients spawn without a shell, so on Windows
- * neither genoffice.cmd nor cmd /c is safe (a path with a space splits); the snippet does
- * what genoffice.cmd does: the app binary as Node on the bundled CLI. Elsewhere it is the
+ * How an MCP client starts `threadnoteoffice mcp`. Clients spawn without a shell, so on Windows
+ * neither threadnoteoffice.cmd nor cmd /c is safe (a path with a space splits); the snippet does
+ * what threadnoteoffice.cmd does: the app binary as Node on the bundled CLI. Elsewhere it is the
  * bare name once it is on the PATH, else the launcher itself.
  */
 export function mcpLaunch(cli: { status: string; launcherDir: string }): McpLaunch {
   const dir = cli.launcherDir
   if (dir.includes('\\')) {
     return {
-      command: `${dir}\\..\\..\\GenOffice.exe`,
-      args: [`${dir}\\genoffice.cjs`, 'mcp'],
+      command: `${dir}\\..\\..\\ThreadnoteOffice.exe`,
+      args: [`${dir}\\threadnoteoffice.cjs`, 'mcp'],
       env: { ELECTRON_RUN_AS_NODE: '1' },
     }
   }
-  return { command: cli.status === 'present' ? 'genoffice' : `${dir}/genoffice`, args: ['mcp'] }
+  return {
+    command: cli.status === 'present' ? 'threadnoteoffice' : `${dir}/threadnoteoffice`,
+    args: ['mcp'],
+  }
 }
 
 const shellWord = (w: string) => (/\s/.test(w) ? `"${w}"` : w)
@@ -65,11 +66,11 @@ const shellWord = (w: string) => (/\s/.test(w) ? `"${w}"` : w)
 export function mcpClaudeCommand(launch: McpLaunch): string {
   const env = Object.entries(launch.env ?? {}).map(([k, v]) => `-e ${k}=${v} `)
   const words = [launch.command, ...launch.args].map(shellWord).join(' ')
-  return `claude mcp add ${env.join('')}--transport stdio genoffice -- ${words}`
+  return `claude mcp add ${env.join('')}--transport stdio threadnoteoffice -- ${words}`
 }
 
 export function mcpConfigJson(launch: McpLaunch): string {
-  const json = JSON.stringify({ mcpServers: { genoffice: launch } }, null, 2)
+  const json = JSON.stringify({ mcpServers: { threadnoteoffice: launch } }, null, 2)
   return json.replace(/"args": \[[^\]]*\]/, `"args": ${JSON.stringify(launch.args)}`)
 }
 
@@ -150,7 +151,7 @@ export function IntegrationsPane({
     const sep = dir.includes('\\') && !dir.includes('/') ? '\\' : '/'
     setPending({
       kind: 'install',
-      path: `${dir}${sep}genoffice${sep}SKILL.md`,
+      path: `${dir}${sep}threadnoteoffice${sep}SKILL.md`,
       target: { dir },
     })
   }
@@ -331,20 +332,6 @@ export function IntegrationsPane({
             <button className="set-btn" onClick={() => void downloadZip()}>
               {t('intgDownloadZip')}
             </button>
-          </div>
-
-          <div className="set-intg-option">
-            <span className="set-intg-option-letter">C</span>
-            <div className="set-field-stack">
-              <div className="set-field-label">{t('intgOtherNpxTitle')}</div>
-              <div className="set-field-desc">{t('intgOtherNpxDesc')}</div>
-              <div className="set-intg-code">
-                <code>{NPX_INSTALL_COMMAND}</code>
-                <button className="set-btn" onClick={() => copy(NPX_INSTALL_COMMAND, 'npx')}>
-                  {copied === 'npx' ? t('intgCopied') : t('intgCopy')}
-                </button>
-              </div>
-            </div>
           </div>
 
           {pending && !pending.agentId && confirmBlock(pending)}

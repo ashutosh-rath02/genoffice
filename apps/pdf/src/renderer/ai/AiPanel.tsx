@@ -1,11 +1,11 @@
-import { aiPanelWidthAtPointer, AiPanelSideButton } from '@genoffice/ui'
+import { aiPanelWidthAtPointer, AiPanelSideButton } from '@threadnote/ui'
 import { useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent, ReactElement } from 'react'
-import { AgentLoop } from '@genoffice/agent-core'
-import { imageGenerationAvailable, type AiSettings } from '@genoffice/ai-provider/browser'
-import { AiComposer, AiScopeQuote, AiTypingIndicator, type AiScopeQuoteData } from '@genoffice/ui'
+import { AgentLoop } from '@threadnote/agent-core'
+import { imageGenerationAvailable, type AiSettings } from '@threadnote/ai-provider/browser'
+import { AiComposer, AiScopeQuote, AiTypingIndicator, type AiScopeQuoteData } from '@threadnote/ui'
 import { aiLangDirective, t as tGlobal, useI18n } from '../i18n/locale'
-import { Markdown } from '@genoffice/ui'
+import { Markdown } from '@threadnote/ui'
 import sendEnterOn from '../assets/send-enter-on.png'
 import sendEnterOff from '../assets/send-enter-off.png'
 import sendStop from '../assets/send-stop.png'
@@ -621,8 +621,8 @@ export function AiPanel({
       />
       <header className="ai-panel-header">
         <span className="ai-panel-title">
-          <GensparkMark size={22} />
-          Genspark
+          <ThreadnoteMark size={22} />
+          Threadnote
         </span>
         <div className="ai-panel-header-actions">
           <AiPanelSideButton
@@ -1003,9 +1003,9 @@ function IconCollapse(): ReactElement {
   )
 }
 
-/** Genspark brand mark (rounded-square sparkle badge), inline so it renders
+/** Threadnote brand mark (rounded-square sparkle badge), inline so it renders
  * crisply at device resolution instead of going through <img> rasterization */
-export function GensparkMark({ size = 18 }: { size?: number }): React.JSX.Element {
+export function ThreadnoteMark({ size = 18 }: { size?: number }): React.JSX.Element {
   return (
     <svg
       width={size}

@@ -16,13 +16,15 @@ test.describe('home screen', () => {
       await expect(page.locator('.quick-card').nth(4)).toContainText('AI HTML')
       await expect(page.locator('.quick-card').nth(5)).toContainText('AI PDF')
       await expect(page.locator('.tab-bar .tab-item.tab-home')).toBeVisible()
+      await expect(page.locator('.tab-bar .tab-item.tab-home')).toContainText('Threadnote Office')
+      await expect(page.locator('.account-btn')).toContainText('Settings')
       await page.screenshot({ path: screenshotPath('home-overview') })
     } finally {
       await closeAndSaveVideo(launched, 'home-basics')
     }
   })
 
-  test('renders localized UI when GENOFFICE_LANG=zh-CN', async () => {
+  test('renders localized UI when THREADNOTE_OFFICE_LANG=zh-CN', async () => {
     const launched = await launchShell({
       onboardingSeen: true,
       lang: 'zh-CN',

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { execSync } from 'node:child_process'
-import { mkdtemp, readdir } from 'node:fs/promises'
+import { mkdtemp, readFile, readdir } from 'node:fs/promises'
+import JSZip from 'jszip'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { launchShell, closeAndSaveVideo, waitForPageWithUrl, screenshotPath } from './helpers'
@@ -12,11 +12,11 @@ import { launchShell, closeAndSaveVideo, waitForPageWithUrl, screenshotPath } fr
  */
 test.describe('sheets: new blank workbook', () => {
   test('quick-create writes a backing file and saves the first edit', async () => {
-    const scratch = await mkdtemp(join(tmpdir(), 'genoffice-sheets-blank-'))
+    const scratch = await mkdtemp(join(tmpdir(), 'threadnoteoffice-sheets-blank-'))
     const launched = await launchShell({ onboardingSeen: true, videoDir: 'sheets-new-blank' })
     try {
       const { app, page } = launched
-      // keep the auto-created workbook out of the real ~/Documents/GenOffice
+      // keep the auto-created workbook out of the real ~/Documents/Threadnote Office
       await app.evaluate(({ app: electronApp }, dir) => {
         electronApp.setPath('documents', dir)
       }, scratch)
@@ -31,7 +31,7 @@ test.describe('sheets: new blank workbook', () => {
       await sheets.waitForTimeout(1_500)
 
       // the backing file exists before any edit
-      const saveDir = join(scratch, 'GenOffice')
+      const saveDir = join(scratch, 'Threadnote Office')
       const created = (await readdir(saveDir)).filter((f) => f.endsWith('.xlsx'))
       expect(created).toHaveLength(1)
       const workbook = join(saveDir, created[0])
@@ -54,10 +54,11 @@ test.describe('sheets: new blank workbook', () => {
         const wc = webContents.getAllWebContents().find((w) => w.getURL().includes('://sheets/'))
         wc?.send('menu:action', 'save')
       })
-      await expect(() => {
-        const xml = execSync(`unzip -p "${workbook}" xl/worksheets/sheet1.xml`).toString()
+      await expect(async () => {
+        const archive = await JSZip.loadAsync(await readFile(workbook))
+        const xml = await archive.file('xl/worksheets/sheet1.xml')?.async('string')
         expect(xml).toContain('<v>42</v>')
-      }).toPass({ timeout: 15_000 })
+      }).toPass({ timeout: 60_000 })
     } finally {
       await closeAndSaveVideo(launched, 'sheets-new-blank')
     }

@@ -1,6 +1,6 @@
 {
-  "name": "@genoffice/slides",
-  "productName": "GenOffice Slides",
+  "name": "@threadnote/slides",
+  "productName": "Threadnote Office Slides",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
@@ -18,16 +18,16 @@
     "dist:dir": "electron-vite build && electron-builder --dir"
   },
   "devDependencies": {
-    "@genoffice/agent-core": "*",
-    "@genoffice/ai-provider": "*",
-    "@genoffice/ai-search": "*",
-    "@genoffice/file-parse": "*",
-    "@genoffice/i18n": "*",
-    "@genoffice/pptx-engine": "*",
-    "@genoffice/pptx-ops": "*",
-    "@genoffice/pptx-render": "*",
-    "@genoffice/project-store": "*",
-    "@genoffice/ui": "*",
+    "@threadnote/agent-core": "*",
+    "@threadnote/ai-provider": "*",
+    "@threadnote/ai-search": "*",
+    "@threadnote/file-parse": "*",
+    "@threadnote/i18n": "*",
+    "@threadnote/pptx-engine": "*",
+    "@threadnote/pptx-ops": "*",
+    "@threadnote/pptx-render": "*",
+    "@threadnote/project-store": "*",
+    "@threadnote/ui": "*",
     "@types/opentype.js": "^1.3.8",
     "@types/pngjs": "^6.0.5",
     "@types/react": "^19.2.14",
@@ -46,10 +46,10 @@
     "vite": "^7.3.1",
     "vitest": "^4.1.11"
   },
-  "author": "GenOffice",
+  "author": "ThreadnoteOffice",
   "build": {
-    "appId": "com.genoffice.slides",
-    "productName": "GenOffice Slides",
+    "appId": "com.threadnoteoffice.slides",
+    "productName": "Threadnote Office Slides",
     "electronVersion": "43.3.0",
     "directories": {
       "output": "release"
@@ -88,7 +88,7 @@
     }
   },
   "dependencies": {
-    "@genoffice/electron-utils": "*",
+    "@threadnote/electron-utils": "*",
     "acorn": "^8.18.0",
     "harfbuzzjs": "^1.4.0",
     "pngjs": "^7.0.0",

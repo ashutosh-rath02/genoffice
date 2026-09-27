@@ -36,7 +36,7 @@ import {
   type ReorderDirection,
   type Slide,
   type SlideElement,
-} from '@genoffice/pptx-engine'
+} from '@threadnote/pptx-engine'
 import {
   coerceBytes,
   dataUrlExt,

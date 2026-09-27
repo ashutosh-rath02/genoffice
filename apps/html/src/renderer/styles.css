@@ -147,7 +147,7 @@ body,
   -webkit-app-region: drag;
 }
 
-html.genoffice-popover-open .ribbon-tabs {
+html.threadnoteoffice-popover-open .ribbon-tabs {
   -webkit-app-region: no-drag;
 }
 
@@ -667,7 +667,7 @@ html.genoffice-popover-open .ribbon-tabs {
   white-space: nowrap;
 }
 
-/* Genspark brand logo (shared by the collapsed entry and the AI panel title) */
+/* Threadnote brand logo (shared by the collapsed entry and the AI panel title) */
 .genspark-badge {
   display: block;
   width: 22px;

@@ -15,7 +15,7 @@ import {
   type GradientFillPatch,
   type StrokePatch,
   type TextElement,
-} from '@genoffice/pptx-engine'
+} from '@threadnote/pptx-engine'
 import {
   GuidedError,
   register,

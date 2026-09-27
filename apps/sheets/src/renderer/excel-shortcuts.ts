@@ -47,16 +47,16 @@ const KEY_PAGE_DOWN = 34
 const KEY_END = 35
 const KEY_HOME = 36
 
-const ACTIVATE_ADJACENT_SHEET_ID = 'genoffice.command.activate-adjacent-sheet'
-const SELECT_SHEET_HOME_ID = 'genoffice.command.select-sheet-home'
-const SELECT_SHEET_END_ID = 'genoffice.command.select-sheet-end'
-const SELECT_ROW_HOME_ID = 'genoffice.command.select-row-home'
-const SELECT_WHOLE_COLUMN_ID = 'genoffice.command.select-whole-column'
-const SELECT_WHOLE_ROW_ID = 'genoffice.command.select-whole-row'
-const HIDE_SELECTED_ROWS_ID = 'genoffice.command.hide-selected-rows'
-const UNHIDE_SELECTED_ROWS_ID = 'genoffice.command.unhide-selected-rows'
-const HIDE_SELECTED_COLS_ID = 'genoffice.command.hide-selected-cols'
-const UNHIDE_SELECTED_COLS_ID = 'genoffice.command.unhide-selected-cols'
+const ACTIVATE_ADJACENT_SHEET_ID = 'threadnoteoffice.command.activate-adjacent-sheet'
+const SELECT_SHEET_HOME_ID = 'threadnoteoffice.command.select-sheet-home'
+const SELECT_SHEET_END_ID = 'threadnoteoffice.command.select-sheet-end'
+const SELECT_ROW_HOME_ID = 'threadnoteoffice.command.select-row-home'
+const SELECT_WHOLE_COLUMN_ID = 'threadnoteoffice.command.select-whole-column'
+const SELECT_WHOLE_ROW_ID = 'threadnoteoffice.command.select-whole-row'
+const HIDE_SELECTED_ROWS_ID = 'threadnoteoffice.command.hide-selected-rows'
+const UNHIDE_SELECTED_ROWS_ID = 'threadnoteoffice.command.unhide-selected-rows'
+const HIDE_SELECTED_COLS_ID = 'threadnoteoffice.command.hide-selected-cols'
+const UNHIDE_SELECTED_COLS_ID = 'threadnoteoffice.command.unhide-selected-cols'
 
 /** first visible line at or after `from` (hidden rows/columns are not landing spots) */
 function firstVisible(worksheet: Worksheet, axis: 'row' | 'column', from: number): number {

@@ -9,14 +9,14 @@ export default defineConfig({
     alias: {
       // Resolve sibling sources by path (not via node_modules) so a worktree
       // whose node_modules is linked to another checkout still tests local edits.
-      '@genoffice/pptx-engine/table-grid': resolve(here, '../pptx-engine/src/table-grid.ts'),
-      '@genoffice/pptx-engine/identity': resolve(here, '../pptx-engine/src/identity.ts'),
-      '@genoffice/pptx-engine/background-promote': resolve(
+      '@threadnote/pptx-engine/table-grid': resolve(here, '../pptx-engine/src/table-grid.ts'),
+      '@threadnote/pptx-engine/identity': resolve(here, '../pptx-engine/src/identity.ts'),
+      '@threadnote/pptx-engine/background-promote': resolve(
         here,
         '../pptx-engine/src/background-promote.ts',
       ),
-      '@genoffice/pptx-engine': resolve(here, '../pptx-engine/src/index.ts'),
-      '@genoffice/docx-engine/math': resolve(here, '../docx-engine/src/math.ts'),
+      '@threadnote/pptx-engine': resolve(here, '../pptx-engine/src/index.ts'),
+      '@threadnote/docx-engine/math': resolve(here, '../docx-engine/src/math.ts'),
     },
   },
   test: {

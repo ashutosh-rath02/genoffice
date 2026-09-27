@@ -1,4 +1,4 @@
-/* GenOffice design tokens — the single source of truth for UI chrome colors.
+/* ThreadnoteOffice design tokens — the single source of truth for UI chrome colors.
  * Theme switching: light defaults in :root, [data-theme='dark'] overrides,
  * prefers-color-scheme fallback for system mode (no data-theme attribute).
  * Per-app accents (--accent / --accent-dark / --accent-soft) live in each
@@ -51,6 +51,9 @@
   --color-btn-primary: #232425;
   --color-btn-primary-hover: #393a3b;
   --color-btn-primary-text: #ffffff;
+  --color-share-button: #6f55c7;
+  --color-share-button-hover: #7c65cf;
+  --color-share-button-text: #ffffff;
   --color-ai-action: #e8663f;
   --color-ai-action-hover: #d4552f;
   --color-ai-action-text: #ffffff;

@@ -1,13 +1,13 @@
-import type { AiPanelPrefs } from '@genoffice/ui'
+import type { AiPanelPrefs } from '@threadnote/ui'
 import { contextBridge, ipcRenderer, webUtils } from 'electron'
 
 import type {
   AiChatResponse,
   AiSettings,
   AiStreamChunk,
-  GenSparkAccountStatus,
-} from '@genoffice/ai-provider'
-import type { ProjectApi } from '@genoffice/project-store'
+  ThreadnoteAccountStatus,
+} from '@threadnote/ai-provider'
+import type { ProjectApi } from '@threadnote/project-store'
 import type {
   AttachmentAddResult,
   AttachmentImageResult,
@@ -53,7 +53,7 @@ import {
   MAX_SAVE_EDITS_TOTAL,
   SAVE_EDITS_CHUNK_JSON_MAX,
 } from '../shared/ipc-channels'
-import { installDropOpenBridge } from '@genoffice/electron-utils/drop-open'
+import { installDropOpenBridge } from '@threadnote/electron-utils/drop-open'
 
 const desktopApi: DesktopApi = {
   getLanguage: () => ipcRenderer.invoke('app:get-language'),
@@ -464,9 +464,9 @@ const desktopApi: DesktopApi = {
   async aiGskStatus(withEmail) {
     const result: unknown = await ipcRenderer.invoke(IPC_CHANNELS.aiGskStatus, withEmail)
     if (!isRecord(result) || typeof result.loggedIn !== 'boolean') {
-      throw new Error('Invalid Genspark account status response.')
+      throw new Error('Invalid Threadnote account status response.')
     }
-    return result as unknown as GenSparkAccountStatus
+    return result as unknown as ThreadnoteAccountStatus
   },
   async aiGskLogin() {
     await ipcRenderer.invoke(IPC_CHANNELS.aiGskLogin)
@@ -678,11 +678,11 @@ const projectApi: ProjectApi = {
 }
 contextBridge.exposeInMainWorld('projectApi', projectApi)
 
-// Off by default. e2e drivers launch the BUILT app with GENOFFICE_DEBUG_HOOKS=1
-// so the renderer exposes window.__genofficeDebug (see App.tsx) — the dev-only
+// Off by default. e2e drivers launch the BUILT app with THREADNOTE_OFFICE_DEBUG_HOOKS=1
+// so the renderer exposes window.__threadnoteofficeDebug (see App.tsx) — the dev-only
 // __univerAPI hook does not exist in production bundles.
-if (process.env.GENOFFICE_DEBUG_HOOKS === '1') {
-  contextBridge.exposeInMainWorld('__genofficeDebugHooks', true)
+if (process.env.THREADNOTE_OFFICE_DEBUG_HOOKS === '1') {
+  contextBridge.exposeInMainWorld('__threadnoteofficeDebugHooks', true)
 }
 
 // open documents dragged from the OS onto this tab as a new shell tab

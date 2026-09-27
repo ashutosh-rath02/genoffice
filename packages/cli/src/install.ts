@@ -3,10 +3,10 @@ import { accessSync, constants, lstatSync, readlinkSync, symlinkSync, unlinkSync
 import { join, win32 } from 'node:path'
 
 /**
- * Making `genoffice` reachable from a terminal. The launcher ships inside the app
- * (Resources/cli/genoffice, or genoffice.cmd on Windows); nothing at install time puts
+ * Making `threadnoteoffice` reachable from a terminal. The launcher ships inside the app
+ * (Resources/cli/threadnoteoffice, or threadnoteoffice.cmd on Windows); nothing at install time puts
  * it on PATH for the dmg, so the app tries this on every launch until it
- * succeeds and `genoffice install-cli` repeats it on demand. Best effort
+ * succeeds and `threadnoteoffice install-cli` repeats it on demand. Best effort
  * everywhere: no prompts, no elevation, never an error on the app's startup
  * path. `inspectCliLink` reports the same states without writing anything.
  */
@@ -53,13 +53,13 @@ export function installCliLink(opts: InstallOptions): InstallOutcome {
   const manual = manualCommand(opts.launcher)
   let occupied: string | undefined
   for (const dir of dirs) {
-    const link = join(dir, 'genoffice')
+    const link = join(dir, 'threadnoteoffice')
     const state = linkState(link, opts.launcher)
     if (state === 'ours' && readlinkSync(link) === opts.launcher) {
       return { status: 'present', location: link }
     }
     if (state === 'file' || state === 'foreign') {
-      // somebody else's genoffice (a file, or npm's symlink): never clobber it
+      // somebody else's threadnoteoffice (a file, or npm's symlink): never clobber it
       occupied = link
       continue
     }
@@ -73,7 +73,11 @@ export function installCliLink(opts: InstallOptions): InstallOutcome {
     }
   }
   if (occupied) return { status: 'occupied', location: occupied, manual }
-  return { status: 'unwritable', location: join(dirs[0] ?? '/usr/local/bin', 'genoffice'), manual }
+  return {
+    status: 'unwritable',
+    location: join(dirs[0] ?? '/usr/local/bin', 'threadnoteoffice'),
+    manual,
+  }
 }
 
 /** Read-only twin of `installCliLink`: what a fresh terminal would find, without changing anything. */
@@ -86,7 +90,7 @@ export function inspectCliLink(opts: InstallOptions): InstallOutcome {
   let occupied: string | undefined
   // same walk installCliLink does: an occupied name is skipped, the first free writable dir wins
   for (const dir of dirs) {
-    const link = join(dir, 'genoffice')
+    const link = join(dir, 'threadnoteoffice')
     const state = linkState(link, opts.launcher)
     if (state === 'ours' && readlinkSync(link) === opts.launcher) {
       return { status: 'present', location: link }
@@ -98,11 +102,15 @@ export function inspectCliLink(opts: InstallOptions): InstallOutcome {
     if (writable(dir)) return { status: 'missing', location: link, manual }
   }
   if (occupied) return { status: 'occupied', location: occupied, manual }
-  return { status: 'unwritable', location: join(dirs[0] ?? '/usr/local/bin', 'genoffice'), manual }
+  return {
+    status: 'unwritable',
+    location: join(dirs[0] ?? '/usr/local/bin', 'threadnoteoffice'),
+    manual,
+  }
 }
 
 function manualCommand(launcher: string): string {
-  return `sudo mkdir -p /usr/local/bin && sudo ln -sf "${launcher}" /usr/local/bin/genoffice`
+  return `sudo mkdir -p /usr/local/bin && sudo ln -sf "${launcher}" /usr/local/bin/threadnoteoffice`
 }
 
 function linkState(path: string, launcher: string): 'missing' | 'ours' | 'file' | 'foreign' {
@@ -116,9 +124,9 @@ function linkState(path: string, launcher: string): 'missing' | 'ours' | 'file' 
   }
 }
 
-/** Only launchers we shipped (<app resources>/cli/genoffice, any version or install dir) may be replaced. */
+/** Only launchers we shipped (<app resources>/cli/threadnoteoffice, any version or install dir) may be replaced. */
 function isOurLauncher(target: string): boolean {
-  return /[\\/]cli[\\/]genoffice$/.test(target)
+  return /[\\/]cli[\\/]threadnoteoffice$/.test(target)
 }
 
 function writable(dir: string): boolean {
@@ -145,9 +153,9 @@ const WIN_PATH_READ =
 // best effort: a locked-down PowerShell may refuse Add-Type, the PATH edit still stands
 const WIN_BROADCAST =
   'try { ' +
-  'Add-Type -Namespace GenOfficePath -Name Native -MemberDefinition \'[DllImport("user32.dll", SetLastError=true, CharSet=CharSet.Auto)] public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam, uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);\'; ' +
+  'Add-Type -Namespace ThreadnoteOfficePath -Name Native -MemberDefinition \'[DllImport("user32.dll", SetLastError=true, CharSet=CharSet.Auto)] public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam, uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);\'; ' +
   '$r = [UIntPtr]::Zero; ' +
-  "[void][GenOfficePath.Native]::SendMessageTimeout([IntPtr]0xffff, 0x1A, [UIntPtr]::Zero, 'Environment', 2, 5000, [ref]$r) " +
+  "[void][ThreadnoteOfficePath.Native]::SendMessageTimeout([IntPtr]0xffff, 0x1A, [UIntPtr]::Zero, 'Environment', 2, 5000, [ref]$r) " +
   '} catch {}; '
 
 function psQuote(text: string): string {

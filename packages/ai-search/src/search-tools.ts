@@ -1,23 +1,20 @@
 /**
  * ai:web-search / ai:image-search for the editors' main processes: reads
  * ai-settings.json live and turns the search provider choice into
- * SearchOptions — Genspark keeps the historic chain (gsk when signed in and
- * cloud tools are on, then env keys, then DuckDuckGo); a selected custom provider
- * runs first and skips gsk. Parallel uses its free MCP when no key is saved.
+ * SearchOptions — the selected provider runs first, followed by keyless search.
+ * Parallel uses its free MCP when no key is saved.
  */
 
 import {
   activeSearchProvider,
-  cloudToolsEnabled,
   type AiSearchProviderId,
   type AiSettings,
-} from '@genoffice/ai-provider'
+} from '@threadnote/ai-provider'
 import { imageSearch, webSearch, type SearchOptions } from './index'
 import { readAiSettingsFile } from './media-tools'
 
 export function searchOptionsFromSettings(settings: AiSettings): SearchOptions {
   const provider = activeSearchProvider(settings)
-  if (provider === 'genspark') return { useGsk: cloudToolsEnabled(settings) }
   const key = settings.search!.providers?.[provider]?.apiKey?.trim() ?? ''
   if (provider === 'parallel') return { useGsk: false, parallelKey: key, prefer: 'parallel' }
   return provider === 'tavily'
@@ -38,7 +35,6 @@ export async function testSearchProvider(
   provider: AiSearchProviderId,
   apiKey: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  if (provider === 'genspark') return { ok: true }
   apiKey = apiKey.trim()
   if (!apiKey && provider !== 'parallel') return { ok: false, error: 'API key is empty' }
   const options: SearchOptions = {
@@ -48,7 +44,7 @@ export async function testSearchProvider(
     parallelKey: provider === 'parallel' ? apiKey : '',
     prefer: provider,
   }
-  const r = await webSearch('GenOffice', 1, options)
+  const r = await webSearch('ThreadnoteOffice', 1, options)
   if (r.method === provider) return { ok: true }
   return {
     ok: false,

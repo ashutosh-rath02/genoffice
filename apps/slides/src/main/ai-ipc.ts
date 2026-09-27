@@ -4,7 +4,7 @@
  * to avoid renderer CORS), search tools, and the slides-only ai:* channels
  * (image generation, media analysis, style templates).
  */
-import { app, ipcMain, nativeImage, net, shell } from 'electron'
+import { app, ipcMain, nativeImage, net } from 'electron'
 import {
   appendFileSync,
   existsSync,
@@ -31,30 +31,29 @@ import {
   type AiSettings,
   type AiStreamChunk,
   type AiStreamRequest,
-  type GenSparkAccountStatus,
   type LegacyAiSettings,
-} from '@genoffice/ai-provider'
-import { shutdownCodexAppServers } from '@genoffice/ai-provider/codex-app-server'
-import { MAX_REMOTE_IMAGE_BYTES, fetchRemoteImage, readBodyCapped } from '@genoffice/electron-utils'
+} from '@threadnote/ai-provider'
+import { shutdownCodexAppServers } from '@threadnote/ai-provider/codex-app-server'
+import {
+  MAX_REMOTE_IMAGE_BYTES,
+  fetchRemoteImage,
+  readBodyCapped,
+} from '@threadnote/electron-utils'
 import {
   webSearchTool,
   imageSearchTool,
-  ensureGenofficeLogin,
-  gskApiKey,
   generateImageTool,
   analyzeMediaTool,
-  gskLoginInfo,
-  hasGskAuth,
-} from '@genoffice/ai-search'
-import { addPicture, editPictureSrcRect, replacePictureBytes } from '@genoffice/pptx-engine'
-import { matchesElementRef } from '@genoffice/pptx-engine/identity'
-import { coverCropFractions } from '@genoffice/pipelines/slides'
+} from '@threadnote/ai-search'
+import { addPicture, editPictureSrcRect, replacePictureBytes } from '@threadnote/pptx-engine'
+import { matchesElementRef } from '@threadnote/pptx-engine/identity'
+import { coverCropFractions } from '@threadnote/pipelines/slides'
 import type { AiRunFailure } from '../shared/ipc'
-import { EMU_PER_PX_96 } from '@genoffice/pptx-render'
+import { EMU_PER_PX_96 } from '@threadnote/pptx-render'
 import { tm } from './i18n-main'
 import { pushHistory, rebuildSlide, scheduleHistoryNotify, sessions } from './session-state'
 
-// ---- AI settings + streaming proxy (the main process does the networking to avoid renderer CORS; implementation shared via @genoffice/ai-provider) ----
+// ---- AI settings + streaming proxy (the main process does the networking to avoid renderer CORS; implementation shared via @threadnote/ai-provider) ----
 
 const AI_SETTINGS_PATH = () => join(app.getPath('userData'), 'ai-settings.json')
 
@@ -105,30 +104,20 @@ export function registerAiIpc(): void {
   app.once('before-quit', shutdownCodexAppServers)
   // Node fetch (undici) direct connections get reset under VPN/tun setups; retry over Chromium's stack
   setRescueFetch((url, init) => net.fetch(url, init))
-  setAiUserAgent(`GenOffice/${app.getVersion()}`)
+  setAiUserAgent(`ThreadnoteOffice/${app.getVersion()}`)
 
   ipcMain.handle('ai:get-settings', (): AiSettings => {
     const stored = readJson<Partial<AiSettings> & LegacyAiSettings>(AI_SETTINGS_PATH(), {})
     const settings = resolveAiSettings(stored, defaultAiSettings())
-    // a stored BYOK provider is honored when usable; half-filled configs fall back to genspark
+    // Incomplete provider settings fall back to Codex.
     settings.provider = activeProvider(settings)
     return settings
   })
 
-  // Genspark account (gsk login state): the auth source for AI features; when logged out the frontend uses this to guide login
-  ipcMain.handle(
-    'ai:gsk-status',
-    async (_event, withEmail?: boolean): Promise<GenSparkAccountStatus> => {
-      if (!hasGskAuth()) return { loggedIn: false }
-      if (!withEmail) return { loggedIn: true }
-      const info = await gskLoginInfo()
-      return info?.email ? { loggedIn: true, email: info.email } : { loggedIn: true }
-    },
-  )
+  // Retained for compatibility with older renderers; Genspark sign-in is disabled.
+  ipcMain.handle('ai:gsk-status', () => ({ loggedIn: false }))
 
-  ipcMain.handle('ai:gsk-login', () => {
-    ensureGenofficeLogin((url) => void shell.openExternal(url))
-  })
+  ipcMain.handle('ai:gsk-login', () => undefined)
 
   ipcMain.handle('ai:set-settings', (_event, settings: AiSettings) => {
     writeJson(AI_SETTINGS_PATH(), settings)
@@ -143,11 +132,7 @@ export function registerAiIpc(): void {
     const tools = request.tools ?? []
     const maxTokens = request.maxTokens ?? maxOutputTokensOf(settings)
     const provider = settings.provider
-    let config = settings.providers?.[provider]
-    // The genspark key never enters the settings file; it is fetched from the gsk login state per request
-    if (provider === 'genspark' && config && !config.apiKey) {
-      config = { ...config, apiKey: gskApiKey() }
-    }
+    const config = settings.providers?.[provider]
     const send = (chunk: AiStreamChunk) => {
       if (!event.sender.isDestroyed()) event.sender.send('ai:stream-chunk', chunk)
     }
@@ -155,7 +140,7 @@ export function registerAiIpc(): void {
       send({
         requestId,
         type: 'error',
-        error: provider === 'genspark' ? tm('errGskNotLoggedIn') : tm('errNoApiKey', { provider }),
+        error: tm('errNoApiKey', { provider }),
       })
       return
     }
@@ -253,7 +238,7 @@ export function registerAiIpc(): void {
 // never called; docs does not have these channels, so putting them in the wrong place raises
 // "No handler registered".
 export function registerSlidesOnlyAiIpc(): void {
-  // gsk (Genspark CLI) capabilities: AI image generation / media analysis. Returns an error prompt when not logged in.
+  // gsk (Threadnote CLI) capabilities: AI image generation / media analysis. Returns an error prompt when not logged in.
   ipcMain.handle(
     'ai:generate-image',
     async (

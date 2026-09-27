@@ -14,7 +14,7 @@ describe('PRIVACY.md analytics disclosure', () => {
       INSTALL_FIRST_LAUNCH_EVENT,
     ])
     const documented = new Set(
-      [...privacy.matchAll(/^- `([a-z][a-z0-9_]*)` —/gm)].map((match) => match[1]),
+      [...privacy.matchAll(/^- `([a-z][a-z0-9_]*)` /gm)].map((match) => match[1]),
     )
 
     expect([...documented].sort()).toEqual([...emitted].sort())
