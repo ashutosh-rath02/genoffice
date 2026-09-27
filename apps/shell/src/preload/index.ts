@@ -36,8 +36,11 @@ import type { TabsApi, TabSummary } from '../shared/tabs-api'
 import { TABS_CHANNELS } from '../shared/tabs-api'
 import type {
   ThreadnoteApi,
+  ThreadnoteDocument,
   ThreadnoteFile,
+  ThreadnotePage,
   ThreadnotePairing,
+  ThreadnotePersonalFile,
   ThreadnoteProject,
   ThreadnoteStatus,
 } from '../shared/threadnote-api'
@@ -364,6 +367,13 @@ const homeApi: HomeApi = {
     const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.getAnalyticsEnabled)
     return result !== false
   },
+  async getReleaseCapabilities() {
+    const result = (await ipcRenderer.invoke(HOME_CHANNELS.getReleaseCapabilities)) as {
+      analytics?: unknown
+      autoUpdate?: unknown
+    }
+    return { analytics: result?.analytics === true, autoUpdate: result?.autoUpdate === true }
+  },
   async setAnalyticsEnabled(enabled) {
     if (typeof enabled !== 'boolean') throw new Error('Invalid analytics consent.')
     const result: unknown = await ipcRenderer.invoke(HOME_CHANNELS.setAnalyticsEnabled, enabled)
@@ -519,7 +529,21 @@ const threadnoteApi: ThreadnoteApi = {
   projects: () => ipcRenderer.invoke(THREADNOTE_CHANNELS.projects) as Promise<ThreadnoteProject[]>,
   files: (projectId) =>
     ipcRenderer.invoke(THREADNOTE_CHANNELS.files, projectId) as Promise<ThreadnoteFile[]>,
+  documents: (projectId, cursor) =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.documents, projectId, cursor) as Promise<
+      ThreadnotePage<ThreadnoteDocument>
+    >,
+  myDocuments: (cursor) =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.myDocuments, cursor) as Promise<
+      ThreadnotePage<ThreadnoteDocument>
+    >,
+  personalFiles: (scope) =>
+    ipcRenderer.invoke(THREADNOTE_CHANNELS.personalFiles, scope) as Promise<
+      ThreadnotePersonalFile[]
+    >,
   openFile: (fileId) => ipcRenderer.invoke(THREADNOTE_CHANNELS.openFile, fileId),
+  openDocument: (documentId) => ipcRenderer.invoke(THREADNOTE_CHANNELS.openDocument, documentId),
+  openPersonalFile: (fileId) => ipcRenderer.invoke(THREADNOTE_CHANNELS.openPersonalFile, fileId),
   shareCurrentFile: () =>
     ipcRenderer.invoke(THREADNOTE_CHANNELS.shareCurrentFile) as Promise<ThreadnoteFile | null>,
   shareLocalFile: () =>

@@ -263,6 +263,8 @@ export interface HomeApi {
   openMcpLogFile(): Promise<void>
   /** whether anonymous usage statistics are enabled (default true in official builds) */
   getAnalyticsEnabled(): Promise<boolean>
+  /** services actually configured in this packaged build */
+  getReleaseCapabilities(): Promise<{ analytics: boolean; autoUpdate: boolean }>
   /** persist an explicit analytics opt-in or opt-out */
   setAnalyticsEnabled(enabled: boolean): Promise<boolean>
   /** AI panel text size + chat-input spellcheck (persisted in userData/app-settings.json) */
@@ -503,6 +505,7 @@ export const HOME_CHANNELS = {
   clearMcpLogs: 'home:clear-mcp-logs',
   openMcpLogFile: 'home:open-mcp-log-file',
   getAnalyticsEnabled: 'home:get-analytics-enabled',
+  getReleaseCapabilities: 'home:get-release-capabilities',
   setAnalyticsEnabled: 'home:set-analytics-enabled',
   getAiPanelPrefs: 'home:get-ai-panel-prefs',
   setAiPanelPrefs: 'home:set-ai-panel-prefs',

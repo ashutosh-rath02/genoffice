@@ -21,8 +21,10 @@ import type {
 import type { IntegrationsApi } from '../../shared/integrations-api'
 import type {
   ThreadnoteApi,
+  ThreadnoteDocument,
   ThreadnoteFile,
   ThreadnotePairing,
+  ThreadnotePersonalFile,
   ThreadnoteProject,
 } from '../../shared/threadnote-api'
 import { markText } from '../../shared/text-marks'
@@ -835,27 +837,75 @@ function DropToOpenOverlay(): ReactElement | null {
 
 // ── Main component ──────────────────────────────────────
 
-function ThreadnoteView() {
+type ThreadnoteLocation = { scope: 'project' | 'mine' | 'shared'; projectId?: string }
+
+function ThreadnoteView({
+  location,
+  onNavigate,
+  onProjectsLoaded,
+}: {
+  location: ThreadnoteLocation
+  onNavigate: (next: ThreadnoteLocation) => void
+  onProjectsLoaded: (projects: ThreadnoteProject[]) => void
+}) {
   const { t } = useI18n()
+  const scope = location.scope
   const [baseUrl, setBaseUrl] = useState('https://threadnote.ashutosh123rath.workers.dev')
   const [connected, setConnected] = useState(false)
   const [pairing, setPairing] = useState<ThreadnotePairing | null>(null)
   const [projects, setProjects] = useState<ThreadnoteProject[]>([])
   const [files, setFiles] = useState<ThreadnoteFile[]>([])
-  const [projectId, setProjectId] = useState('')
+  const [documents, setDocuments] = useState<ThreadnoteDocument[]>([])
+  const [personalFiles, setPersonalFiles] = useState<ThreadnotePersonalFile[]>([])
+  const [nextCursor, setNextCursor] = useState<string | null>(null)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [projectId, setProjectId] = useState(location.projectId ?? '')
+  const projectOpen = Boolean(location.projectId)
   const [busy, setBusy] = useState(true)
   const [error, setError] = useState('')
 
-  const loadProjects = useCallback(async (preferredProjectId = '') => {
-    const next = await window.threadnoteOffice.projects()
-    setProjects(next)
-    const selected =
-      preferredProjectId && next.some((project) => project.id === preferredProjectId)
-        ? preferredProjectId
-        : (next[0]?.id ?? '')
-    setProjectId(selected)
-    setFiles(selected ? await window.threadnoteOffice.files(selected) : [])
+  const loadProject = useCallback(async (selected: string) => {
+    if (!selected) {
+      setFiles([])
+      setDocuments([])
+      setNextCursor(null)
+      return
+    }
+    const [officeFiles, page] = await Promise.all([
+      window.threadnoteOffice.files(selected),
+      window.threadnoteOffice.documents(selected),
+    ])
+    setFiles(officeFiles)
+    setDocuments(page.items)
+    setNextCursor(page.nextCursor)
   }, [])
+
+  const loadProjects = useCallback(
+    async (preferredProjectId = '', openSelected = false) => {
+      const next = await window.threadnoteOffice.projects()
+      setProjects(next)
+      onProjectsLoaded(next)
+      const selected =
+        preferredProjectId && next.some((project) => project.id === preferredProjectId)
+          ? preferredProjectId
+          : (next[0]?.id ?? '')
+      setProjectId(selected)
+      if (openSelected) await loadProject(selected)
+    },
+    [loadProject, onProjectsLoaded],
+  )
+
+  const loadPersonal = async (nextScope: 'mine' | 'shared') => {
+    const [personal, page] = await Promise.all([
+      window.threadnoteOffice.personalFiles(nextScope),
+      nextScope === 'mine'
+        ? window.threadnoteOffice.myDocuments()
+        : Promise.resolve({ items: [] as ThreadnoteDocument[], nextCursor: null }),
+    ])
+    setPersonalFiles(personal)
+    setDocuments(page.items)
+    setNextCursor(page.nextCursor)
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -865,7 +915,10 @@ function ThreadnoteView() {
         if (cancelled) return
         setBaseUrl(status.baseUrl)
         setConnected(status.connected)
-        if (status.connected) await loadProjects()
+        if (status.connected) {
+          await loadProjects(location.projectId, Boolean(location.projectId))
+          if (location.scope !== 'project') await loadPersonal(location.scope)
+        }
       })
       .catch((cause: unknown) => {
         if (!cancelled)
@@ -890,7 +943,8 @@ function ThreadnoteView() {
             window.clearInterval(timer)
             setPairing(null)
             setConnected(true)
-            await loadProjects()
+            await loadProjects(location.projectId, Boolean(location.projectId))
+            if (location.scope !== 'project') await loadPersonal(location.scope)
           })
           .catch((cause: unknown) => {
             window.clearInterval(timer)
@@ -920,7 +974,9 @@ function ThreadnoteView() {
     setError('')
     try {
       const shared = await window.threadnoteOffice.shareLocalFile()
-      if (shared) await loadProjects(shared.projectId)
+      if (shared) {
+        onNavigate({ scope: 'project', projectId: shared.projectId })
+      }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : t('cloudError'))
     } finally {
@@ -928,17 +984,78 @@ function ThreadnoteView() {
     }
   }
 
-  const selectProject = async (next: string) => {
-    setProjectId(next)
+  const refresh = async () => {
     setBusy(true)
+    setError('')
     try {
-      setFiles(await window.threadnoteOffice.files(next))
+      if (scope === 'project') await loadProjects(projectId, projectOpen)
+      else await loadPersonal(scope)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : t('cloudError'))
     } finally {
       setBusy(false)
     }
   }
+
+  const loadMore = async () => {
+    if (!nextCursor || loadingMore) return
+    setLoadingMore(true)
+    setError('')
+    try {
+      const page =
+        scope === 'project'
+          ? await window.threadnoteOffice.documents(projectId, nextCursor)
+          : await window.threadnoteOffice.myDocuments(nextCursor)
+      setDocuments((current) => [
+        ...current,
+        ...page.items.filter((item) => !current.some((existing) => existing.id === item.id)),
+      ])
+      setNextCursor(page.nextCursor)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : t('cloudError'))
+    } finally {
+      setLoadingMore(false)
+    }
+  }
+
+  const openItem = async (source: 'document' | 'office' | 'personal', id: string) => {
+    setError('')
+    try {
+      if (source === 'document') await window.threadnoteOffice.openDocument(id)
+      else if (source === 'office') await window.threadnoteOffice.openFile(id)
+      else await window.threadnoteOffice.openPersonalFile(id)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : t('cloudError'))
+    }
+  }
+
+  const items = [
+    ...documents.map((document) => ({
+      id: document.id,
+      name: document.title,
+      kind: 'md',
+      source: 'document' as const,
+      updatedAt: document.updatedAt,
+      detail: 'Markdown',
+    })),
+    ...(scope === 'project'
+      ? files.map((file) => ({
+          id: file.id,
+          name: file.name,
+          kind: file.kind,
+          source: 'office' as const,
+          updatedAt: file.updatedAt,
+          detail: `v${file.version}`,
+        }))
+      : personalFiles.map((file) => ({
+          id: file.id,
+          name: file.name,
+          kind: file.kind,
+          source: 'personal' as const,
+          updatedAt: file.updatedAt,
+          detail: 'Local copy',
+        }))),
+  ].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
 
   if (!connected)
     return (
@@ -981,7 +1098,15 @@ function ThreadnoteView() {
       <section className="cloud-projects" aria-label="Threadnote">
         <header className="cloud-hero">
           <div className="cloud-hero-top">
-            <h1 className="cloud-title">Threadnote Office</h1>
+            <h1 className="cloud-title">
+              {scope === 'mine'
+                ? 'My Docs'
+                : scope === 'shared'
+                  ? 'Shared with me'
+                  : projectOpen
+                    ? (projects.find((project) => project.id === projectId)?.name ?? 'Project')
+                    : 'Projects'}
+            </h1>
             <button
               className="btn btn-secondary"
               onClick={() =>
@@ -992,31 +1117,30 @@ function ThreadnoteView() {
             </button>
           </div>
           <p className="cloud-subtitle">
-            Files are filtered by your selected Discord server and project permissions.
+            Documents and files you can access in your selected Discord server.
           </p>
           <div className="cloud-controls">
-            <button
-              className="btn btn-primary"
-              disabled={busy}
-              onClick={() => void shareLocalFile()}
-            >
-              Share a file
-            </button>
-            <select
-              className="threadnote-project"
-              value={projectId}
-              onChange={(event) => void selectProject(event.target.value)}
-            >
-              {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.name}
-                </option>
-              ))}
-            </select>
+            {scope === 'project' && (
+              <button
+                className="btn btn-primary"
+                disabled={busy}
+                onClick={() => void shareLocalFile()}
+              >
+                Share a file to a project
+              </button>
+            )}
+            {scope === 'project' && projectOpen && (
+              <button
+                className="btn btn-secondary"
+                onClick={() => onNavigate({ scope: 'project' })}
+              >
+                All projects
+              </button>
+            )}
             <button
               className="cloud-refresh-btn"
               aria-label={t('cloudRefresh')}
-              onClick={() => void loadProjects(projectId)}
+              onClick={() => void refresh()}
             >
               {t('cloudRefresh')}
             </button>
@@ -1026,8 +1150,43 @@ function ThreadnoteView() {
           <div className="load-more">
             <span className="load-more-spinner" />
           </div>
-        ) : files.length === 0 ? (
-          <p className="empty proj-empty">No Office files in this project.</p>
+        ) : scope === 'project' && !projectOpen ? (
+          projects.length === 0 ? (
+            <p className="empty proj-empty">No projects are available in this Discord server.</p>
+          ) : (
+            <div className="cloud-scroll">
+              <div className="cloud-table">
+                <div className="cloud-columns">
+                  <span className="col-name">Project folders</span>
+                </div>
+                <ul className="cloud-list">
+                  {projects.map((project) => (
+                    <li key={project.id}>
+                      <button
+                        className="cloud-row"
+                        onClick={() => onNavigate({ scope: 'project', projectId: project.id })}
+                      >
+                        <FolderIcon size={24} />
+                        <span className="cloud-row-main">
+                          <span className="cloud-row-title">{project.name}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )
+        ) : items.length === 0 ? (
+          <p className="empty proj-empty">
+            {scope === 'project'
+              ? projects.length === 0
+                ? 'No projects are available in this Discord server.'
+                : 'No documents or files in this project.'
+              : scope === 'mine'
+                ? 'You have no personal files or authored documents yet.'
+                : 'No files have been shared with you yet.'}
+          </p>
         ) : (
           <div className="cloud-scroll">
             <div className="cloud-table">
@@ -1036,23 +1195,32 @@ function ThreadnoteView() {
                 <span>{t('colModified')}</span>
               </div>
               <ul className="cloud-list">
-                {files.map((file) => (
-                  <li key={file.id}>
+                {items.map((item) => (
+                  <li key={`${item.source}:${item.id}`}>
                     <button
                       className="cloud-row"
-                      onClick={() => void window.threadnoteOffice.openFile(file.id)}
+                      onClick={() => void openItem(item.source, item.id)}
                     >
-                      <FileBadge ext={file.kind} size={24} />
+                      <FileBadge ext={item.kind} size={24} />
                       <span className="cloud-row-main">
-                        <span className="cloud-row-title">{file.name}</span>
+                        <span className="cloud-row-title">{item.name}</span>
                       </span>
-                      <span className="cloud-row-time">v{file.version}</span>
+                      <span className="cloud-row-time">{item.detail}</span>
                     </button>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
+        )}
+        {nextCursor && !busy && (scope !== 'project' || projectOpen) && (
+          <button
+            className="btn btn-secondary threadnote-load-more"
+            disabled={loadingMore}
+            onClick={() => void loadMore()}
+          >
+            {loadingMore ? 'Loading…' : 'Load more documents'}
+          </button>
         )}
         {error && <p className="threadnote-error">{error}</p>}
       </section>
@@ -1073,6 +1241,11 @@ export function Home({ threadnoteAvailable }: { threadnoteAvailable: boolean }) 
   const [view, setView] = useState<'recent' | 'starred'>('recent')
   // Threadnote web projects take over the content area (like a selected folder)
   const [threadnoteMode, setThreadnoteMode] = useState(false)
+  const [threadnoteExpanded, setThreadnoteExpanded] = useState(false)
+  const [threadnoteLocation, setThreadnoteLocation] = useState<ThreadnoteLocation>({
+    scope: 'project',
+  })
+  const [threadnoteProjects, setThreadnoteProjects] = useState<ThreadnoteProject[]>([])
   const [filter, setFilter] = useState('all')
   // ── File search (names + indexed content); active while the box has text ──
   const [searchQuery, setSearchQuery] = useState('')
@@ -2121,6 +2294,84 @@ export function Home({ threadnoteAvailable }: { threadnoteAvailable: boolean }) 
             .map((r) =>
               renderTreeNode({ path: r.path, name: r.name, hasSubfolders: r.readable }, 0),
             )}
+          {threadnoteAvailable && (
+            <li className="tree-item">
+              <button
+                className={`tree-row threadnote-tree-row${threadnoteMode && threadnoteLocation.scope === 'project' && !threadnoteLocation.projectId ? ' active' : ''}`}
+                aria-expanded={threadnoteExpanded}
+                onClick={() => {
+                  setThreadnoteExpanded((open) => !open)
+                  setThreadnoteMode(true)
+                  setSelectedFolder(null)
+                  setThreadnoteLocation({ scope: 'project' })
+                }}
+              >
+                <span className="tree-chevron" aria-hidden="true">
+                  {threadnoteExpanded ? '⌄' : '›'}
+                </span>
+                <FolderIcon open={threadnoteExpanded} />
+                <span className="tree-name">Threadnote</span>
+              </button>
+              {threadnoteExpanded && (
+                <ul className="tree-children">
+                  {(
+                    [
+                      { scope: 'mine', name: 'My Docs' },
+                      { scope: 'shared', name: 'Shared with me' },
+                    ] as const
+                  ).map((entry) => (
+                    <li className="tree-item" key={entry.scope}>
+                      <button
+                        className={`tree-row threadnote-tree-row${threadnoteMode && threadnoteLocation.scope === entry.scope ? ' active' : ''}`}
+                        style={{ paddingLeft: 22 }}
+                        onClick={() => {
+                          setThreadnoteMode(true)
+                          setSelectedFolder(null)
+                          setThreadnoteLocation({ scope: entry.scope })
+                        }}
+                      >
+                        <span className="tree-chevron" aria-hidden="true" />
+                        <FolderIcon />
+                        <span className="tree-name">{entry.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                  <li className="tree-item">
+                    <button
+                      className="tree-row threadnote-tree-row"
+                      style={{ paddingLeft: 22 }}
+                      onClick={() => {
+                        setThreadnoteMode(true)
+                        setSelectedFolder(null)
+                        setThreadnoteLocation({ scope: 'project' })
+                      }}
+                    >
+                      <span className="tree-chevron" aria-hidden="true" />
+                      <FolderIcon open />
+                      <span className="tree-name">Projects</span>
+                    </button>
+                  </li>
+                  {threadnoteProjects.map((project) => (
+                    <li className="tree-item" key={project.id}>
+                      <button
+                        className={`tree-row threadnote-tree-row${threadnoteMode && threadnoteLocation.projectId === project.id ? ' active' : ''}`}
+                        style={{ paddingLeft: 36 }}
+                        onClick={() => {
+                          setThreadnoteMode(true)
+                          setSelectedFolder(null)
+                          setThreadnoteLocation({ scope: 'project', projectId: project.id })
+                        }}
+                      >
+                        <span className="tree-chevron" aria-hidden="true" />
+                        <FolderIcon />
+                        <span className="tree-name">{project.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          )}
         </ul>
       </div>
     )
@@ -2909,27 +3160,6 @@ export function Home({ threadnoteAvailable }: { threadnoteAvailable: boolean }) 
             <span className="nav-label">{t('navStarred')}</span>
             <span className="nav-count">{navCounts.starred}</span>
           </button>
-          {threadnoteAvailable && (
-            <button
-              className={`nav-item${threadnoteMode ? ' active' : ''}`}
-              onClick={() => {
-                setThreadnoteMode(true)
-                setSelectedFolder(null)
-                setSelected(new Set())
-                setRowMenu(null)
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M3 3.5h10v9H3zM5.5 1.8v3.4M10.5 1.8v3.4M5.5 8h5"
-                  stroke="currentColor"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span className="nav-label">Threadnote</span>
-            </button>
-          )}
         </nav>
         <div className="sidebar-divider" />
         {renderFolderPanel()}
@@ -2939,7 +3169,15 @@ export function Home({ threadnoteAvailable }: { threadnoteAvailable: boolean }) 
         />
       </aside>
       {threadnoteMode ? (
-        <ThreadnoteView />
+        <ThreadnoteView
+          key={`${threadnoteLocation.scope}:${threadnoteLocation.projectId ?? ''}`}
+          location={threadnoteLocation}
+          onNavigate={(next) => {
+            setThreadnoteExpanded(true)
+            setThreadnoteLocation(next)
+          }}
+          onProjectsLoaded={setThreadnoteProjects}
+        />
       ) : selectedFolder && rootOf(selectedFolder, roots)?.readable ? (
         renderFolderContent()
       ) : (

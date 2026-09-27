@@ -101,7 +101,7 @@ import {
   requestDocsClose,
   readRecentFiles,
   readStarredFiles,
-  recordRecentFile,
+  recordRecentFile as recordRecentFileRaw,
   removeRecentFiles,
   removeStarredFiles,
   replaceRecentFile,
@@ -255,6 +255,7 @@ import {
 import type { TabKind } from '../shared/tabs-api'
 import { TABS_CHANNELS } from '../shared/tabs-api'
 import { showErrorDialog } from './error-dialog'
+import { isThreadnoteCachePath } from './threadnote-download'
 import {
   matchesExtFamily,
   normalizeRecentQuery,
@@ -326,12 +327,11 @@ import { isUpdateChannel, type UpdateChannel } from '../shared/update-api'
 // run silently quits and forwards its argv to the running installed ThreadnoteOffice.
 // THREADNOTE_OFFICE_USER_DATA: test drivers point this at a scratch dir so an
 // automated instance can run alongside the dev instance (separate lock).
-if (!app.isPackaged)
-  app.setPath(
-    'userData',
-    process.env.THREADNOTE_OFFICE_USER_DATA ??
-      join(app.getPath('appData'), 'Threadnote Office Dev'),
-  )
+if (process.env.THREADNOTE_OFFICE_USER_DATA) {
+  app.setPath('userData', process.env.THREADNOTE_OFFICE_USER_DATA)
+} else if (!app.isPackaged) {
+  app.setPath('userData', join(app.getPath('appData'), 'Threadnote Office Dev'))
+}
 
 /**
  * `--headless-export <file> --to <format> --out <path> [--json]`: one document, no
@@ -2653,13 +2653,21 @@ function ensureFileIndexer(): FileIndexer | null {
   if (fileIndexer) return fileIndexer
   try {
     fileIndexStore = new FileIndexStore(join(app.getPath('userData'), 'file-index.db'))
+    fileIndexStore.remove(
+      [...fileIndexStore.listAll().keys()].filter((path) =>
+        isThreadnoteCachePath(app.getPath('userData'), path),
+      ),
+    )
   } catch (e) {
     console.warn('[file-index] unavailable:', e instanceof Error ? e.message : e)
     return null
   }
   fileIndexer = new FileIndexer(fileIndexStore, extractWorkerPath, {
     roots: () => folderRootPaths().filter((root) => existsSync(root)),
-    extraPaths: () => [...readRecentFiles(), ...readStarredFiles()],
+    extraPaths: () =>
+      [...visibleRecentFiles(), ...readStarredFiles()].filter(
+        (path) => !isThreadnoteCachePath(app.getPath('userData'), path),
+      ),
   })
   return fileIndexer
 }
@@ -3393,7 +3401,20 @@ function statEntries(paths: string[]): RecentEntry[] {
   return statPathEntries(paths, new Set(readStarredFiles()))
 }
 
+function recordRecentFile(path: string): void {
+  if (isThreadnoteCachePath(app.getPath('userData'), path)) return
+  recordRecentFileRaw(path)
+}
+
+function visibleRecentFiles(): string[] {
+  return readRecentFiles().filter((path) => !isThreadnoteCachePath(app.getPath('userData'), path))
+}
+
 function registerHomeIpc(): void {
+  const cachedRecents = readRecentFiles().filter((path) =>
+    isThreadnoteCachePath(app.getPath('userData'), path),
+  )
+  if (cachedRecents.length) removeRecentFiles(cachedRecents)
   ipcMain.handle(HOME_CHANNELS.accountStatus, () => ({ loggedIn: false }))
   ipcMain.handle(HOME_CHANNELS.accountLogin, () => false)
   ipcMain.handle(HOME_CHANNELS.accountLoginOpenUrl, () => undefined)
@@ -3402,7 +3423,7 @@ function registerHomeIpc(): void {
   ipcMain.handle(HOME_CHANNELS.getAppVersion, (): string => app.getVersion())
 
   ipcMain.handle(HOME_CHANNELS.recents, (_event, query: unknown): RecentPage =>
-    pageRecentPaths(readRecentFiles(), query, new Set(readStarredFiles())),
+    pageRecentPaths(visibleRecentFiles(), query, new Set(readStarredFiles())),
   )
 
   ipcMain.handle(HOME_CHANNELS.searchFiles, (_event, raw: unknown): FileSearchPage => {
@@ -3473,7 +3494,9 @@ function registerHomeIpc(): void {
   // Starred files sort by mtime, which requires stat-ing them all first; they are hand-picked and few, so this is fine
   ipcMain.handle(HOME_CHANNELS.starred, (_event, query: unknown): RecentPage => {
     const { offset, limit, ext } = normalizeRecentQuery(query)
-    const all = statEntries(readStarredFiles()).sort((a, b) => b.mtimeMs - a.mtimeMs)
+    const all = statEntries(
+      readStarredFiles().filter((path) => !isThreadnoteCachePath(app.getPath('userData'), path)),
+    ).sort((a, b) => b.mtimeMs - a.mtimeMs)
     const filtered = ext ? all.filter((entry) => matchesExtFamily(entry.ext, ext)) : all
     return {
       entries: limit === 0 ? [] : filtered.slice(offset, offset + limit),
@@ -3738,6 +3761,10 @@ function registerHomeIpc(): void {
   })
 
   ipcMain.handle(HOME_CHANNELS.getAnalyticsEnabled, (): boolean => analyticsEnabled())
+  ipcMain.handle(HOME_CHANNELS.getReleaseCapabilities, () => ({
+    analytics: resolveAnalyticsKeys() !== null,
+    autoUpdate: app.isPackaged && existsSync(join(process.resourcesPath, 'app-update.yml')),
+  }))
 
   ipcMain.handle(HOME_CHANNELS.setAnalyticsEnabled, (_event, enabled: unknown): boolean => {
     if (typeof enabled !== 'boolean') return false

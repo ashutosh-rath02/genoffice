@@ -45,6 +45,7 @@ describe('Settings analytics consent', () => {
       getTheme: async () => 'system',
       getDefaultSaveDir: async () => '',
       getAnalyticsEnabled: async () => true,
+      getReleaseCapabilities: async () => ({ analytics: true, autoUpdate: false }),
       setAnalyticsEnabled: persist,
       getAiPanelPrefs: async () => ({ fontSize: 'default', spellcheck: true }),
       setAiPanelPrefs: async (patch) => ({ fontSize: 'default', spellcheck: true, ...patch }),
@@ -102,6 +103,7 @@ describe('Settings AutoSave default', () => {
       getTheme: async () => 'system',
       getDefaultSaveDir: async () => '',
       getAnalyticsEnabled: async () => true,
+      getReleaseCapabilities: async () => ({ analytics: false, autoUpdate: false }),
       setAnalyticsEnabled: async () => true,
       getAutoSaveDefault: async () => ({ on: true, updatedAt: 1 }),
       setAutoSaveDefault: persist,
@@ -141,6 +143,7 @@ describe('Settings AutoSave default', () => {
       '.set-switch[aria-label="Auto-save all documents"]',
     )
     expect(toggle?.getAttribute('aria-checked')).toBe('true')
+    expect(host.querySelector('[aria-label="Send anonymous usage statistics"]')).toBeNull()
 
     await click(toggle!)
     expect(persist).toHaveBeenLastCalledWith(false)

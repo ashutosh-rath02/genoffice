@@ -79,14 +79,6 @@ const CHANNEL_OPTIONS = [
   { value: 'beta', labelKey: 'channelBeta' },
 ] as const satisfies readonly { value: 'stable' | 'beta'; labelKey: StringKey }[]
 
-/** GitHub-style abbreviated stargazer count (2591 → "2.6k") — the number is
- * social proof, not a metric; the cached/exact value would only look stale */
-function formatStars(n: number): string {
-  if (n < 1000) return String(n)
-  const k = n / 1000
-  return `${k >= 100 ? Math.round(k) : (Math.round(k * 10) / 10).toString().replace(/\.0$/, '')}k`
-}
-
 /** px stepper for the custom AI panel text size; in-range values apply live,
  * out-of-range or partial input is clamped on blur */
 function CustomFontSizeInput({
@@ -1200,13 +1192,16 @@ export function SettingsModal({
   )
   const [theme, setTheme] = useState<UiTheme>('system')
   const [saveDir, setSaveDir] = useState('')
+  const [autoSaveOn, setAutoSaveOn] = useState(false)
   const [analyticsOn, setAnalyticsOn] = useState(true)
   const [analyticsSaving, setAnalyticsSaving] = useState(false)
-  const [autoSaveOn, setAutoSaveOn] = useState(false)
+  const [releaseCapabilities, setReleaseCapabilities] = useState({
+    analytics: false,
+    autoUpdate: false,
+  })
   const [aiPrefs, setAiPrefs] = useState<AiPanelPrefs>(DEFAULT_AI_PANEL_PREFS)
   const [channel, setChannel] = useState<'stable' | 'beta'>('stable')
   const [appVersion, setAppVersion] = useState('')
-  const [githubStars, setGithubStars] = useState<number | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -1216,23 +1211,31 @@ export function SettingsModal({
     void window.aiOffice.getDefaultSaveDir?.().then((dir) => {
       if (alive && dir) setSaveDir(dir)
     })
-    void window.aiOffice.getAnalyticsEnabled?.().then((on) => {
-      if (alive) setAnalyticsOn(on !== false)
-    })
     void window.aiOffice.getAutoSaveDefault?.().then((v) => {
       if (alive) setAutoSaveOn(v.on)
     })
+    void window.aiOffice
+      .getReleaseCapabilities()
+      .then((capabilities) => {
+        if (!alive) return
+        setReleaseCapabilities(capabilities)
+        if (capabilities.analytics) {
+          void window.aiOffice.getAnalyticsEnabled().then((enabled) => {
+            if (alive) setAnalyticsOn(enabled)
+          })
+        }
+        if (capabilities.autoUpdate) {
+          void window.aiOffice.getUpdateChannel().then((value) => {
+            if (alive) setChannel(value)
+          })
+        }
+      })
+      .catch(() => {})
     void window.aiOffice.getAiPanelPrefs?.().then((prefs) => {
       if (alive) setAiPrefs(prefs)
     })
-    void window.aiOffice.getUpdateChannel?.().then((ch) => {
-      if (alive) setChannel(ch)
-    })
     void window.aiOffice.getAppVersion?.().then((v) => {
       if (alive && v) setAppVersion(v)
-    })
-    void window.aiOffice.githubStars?.().then((n) => {
-      if (alive && n !== null) setGithubStars(n)
     })
     return () => {
       alive = false
@@ -1431,32 +1434,34 @@ export function SettingsModal({
                     }}
                   />
                 </div>
-                <div className="set-field">
-                  <div className="set-field-text">
-                    <div className="set-field-stack">
-                      <div className="set-field-label">{t('setAnalytics')}</div>
-                      <div className="set-field-desc">{t('setAnalyticsDesc')}</div>
+                {releaseCapabilities.analytics && (
+                  <div className="set-field">
+                    <div className="set-field-text">
+                      <div className="set-field-stack">
+                        <div className="set-field-label">{t('setAnalytics')}</div>
+                        <div className="set-field-desc">{t('setAnalyticsDesc')}</div>
+                      </div>
                     </div>
+                    <button
+                      className="set-switch"
+                      role="switch"
+                      aria-checked={analyticsOn}
+                      aria-label={t('setAnalytics')}
+                      disabled={analyticsSaving}
+                      onClick={() => {
+                        const next = !analyticsOn
+                        setAnalyticsSaving(true)
+                        void window.aiOffice
+                          .setAnalyticsEnabled(next)
+                          .then((persisted) => {
+                            if (persisted) setAnalyticsOn(next)
+                          })
+                          .catch(() => {})
+                          .finally(() => setAnalyticsSaving(false))
+                      }}
+                    />
                   </div>
-                  <button
-                    className="set-switch"
-                    role="switch"
-                    aria-checked={analyticsOn}
-                    aria-label={t('setAnalytics')}
-                    disabled={analyticsSaving}
-                    onClick={() => {
-                      const next = !analyticsOn
-                      setAnalyticsSaving(true)
-                      void window.aiOffice
-                        .setAnalyticsEnabled(next)
-                        .then((persisted) => {
-                          if (persisted) setAnalyticsOn(next)
-                        })
-                        .catch(() => {})
-                        .finally(() => setAnalyticsSaving(false))
-                    }}
-                  />
-                </div>
+                )}
               </>
             )}
             {section === 'integrations' && (
@@ -1466,41 +1471,27 @@ export function SettingsModal({
               <>
                 <h3 className="set-pane-title">{t('setSecAbout')}</h3>
                 <Field label={t('versionLabel')} value={appVersion || '—'} />
-                <div className="set-field">
-                  <div className="set-field-text">
-                    <label className="set-field-label">{t('updateChannel')}</label>
+                {releaseCapabilities.autoUpdate && (
+                  <div className="set-field">
+                    <div className="set-field-text">
+                      <label className="set-field-label">{t('updateChannel')}</label>
+                    </div>
+                    <Dropdown
+                      className="set-dd"
+                      value={channel}
+                      ariaLabel={t('updateChannel')}
+                      options={CHANNEL_OPTIONS.map((option) => ({
+                        value: option.value,
+                        label: t(option.labelKey),
+                      }))}
+                      onPick={(value) => {
+                        const next = value === 'beta' ? 'beta' : 'stable'
+                        setChannel(next)
+                        void window.aiOffice.setUpdateChannel(next)
+                      }}
+                    />
                   </div>
-                  <Dropdown
-                    className="set-dd"
-                    value={channel}
-                    ariaLabel={t('updateChannel')}
-                    options={CHANNEL_OPTIONS.map((opt) => ({
-                      value: opt.value,
-                      label: t(opt.labelKey),
-                    }))}
-                    onPick={(v) => {
-                      const next = v === 'beta' ? 'beta' : 'stable'
-                      setChannel(next)
-                      void window.aiOffice.setUpdateChannel(next)
-                    }}
-                  />
-                </div>
-                <Field
-                  label={t('setGithub')}
-                  value={
-                    githubStars === null
-                      ? 'github.com/ashutosh-rath02/threadnote'
-                      : `github.com/ashutosh-rath02/threadnote · ★ ${formatStars(githubStars)}`
-                  }
-                  action={
-                    <button
-                      className="set-btn"
-                      onClick={() => void window.aiOffice.openGitHubRepo?.()}
-                    >
-                      {t('starOnGitHub')}
-                    </button>
-                  }
-                />
+                )}
               </>
             )}
           </div>
