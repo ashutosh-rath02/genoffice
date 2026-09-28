@@ -1,4 +1,4 @@
-﻿name: Threadnote Office macOS and Linux packages
+name: Threadnote Office macOS and Linux packages
 
 on:
   push:
