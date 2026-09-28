@@ -120,3 +120,36 @@ jobs:
             apps/shell/release/SHA256SUMS-*.txt
           if-no-files-found: error
           retention-days: 14
+  publish_0_10_0:
+    if: github.ref == 'refs/heads/feat/threadnote-unified-library'
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: threadnote-office-v0.10.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Confirm release version
+        run: |
+          test "$(node -p "require('./apps/shell/package.json').version")" = 0.10.0
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null
+
+      - name: Download validated packages
+        run: |
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "threadnote-office-macos-$GITHUB_RUN_NUMBER" --dir packages/macos
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "threadnote-office-linux-$GITHUB_RUN_NUMBER" --dir packages/linux
+
+      - name: Publish installers and checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(packages/macos/*.dmg packages/macos/*.zip packages/macos/SHA256SUMS-macos.txt packages/linux/*.AppImage packages/linux/*.deb packages/linux/*.rpm packages/linux/SHA256SUMS-linux.txt)
+          [ "${#files[@]}" -eq 9 ]
+          gh release upload "$RELEASE_TAG" "${files[@]}" --repo "$GITHUB_REPOSITORY"
