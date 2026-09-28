@@ -3,8 +3,8 @@ name: Threadnote Office macOS and Linux packages
 on:
   push:
     branches: [feat/threadnote-unified-library]
+    tags: ['threadnote-office-v*']
     paths:
-      - '.github/workflows/office-desktop-packages.yml'
       - 'apps/**'
       - 'packages/**'
       - 'package.json'
@@ -120,8 +120,8 @@ jobs:
             apps/shell/release/SHA256SUMS-*.txt
           if-no-files-found: error
           retention-days: 14
-  publish_0_10_0:
-    if: github.ref == 'refs/heads/feat/threadnote-unified-library'
+  publish_release:
+    if: startsWith(github.ref, 'refs/tags/threadnote-office-v')
     needs: package
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -130,14 +130,14 @@ jobs:
       contents: write
     env:
       GH_TOKEN: ${{ github.token }}
-      RELEASE_TAG: threadnote-office-v0.10.0
+      RELEASE_TAG: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Confirm release version
         run: |
-          test "$(node -p "require('./apps/shell/package.json').version")" = 0.10.0
+          node -e "if (process.env.RELEASE_TAG !== 'threadnote-office-v' + require('./apps/shell/package.json').version) process.exit(1)"
           gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null
 
       - name: Download validated packages
