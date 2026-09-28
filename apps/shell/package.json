@@ -1,10 +1,11 @@
-{
+﻿{
   "name": "@threadnote/shell",
   "productName": "Threadnote Office",
   "version": "0.10.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "Threadnote desktop office suite for project documents",
+  "homepage": "https://github.com/ashutosh-rath02/threadnote",
   "main": "out/main/index.js",
   "desktopName": "threadnoteoffice.desktop",
   "scripts": {
