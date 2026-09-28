@@ -1,0 +1,124 @@
+﻿name: Threadnote Office macOS and Linux packages
+
+on:
+  push:
+    branches: [feat/threadnote-unified-library]
+    paths:
+      - '.github/workflows/office-desktop-packages.yml'
+      - 'apps/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            platform: macos
+          - os: ubuntu-22.04
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      THREADNOTE_OFFICE_MAC_X64: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable branch, 2026-07
+        with:
+          toolchain: stable
+          targets: ${{ matrix.platform == 'macos' && 'x86_64-apple-darwin,aarch64-apple-darwin' || 'x86_64-unknown-linux-gnu' }}
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+        with:
+          workspaces: apps/sheets/native/xlsx-engine
+
+      - name: Install Linux packaging tools
+        if: matrix.platform == 'linux'
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends rpm libarchive-tools
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Package macOS
+        if: matrix.platform == 'macos'
+        run: npm run dist:mac
+
+      - name: Package Linux
+        if: matrix.platform == 'linux'
+        run: npm run dist:linux
+
+      - name: Verify macOS installers
+        if: matrix.platform == 'macos'
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          packages=(apps/shell/release/*.dmg)
+          [ "${#packages[@]}" -eq 2 ]
+          archives=(apps/shell/release/*.zip)
+          [ "${#archives[@]}" -eq 2 ]
+          for arch in arm64 x64; do
+            if [ "$arch" = x64 ]; then folder=mac; else folder=mac-arm64; fi
+            app="apps/shell/release/${folder}/Threadnote Office.app"
+            [ -d "$app" ]
+            [ -f "$app/Contents/Resources/native/xlsx-sidecar" ]
+            [ -f "$app/Contents/Resources/ocr/vision-ocr" ]
+            lipo -archs "$app/Contents/Resources/native/xlsx-sidecar" | grep -q arm64
+            lipo -archs "$app/Contents/Resources/native/xlsx-sidecar" | grep -q x86_64
+            lipo -archs "$app/Contents/Resources/ocr/vision-ocr" | grep -q arm64
+            lipo -archs "$app/Contents/Resources/ocr/vision-ocr" | grep -q x86_64
+          done
+          (cd apps/shell/release && shasum -a 256 -- *.dmg *.zip > SHA256SUMS-macos.txt)
+
+      - name: Verify Linux installers
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          appimages=(apps/shell/release/*.AppImage)
+          debs=(apps/shell/release/*.deb)
+          rpms=(apps/shell/release/*.rpm)
+          [ "${#appimages[@]}" -eq 1 ]
+          [ "${#debs[@]}" -eq 1 ]
+          [ "${#rpms[@]}" -eq 1 ]
+          dpkg-deb -x "${debs[0]}" /tmp/threadnote-deb
+          find /tmp/threadnote-deb -name xlsx-sidecar -type f -print -quit | grep -q .
+          find /tmp/threadnote-deb -name app.asar -type f -print -quit | grep -q .
+          file "$(find /tmp/threadnote-deb -name xlsx-sidecar -type f -print -quit)" | grep -q ELF
+          (cd apps/shell/release && sha256sum -- *.AppImage *.deb *.rpm > SHA256SUMS-linux.txt)
+
+      - name: Upload packages
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: threadnote-office-${{ matrix.platform }}-${{ github.run_number }}
+          path: |
+            apps/shell/release/*.dmg
+            apps/shell/release/*.zip
+            apps/shell/release/*.AppImage
+            apps/shell/release/*.deb
+            apps/shell/release/*.rpm
+            apps/shell/release/SHA256SUMS-*.txt
+          if-no-files-found: error
+          retention-days: 14
+
+
