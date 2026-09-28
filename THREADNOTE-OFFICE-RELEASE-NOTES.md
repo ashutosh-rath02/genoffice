@@ -1,10 +1,10 @@
-# Threadnote Office 0.10.0 — Windows release (27 September 2026)
+# Threadnote Office 0.10.0 — desktop release (28 September 2026)
 
-This release is for teammates using Threadnote with Discord. The desktop app keeps local Office editing available and connects to the same Threadnote account used in the browser. This build is for Windows x64.
+This release is for teammates using Threadnote with Discord. The desktop app keeps local Office editing available and connects to the same Threadnote account used in the browser. Installers are available for Windows x64, macOS Apple Silicon and Intel, and Linux x64.
 
-Installer: `Threadnote Office Setup 0.10.0.exe`
+Download the installer for your system from [the GitHub release](https://github.com/ashutosh-rath02/genoffice/releases/tag/threadnote-office-v0.10.0): Windows `.exe`, macOS `.dmg`, or Linux `.AppImage`, `.deb`, or `.rpm`. macOS `.zip` files are also provided. Verify macOS and Linux downloads with the SHA-256 checksum files on the release.
 
-SHA-256: `B91445B709B4197396D908F5D0428BEC647D8334B210051D22770513571D6E95`
+Windows installer SHA-256: `B91445B709B4197396D908F5D0428BEC647D8334B210051D22770513571D6E95`
 
 ## Ready to use
 
@@ -23,12 +23,12 @@ SHA-256: `B91445B709B4197396D908F5D0428BEC647D8334B210051D22770513571D6E95`
 - Office does not yet provide the web app's Tasks, Activity, discussions, archive, or personal-file sharing controls.
 - AI tools require a separately configured provider; none is included with this installer.
 - Automatic updates are not configured for this release. Install a newer build manually when one is provided.
-- The Windows installer is unsigned and may show an unknown-publisher prompt.
+- The Windows installer and macOS builds are unsigned. Windows may show an unknown-publisher prompt. On macOS, Gatekeeper may require you to explicitly allow the app in System Settings > Privacy & Security. Apple signing and notarization are needed before frictionless macOS distribution.
 - Threadnote library and sharing require an internet connection and access to a Discord server where Threadnote is installed. Local editors still work without the connection.
 
 ## Install and start
 
-1. Install the Windows x64 build supplied with this note.
+1. Download and install the build for your operating system from the GitHub release. Linux users can use the `.deb` or `.rpm` package, or make the `.AppImage` executable and run it directly.
 2. Open **Threadnote Office**, expand **Threadnote** under **Folders**, and choose **Sign in**.
 3. Approve the connection in your browser with the Discord account that has access to your Threadnote server.
 4. Choose a project folder to view its documents, or open **My Docs** or **Shared with me**.
